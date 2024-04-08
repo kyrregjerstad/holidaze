@@ -16,3 +16,15 @@ export function createApiResponseSchema<T>(schema: z.Schema<T>) {
     meta: apiMetaSchema.partial(),
   });
 }
+
+const statusSchema = z.enum(['ACTIVE', 'REVOKED']);
+
+export const apiKeySchema = z.object({
+  name: z.string(),
+  status: statusSchema,
+  key: z.string(),
+});
+
+export const createApiKeySchema = z.object({
+  name: z.string().min(1).max(32),
+});

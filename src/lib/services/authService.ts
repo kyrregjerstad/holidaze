@@ -1,10 +1,20 @@
 import { z } from 'zod';
 import { API_BASE_URL } from '../constants';
 import { useFetch } from '../hooks/useFetch';
-import { registerUserSchema } from '../schema/userSchema';
-import { createApiResponseSchema } from '../schema/apiSchema';
+import {
+  loginUserReturnSchema,
+  loginUserSchema,
+  registerUserSchema,
+} from '../schema/userSchema';
+import {
+  apiKeySchema,
+  createApiKeySchema,
+  createApiResponseSchema,
+} from '../schema/apiSchema';
 
-export async function registerUser(data: z.infer<typeof registerUserSchema>) {
+export async function fetchRegisterUser(
+  data: z.infer<typeof registerUserSchema>
+) {
   const { data: response, error } = await useFetch({
     url: `${API_BASE_URL}/auth/register`,
     options: {
@@ -12,6 +22,38 @@ export async function registerUser(data: z.infer<typeof registerUserSchema>) {
       body: JSON.stringify(data),
     },
     schema: createApiResponseSchema(registerUserSchema),
+  });
+  return { response, error };
+}
+
+export async function fetchLoginUser(data: z.infer<typeof loginUserSchema>) {
+  const { data: response, error } = await useFetch({
+    url: `${API_BASE_URL}/auth/login`,
+    options: {
+      method: 'POST',
+      body: JSON.stringify(data),
+    },
+    schema: createApiResponseSchema(loginUserReturnSchema),
+  });
+  return { response, error };
+}
+
+export async function fetchCreateApiKey({
+  name,
+}: z.infer<typeof createApiKeySchema>) {
+  const validation = createApiKeySchema.safeParse({ name });
+
+  if (!validation.success) {
+    return { response: null, error: validation.error };
+  }
+
+  const { data: response, error } = await useFetch({
+    url: `${API_BASE_URL}/auth/create-api-key`,
+    options: {
+      method: 'POST',
+      body: JSON.stringify({ name }),
+    },
+    schema: createApiResponseSchema(apiKeySchema),
   });
   return { response, error };
 }
