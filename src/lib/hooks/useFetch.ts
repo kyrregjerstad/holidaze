@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 type UseFetchReturn<T> = {
-  data: T | null;
+  res: T | null;
   error: z.ZodError<T> | null;
 };
 
@@ -40,25 +40,37 @@ export async function useFetch<T>({
   options?: RequestInit;
   auth?: { accessToken: string };
 }): Promise<UseFetchReturn<T>> {
-  const headers = new Headers(options.headers || {});
-  headers.set('Content-Type', 'application/json');
+  try {
+    const headers = new Headers(options.headers || {});
+    headers.set('Content-Type', 'application/json');
 
-  if (auth) {
-    headers.set('Authorization', `Bearer ${auth.accessToken}`);
+    if (auth) {
+      headers.set('Authorization', `Bearer ${auth.accessToken}`);
+    }
+
+    const fetchOptions: RequestInit = {
+      ...options,
+      headers,
+    };
+
+    const res = await fetch(url, fetchOptions).then((res) => res.json());
+
+    console.log(url);
+
+    const result = schema.safeParse(res);
+
+    if (!result.success) {
+      console.error(result.error);
+      return { res: null, error: result.error };
+    }
+
+    return { res: result.data, error: null };
+  } catch (error) {
+    console.error(error);
+    if (error instanceof z.ZodError) {
+      return { res: null, error };
+    }
+
+    return { res: null, error: new z.ZodError([]) };
   }
-
-  const fetchOptions: RequestInit = {
-    ...options,
-    headers,
-  };
-
-  const res = await fetch(url, fetchOptions).then((res) => res.json());
-
-  const result = schema.safeParse(res);
-
-  if (!result.success) {
-    return { data: null, error: result.error };
-  }
-
-  return { data: result.data, error: null };
 }

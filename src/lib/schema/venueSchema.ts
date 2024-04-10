@@ -6,12 +6,12 @@ const locationSchema = z.object({
   zip: z.string().nullable(),
   country: z.string().nullable(),
   continent: z.string().nullable(),
-  lat: z.number().optional(),
-  long: z.number().optional(),
+  lat: z.number().nullish(),
+  long: z.number().nullish(),
 });
 
 const metaSchema = z.object({
-  Wifi: z.boolean().optional(),
+  Wifi: z.boolean().nullish(),
   parking: z.boolean(),
   breakfast: z.boolean(),
   pets: z.boolean(),

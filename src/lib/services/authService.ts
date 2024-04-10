@@ -15,7 +15,7 @@ import {
 export async function fetchRegisterUser(
   data: z.infer<typeof registerUserSchema>
 ) {
-  const { data: response, error } = await useFetch({
+  const { res, error } = await useFetch({
     url: `${API_BASE_URL}/auth/register`,
     options: {
       method: 'POST',
@@ -23,11 +23,11 @@ export async function fetchRegisterUser(
     },
     schema: createApiResponseSchema(registerUserSchema),
   });
-  return { response, error };
+  return { res, error };
 }
 
 export async function fetchLoginUser(data: z.infer<typeof loginUserSchema>) {
-  const { data: response, error } = await useFetch({
+  const { res, error } = await useFetch({
     url: `${API_BASE_URL}/auth/login`,
     options: {
       method: 'POST',
@@ -35,7 +35,7 @@ export async function fetchLoginUser(data: z.infer<typeof loginUserSchema>) {
     },
     schema: createApiResponseSchema(loginUserReturnSchema),
   });
-  return { response, error };
+  return { res, error };
 }
 
 export async function fetchCreateApiKey({
@@ -47,7 +47,7 @@ export async function fetchCreateApiKey({
     return { response: null, error: validation.error };
   }
 
-  const { data: response, error } = await useFetch({
+  const { res, error } = await useFetch({
     url: `${API_BASE_URL}/auth/create-api-key`,
     options: {
       method: 'POST',
@@ -55,5 +55,5 @@ export async function fetchCreateApiKey({
     },
     schema: createApiResponseSchema(apiKeySchema),
   });
-  return { response, error };
+  return { res, error };
 }
