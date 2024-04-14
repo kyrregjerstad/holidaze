@@ -1,13 +1,13 @@
 import { z } from 'zod';
 
-const locationSchema = z.object({
+export const locationSchema = z.object({
   address: z.string().nullable(),
   city: z.string().nullable(),
   zip: z.string().nullable(),
   country: z.string().nullable(),
   continent: z.string().nullable(),
   lat: z.number().nullish(),
-  long: z.number().nullish(),
+  lng: z.number().nullish(),
 });
 
 const metaSchema = z.object({

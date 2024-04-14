@@ -17,3 +17,20 @@ export async function fetchAllVenues({ owner = false, bookings = false } = {}) {
 
   return { venues: res?.data, error };
 }
+
+export async function fetchVenueById(
+  id: string,
+  { owner = true, bookings = true } = {}
+) {
+  const { res, error } = await useFetch({
+    url: createUrl(`${API_BASE_URL}/holidaze/venues/${id}`, {
+      owner,
+      bookings,
+    }),
+    schema: createApiResponseSchema(venueSchema),
+  });
+
+  if (!res) return { venue: null, error };
+
+  return { venue: res?.data, error };
+}
