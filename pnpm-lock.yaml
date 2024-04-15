@@ -104,6 +104,9 @@ dependencies:
   '@tanstack/react-query-devtools':
     specifier: ^5.29.0
     version: 5.29.0(@tanstack/react-query@5.29.0)(react@18.2.0)
+  '@uploadthing/react':
+    specifier: ^6.4.4
+    version: 6.4.4(next@14.1.4)(react@18.2.0)(svelte@4.2.12)(uploadthing@6.9.0)
   '@uploadthing/svelte':
     specifier: ^6.4.1
     version: 6.4.1(react@18.2.0)(svelte@4.2.12)(uploadthing@6.9.0)
@@ -161,6 +164,9 @@ dependencies:
   react-resizable-panels:
     specifier: ^2.0.16
     version: 2.0.16(react-dom@18.2.0)(react@18.2.0)
+  server-only:
+    specifier: ^0.0.1
+    version: 0.0.1
   sonner:
     specifier: ^1.4.41
     version: 1.4.41(react-dom@18.2.0)(react@18.2.0)
@@ -2733,6 +2739,29 @@ packages:
 
   /@uploadthing/mime-types@0.2.7:
     resolution: {integrity: sha512-HfQpL1GSyLOOnIT4WqVv8aW3HotEpFKuuCnK+dUZThMzeiFs09s9J0wk5/VBwupXvIXQwMiB//bp9aUE2p/mFg==}
+    dev: false
+
+  /@uploadthing/react@6.4.4(next@14.1.4)(react@18.2.0)(svelte@4.2.12)(uploadthing@6.9.0):
+    resolution: {integrity: sha512-/sE1BbtMNhL9YuIppI2eieMdvjWBCtP+zxjtwGD13kpTJcW7E8GytWTQcdXamURVHUgFH2n1Gsfxf0OWC9rdhA==}
+    peerDependencies:
+      next: '*'
+      react: ^17.0.2 || ^18.0.0
+      uploadthing: 6.9.0
+    peerDependenciesMeta:
+      next:
+        optional: true
+    dependencies:
+      '@uploadthing/dropzone': 0.3.1(react@18.2.0)(svelte@4.2.12)
+      '@uploadthing/shared': 6.6.0(@uploadthing/mime-types@0.2.7)
+      file-selector: 0.6.0
+      next: 14.1.4(@babel/core@7.24.4)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      tailwind-merge: 2.2.2
+      uploadthing: 6.9.0(next@14.1.4)(tailwindcss@3.4.3)
+    transitivePeerDependencies:
+      - '@uploadthing/mime-types'
+      - solid-js
+      - svelte
     dev: false
 
   /@uploadthing/shared@6.6.0(@uploadthing/mime-types@0.2.7):
@@ -5772,6 +5801,10 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+
+  /server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
+    dev: false
 
   /set-function-length@1.2.2:
     resolution: {integrity: sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==}

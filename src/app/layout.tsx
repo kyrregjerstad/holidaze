@@ -1,10 +1,14 @@
 import './globals.css';
+import '@uploadthing/react/styles.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import QueryClientProvider from './providers/QueryClientProvider';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { ClerkProvider } from '@clerk/nextjs';
+import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
+import { extractRouterConfig } from 'uploadthing/server';
+import { ourFileRouter } from './api/uploadthing/core';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,6 +26,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <QueryClientProvider>
             <Header />
             <main className="min-h-[calc(100dvh-56px)]">{children}</main>
