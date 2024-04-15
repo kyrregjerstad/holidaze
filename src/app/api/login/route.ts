@@ -7,13 +7,13 @@ export async function POST(req: NextRequest) {
   const validation = await loginUserSchema.safeParseAsync(await req.json());
 
   if (!validation.success) {
-    return new Response('error', { status: 400 });
+    return Response.json(validation.error, { status: 400 });
   }
 
   const userRes = await fetchLoginUser({ ...validation.data });
 
   if (userRes.error || !userRes.res?.data || !userRes.res.data.accessToken) {
-    return new Response('error', { status: 400 });
+    return Response.json('error', { status: 400 });
   }
 
   const apiRes = await fetchCreateApiKey({
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   });
 
   if (apiRes.error || !apiRes.res?.data || !apiRes.res.data.key) {
-    return new Response('error', { status: 400 });
+    return Response.json('error', { status: 400 });
   }
 
   const accessToken = createCookie({
@@ -37,8 +37,18 @@ export async function POST(req: NextRequest) {
     days: 7,
   });
 
-  return new Response('success', {
+  const body = JSON.stringify({
+    name: userRes.res.data.name,
+    email: userRes.res.data.email,
+    apiKey: apiRes.res.data.key,
+    accessToken: userRes.res.data.accessToken,
+  });
+
+  return new Response(body, {
     status: 200,
-    headers: { 'Set-Cookie': `${accessToken}, ${apiKey}` },
+    headers: {
+      'Content-Type': 'application/json',
+      'Set-Cookie': `${accessToken}, ${apiKey}`,
+    },
   });
 }

@@ -1,4 +1,5 @@
 'use client';
+import { useAuth } from '@/app/_providers/AuthProvider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
@@ -28,26 +29,13 @@ export const LoginForm = ({ onSuccess }: Props) => {
     },
   });
 
+  const { login } = useAuth();
+
   const onSubmit = async ({
     email,
     password,
   }: z.infer<typeof loginUserSchema>) => {
-    const res = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (!res.ok) {
-      form.setError('root', {
-        type: 'manual',
-        message: 'Incorrect email or password',
-      });
-      return;
-    }
-
+    await login(email, password);
     onSuccess?.();
   };
 

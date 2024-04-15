@@ -16,7 +16,7 @@ export async function useFetch<T>({
   url: string;
   schema: z.Schema<T>;
   options?: Omit<RequestInit, 'body'> & { method?: 'GET' | 'DELETE' };
-  auth?: { accessToken: string; apiKey: string };
+  auth?: { accessToken: string; apiKey?: string };
 }): Promise<UseFetchReturn<T>>;
 
 export async function useFetch<T>({
@@ -28,7 +28,7 @@ export async function useFetch<T>({
   url: string;
   schema: z.Schema<T>;
   options: RequestInit & { method: 'POST' | 'PUT' | 'PATCH' };
-  auth?: { accessToken: string; apiKey: string };
+  auth?: { accessToken: string; apiKey?: string };
 }): Promise<UseFetchReturn<T>>;
 
 export async function useFetch<T>({
@@ -40,14 +40,16 @@ export async function useFetch<T>({
   url: string;
   schema: z.Schema<T>;
   options?: RequestInit;
-  auth?: { accessToken: string; apiKey: string };
+  auth?: { accessToken: string; apiKey?: string };
 }): Promise<UseFetchReturn<T>> {
   try {
     const headers = new Headers(options.headers || {});
     headers.set('Content-Type', 'application/json');
 
-    if (auth) {
+    if (auth?.accessToken) {
       headers.set('Authorization', `Bearer ${auth.accessToken}`);
+    }
+    if (auth?.apiKey) {
       headers.set('X-Noroff-API-Key', auth.apiKey);
     }
 
