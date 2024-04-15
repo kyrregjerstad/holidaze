@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import QueryClientProvider from './providers/QueryClientProvider';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { ClerkProvider } from '@clerk/nextjs';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,14 +19,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <QueryClientProvider>
-          <Header />
-          <main className="min-h-[calc(100dvh-56px)]">{children}</main>
-          <Footer />
-        </QueryClientProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <QueryClientProvider>
+            <Header />
+            <main className="min-h-[calc(100dvh-56px)]">{children}</main>
+            <Footer />
+          </QueryClientProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
