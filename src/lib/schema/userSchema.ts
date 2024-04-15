@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { venueSchema } from './venueSchema';
 
 export const registerUserSchema = z.object({
   name: z
@@ -53,26 +54,6 @@ export const registerUserResponseSchema = z.object({
     .nullable(),
 });
 
-/* 
-
-{
-    "data": {
-        "name": "asdfsdfasdf",
-        "email": "asdfasdf@noroff.no",
-        "bio": null,
-        "avatar": {
-            "url": "https://images.unsplash.com/photo-1579547945413-497e1b99dac0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&h=400&w=400",
-            "alt": "A blurry multi-colored rainbow background"
-        },
-        "banner": {
-            "url": "https://images.unsplash.com/photo-1579547945413-497e1b99dac0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&h=500&w=1500",
-            "alt": "A blurry multi-colored rainbow background"
-        }
-    },
-    "meta": {}
-}
-*/
-
 export const avatarSchema = z.object({
   url: z.string().nullable(),
   alt: z.string().nullable(),
@@ -94,4 +75,19 @@ export const loginUserReturnSchema = z.object({
   avatar: avatarSchema.nullable(),
   banner: bannerSchema.nullable(),
   accessToken: z.string(),
+});
+
+export const userProfileSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  bio: z.string().nullable(),
+  avatar: avatarSchema.nullable(),
+  banner: bannerSchema.nullable(),
+  venueManager: z.boolean(),
+  _count: z.object({
+    venues: z.number(),
+    bookings: z.number(),
+  }),
+  venues: venueSchema.array(),
+  bookings: z.array(z.any()), // TODO: Add booking schema
 });

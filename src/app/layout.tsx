@@ -9,6 +9,7 @@ import { Footer } from '../components/Footer';
 import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import { extractRouterConfig } from 'uploadthing/server';
 import { ourFileRouter } from './api/uploadthing/core';
+import { AuthProvider } from './_providers/AuthProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,17 +26,19 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-        <QueryClientProvider>
-          <Header />
-          <main className="min-h-[calc(100dvh-56px)]">{children}</main>
-          <Footer />
-          {modal}
-          <div id="modal-root" />
-        </QueryClientProvider>
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+          <QueryClientProvider>
+            <Header />
+            <main className="min-h-[calc(100dvh-56px)]">{children}</main>
+            <Footer />
+            {modal}
+            <div id="modal-root" />
+          </QueryClientProvider>
+        </body>
+      </html>
+    </AuthProvider>
   );
 }

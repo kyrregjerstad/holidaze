@@ -1,13 +1,17 @@
-import { signIn } from '@/lib/auth';
-import { LoginForm } from './LoginForm';
-import { fetchLoginUser } from '@/lib/services/authService';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { LoginForm } from './LoginForm';
 
-export default function Page() {
+type Props = {
+  searchParams?: {
+    callbackUrl?: string;
+  };
+};
+export default function Page({ searchParams }: Props) {
+  const callbackUrl = searchParams?.callbackUrl || '/';
+
   const onSuccess = async () => {
     'use server';
-    redirect('/');
+    redirect(callbackUrl);
   };
 
   return <LoginForm onSuccess={onSuccess} />;

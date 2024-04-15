@@ -48,7 +48,7 @@ export const LoginForm = ({ onSuccess }: Props) => {
       return;
     }
 
-    const data = await res.json();
+    onSuccess?.();
   };
 
   return (

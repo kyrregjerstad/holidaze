@@ -16,14 +16,10 @@ export async function POST(req: NextRequest) {
     return new Response('error', { status: 400 });
   }
 
-  console.log('USER RES: ', userRes.res.data);
-
   const apiRes = await fetchCreateApiKey({
     name: 'api-key',
     accessToken: userRes.res.data.accessToken,
   });
-
-  console.log(apiRes);
 
   if (apiRes.error || !apiRes.res?.data || !apiRes.res.data.key) {
     return new Response('error', { status: 400 });

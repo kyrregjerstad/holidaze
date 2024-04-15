@@ -7,15 +7,17 @@ export function cn(...inputs: ClassValue[]) {
 
 export function createUrl(
   baseUrl: string,
-  params: Record<string, boolean | string | number>
+  params?: Record<string, boolean | string | number>
 ) {
   const url = new URL(baseUrl);
 
-  Object.entries(params).forEach(([key, value]) => {
-    if (value) {
-      url.searchParams.append(key, value.toString());
-    }
-  });
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value) {
+        url.searchParams.append(key, value.toString());
+      }
+    });
+  }
 
   return url.toString();
 }
