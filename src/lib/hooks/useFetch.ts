@@ -1,3 +1,4 @@
+import { errorsSchema } from '@/lib/schema/apiSchema';
 import { z } from 'zod';
 
 type UseFetchReturn<T> = {
@@ -53,14 +54,43 @@ export async function useFetch<T>({
       headers,
     };
 
-    const res = await fetch(url, fetchOptions).then((res) => res.json());
+    const response = await fetch(url, fetchOptions);
 
-    console.log(url);
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      console.error('API ERROR: ', errorResponse);
 
-    const result = schema.safeParse(res);
+      const parsedError = errorsSchema.safeParse(errorResponse);
+
+      if (!parsedError.success) {
+        console.error('ERROR PARSING API ERROR RESPONSE: ', parsedError.error);
+        return {
+          res: null,
+          error: new z.ZodError([
+            {
+              message: 'Invalid API error structure',
+              code: 'custom',
+              path: [],
+            },
+          ]),
+        };
+      }
+
+      const zodIssues = parsedError.data.errors.map((err) => ({
+        message: err.message,
+        code: 'custom',
+        path: [],
+      })) as z.ZodIssue[];
+
+      return { res: null, error: new z.ZodError(zodIssues) };
+    }
+
+    const data = await response.json();
+
+    const result = schema.safeParse(data);
 
     if (!result.success) {
-      console.error(result.error);
+      console.error('ERROR PARSING RESPONSE: ', result.error);
       return { res: null, error: result.error };
     }
 

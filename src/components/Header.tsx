@@ -1,6 +1,5 @@
-import Link from 'next/link';
 import { HomeIcon } from 'lucide-react';
-import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 
 export const Header = () => {
   return (
@@ -9,12 +8,7 @@ export const Header = () => {
         <HomeIcon className="h-6 w-6" />
         <span className="sr-only">Holidaze</span>
       </Link>
-      <SignedOut>
-        <SignInButton />
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
+      <Link href="/login">Log in</Link>
     </header>
   );
 };

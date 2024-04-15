@@ -68,19 +68,19 @@ const VenuePage = async ({ params }: Props) => {
                 mode="range"
                 numberOfMonths={2}
               />
-              <Calendar className="flex p-0 xl:hidden" />
+              {/* <Calendar className="flex p-0 xl:hidden" /> */}
             </div>
           </div>
         </div>
         <div className="row-start-1 grid gap-4 md:row-start-auto">
-          <div className="flex flex-col gap-1 sm:hidden">
+          {/* <div className="flex flex-col gap-1 sm:hidden">
             <h2 className="font-semibold sm:text-2xl">
               Venue in Santa Cruz, California, United States
             </h2>
             <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
               2 guests · 1 bedroom · 1 bed · 1 bath · Wifi · Kitchen
             </p>
-          </div>
+          </div> */}
           <VenueDetailsCard venue={venue} />
           <ReportDialog />
         </div>

@@ -4,6 +4,7 @@ import { useFetch } from '../hooks/useFetch';
 import {
   loginUserReturnSchema,
   loginUserSchema,
+  registerUserResponseSchema,
   registerUserSchema,
 } from '../schema/userSchema';
 import {
@@ -21,7 +22,7 @@ export async function fetchRegisterUser(
       method: 'POST',
       body: JSON.stringify(data),
     },
-    schema: createApiResponseSchema(registerUserSchema),
+    schema: createApiResponseSchema(registerUserResponseSchema),
   });
   return { res, error };
 }
@@ -38,17 +39,22 @@ export async function fetchLoginUser(data: z.infer<typeof loginUserSchema>) {
   return { res, error };
 }
 
-export async function fetchCreateApiKey({
-  name,
-}: z.infer<typeof createApiKeySchema>) {
-  const validation = createApiKeySchema.safeParse({ name });
+export async function fetchCreateApiKey(
+  data: z.infer<typeof createApiKeySchema>
+) {
+  const validation = createApiKeySchema.safeParse(data);
 
   if (!validation.success) {
     return { response: null, error: validation.error };
   }
 
+  const { name, accessToken } = validation.data;
+
   const { res, error } = await useFetch({
     url: `${API_BASE_URL}/auth/create-api-key`,
+    auth: {
+      accessToken: accessToken,
+    },
     options: {
       method: 'POST',
       body: JSON.stringify({ name }),

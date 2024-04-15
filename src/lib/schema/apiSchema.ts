@@ -26,5 +26,16 @@ export const apiKeySchema = z.object({
 });
 
 export const createApiKeySchema = z.object({
-  name: z.string().min(1).max(32),
+  accessToken: z.string(),
+  name: z.string().min(1).max(32).optional(),
+});
+
+export const errorsSchema = z.object({
+  errors: z.array(
+    z.object({
+      message: z.string(),
+    })
+  ),
+  status: z.string(),
+  statusCode: z.number(),
 });

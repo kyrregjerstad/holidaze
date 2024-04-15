@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { fetchAllVenues } from '@/lib/services/venuesService';
+import { Metadata } from 'next';
 import Link from 'next/link';
 
 export default async function HomePage() {
@@ -75,3 +76,9 @@ export default async function HomePage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Your Gateway to Unforgettable Getaways',
+  description:
+    'Holidaze is your gateway to unforgettable getaways. Find your perfect holiday home today.',
+};
