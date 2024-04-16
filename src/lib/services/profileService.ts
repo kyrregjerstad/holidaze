@@ -1,14 +1,21 @@
+'use server';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { API_BASE_URL } from '../constants';
 import { useFetch } from '../hooks/useFetch';
 import { createApiResponseSchema } from '../schema/apiSchema';
 import { userProfileSchema } from '../schema/userSchema';
 import { createUrl } from '../utils';
-import { redirect, RedirectType } from 'next/navigation';
 
 export async function fetchProfileByName(name: string) {
   const accessToken = cookies().get('accessToken')?.value;
-  const apiKey = cookies().get('apiKey')?.value;
+  const apiKey = process.env.NOROFF_API_KEY;
+
+  if (!apiKey) {
+    throw new Error(
+      'Missing NOROFF_API key, did you forget to add it to your .env file?'
+    );
+  }
 
   if (!accessToken || !apiKey) {
     redirect('/login');

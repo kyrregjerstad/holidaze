@@ -2,16 +2,16 @@ import { z } from 'zod';
 import { API_BASE_URL } from '../constants';
 import { useFetch } from '../hooks/useFetch';
 import {
+  apiKeySchema,
+  createApiKeySchema,
+  createApiResponseSchema,
+} from '../schema/apiSchema';
+import {
   loginUserReturnSchema,
   loginUserSchema,
   registerUserResponseSchema,
   registerUserSchema,
 } from '../schema/userSchema';
-import {
-  apiKeySchema,
-  createApiKeySchema,
-  createApiResponseSchema,
-} from '../schema/apiSchema';
 
 export async function fetchRegisterUser(
   data: z.infer<typeof registerUserSchema>
@@ -63,3 +63,45 @@ export async function fetchCreateApiKey(
   });
   return { res, error };
 }
+
+export async function handleLoginApi(
+  email: string,
+  password: string
+): Promise<HandleLoginApiReturn> {
+  const res = await fetch('/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!res.ok) {
+    return { user: null, error: 'Incorrect email or password' };
+  }
+
+  const data = await res.json();
+
+  const validation = loginApiResponseSchema.safeParse(data);
+
+  if (!validation.success) {
+    return { user: null, error: 'Failed to parse response' };
+  }
+
+  return { user: validation.data, error: null };
+}
+
+const loginApiResponseSchema = z.object({
+  name: z.string(),
+  email: z.string(),
+});
+
+type HandleLoginApiReturn =
+  | {
+      user: z.infer<typeof loginApiResponseSchema>;
+      error: null;
+    }
+  | {
+      user: null;
+      error: string;
+    };

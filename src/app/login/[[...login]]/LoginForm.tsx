@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { loginUserSchema } from '@/lib/schema/userSchema';
+import { handleLoginApi } from '@/lib/services/authService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -35,7 +36,13 @@ export const LoginForm = ({ onSuccess }: Props) => {
     email,
     password,
   }: z.infer<typeof loginUserSchema>) => {
-    await login(email, password);
+    const { user, error } = await handleLoginApi(email, password);
+
+    if (error) {
+      form.setError('root', { message: error });
+      return;
+    }
+
     onSuccess?.();
   };
 
