@@ -14,7 +14,7 @@ export const Debug = ({ data }: Props) => {
   if (!debug) return null;
 
   return (
-    <pre className="max-w-full overflow-auto border p-2 text-left text-sm text-gray-500 shadow-inner dark:text-gray-400">
+    <pre className="my-8 max-h-[90dvh] max-w-full overflow-auto border p-2 text-left text-sm text-gray-500 shadow-inner dark:text-gray-400">
       {JSON.stringify(data, null, 2)}
     </pre>
   );

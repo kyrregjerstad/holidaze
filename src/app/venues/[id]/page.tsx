@@ -1,11 +1,11 @@
-import { fetchVenueById } from '@/lib/services/venuesService';
+import { Venue, fetchVenueById } from '@/lib/services/venuesService';
 import { notFound } from 'next/navigation';
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { z } from 'zod';
 import { VenueGallery } from './VenueGallery';
-import { VenueDetailsCard } from './VenueDetailsCard';
+import { BookingCard } from './BookingCard';
 import { ReportDialog } from './ReportDialog';
 import { VenueAmenitiesPreview } from './VenueAmenitiesPreview';
 import { DetailsPreview } from './DetailsPreview';
@@ -81,7 +81,7 @@ const VenuePage = async ({ params }: Props) => {
               2 guests · 1 bedroom · 1 bed · 1 bath · Wifi · Kitchen
             </p>
           </div> */}
-          <VenueDetailsCard venue={venue} />
+          <BookingCard venue={venue} />
           <ReportDialog />
         </div>
       </section>
@@ -95,3 +95,5 @@ const paramsSchema = z.object({
 });
 
 export default VenuePage;
+
+export const dynamic = 'force-dynamic';

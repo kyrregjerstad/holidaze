@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { API_BASE_URL } from '../constants';
 import { useFetch } from '../hooks/useFetch';
 import { createApiResponseSchema } from '../schema/apiSchema';
-import { venueSchema } from '../schema/venueSchema';
+import { venueSchema, venueSchemaExtended } from '../schema/venueSchema';
 import { createUrl } from '../utils';
 
 export async function fetchAllVenues({ owner = false, bookings = false } = {}) {
@@ -20,17 +20,19 @@ export async function fetchAllVenues({ owner = false, bookings = false } = {}) {
 
 export async function fetchVenueById(
   id: string,
-  { owner = true, bookings = true } = {}
+  { _owner = true, _bookings = true } = {}
 ) {
   const { res, error } = await useFetch({
     url: createUrl(`${API_BASE_URL}/holidaze/venues/${id}`, {
-      owner,
-      bookings,
+      _owner,
+      _bookings,
     }),
-    schema: createApiResponseSchema(venueSchema),
+    schema: createApiResponseSchema(venueSchemaExtended),
   });
 
   if (!res) return { venue: null, error };
 
   return { venue: res?.data, error };
 }
+
+export type Venue = Awaited<ReturnType<typeof fetchVenueById>>['venue'];
