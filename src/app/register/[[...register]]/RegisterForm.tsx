@@ -13,7 +13,7 @@ import {
   registerUserSchema,
   registerUserSchemaExtended,
 } from '@/lib/schema/userSchema';
-import { fetchRegisterUser } from '@/lib/services/authService';
+import { fetchRegisterUser, handleLoginApi } from '@/lib/services/authService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -38,21 +38,33 @@ export const RegisterForm = ({ onSuccess }: Props) => {
     email,
     password,
   }: z.infer<typeof registerUserSchema>) => {
-    const { res, error } = await fetchRegisterUser({ name, email, password });
+    const { res, error: registerError } = await fetchRegisterUser({
+      name,
+      email,
+      password,
+    });
 
-    if (error) {
-      console.error('API RESPONSE: ', error);
+    if (registerError) {
+      console.error('API RESPONSE: ', registerError);
 
       form.setError('root', {
         type: 'manual',
         message:
-          error.errors.map((e) => e.message).join(', ') || 'Unknown error',
+          registerError.errors.map((e) => e.message).join(', ') ||
+          'Unknown error',
       });
 
       return;
-    } else {
-      await onSuccess();
     }
+
+    const { user, error: loginError } = await handleLoginApi(email, password);
+
+    if (loginError) {
+      form.setError('root', { message: loginError });
+      return;
+    }
+
+    await onSuccess();
   };
 
   return (
