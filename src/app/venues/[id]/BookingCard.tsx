@@ -1,25 +1,8 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { CardTitle, CardHeader, CardContent, Card } from '@/components/ui/card';
-import {
-  PopoverTrigger,
-  PopoverContent,
-  Popover,
-} from '@/components/ui/popover';
-import {
-  SelectValue,
-  SelectTrigger,
-  SelectItem,
-  SelectContent,
-  Select,
-} from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
-import { venueSchema, venueSchemaExtended } from '@/lib/schema/venueSchema';
-import { z } from 'zod';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { venueSchemaExtended } from '@/lib/schema/venueSchema';
 import { fetchCreateBooking } from '@/lib/services/bookingService';
-import { DatePicker } from './DatePicker';
-import { FormContent } from './FormContent';
+import { z } from 'zod';
+import { BookingFormContent } from './BookingFormContent';
 
 type Props = {
   venue: z.infer<typeof venueSchemaExtended>;
@@ -63,7 +46,7 @@ export const BookingCard = ({ venue }: Props) => {
             console.log(res);
           }}
         >
-          <FormContent
+          <BookingFormContent
             bookedDates={bookedDates}
             price={venue.price}
             maxGuests={venue.maxGuests}

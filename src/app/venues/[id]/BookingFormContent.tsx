@@ -14,7 +14,11 @@ type Props = {
   bookedDates: Date[];
   maxGuests: number;
 };
-export const FormContent = ({ price, bookedDates, maxGuests }: Props) => {
+export const BookingFormContent = ({
+  price,
+  bookedDates,
+  maxGuests,
+}: Props) => {
   const {
     startDate,
     endDate,
@@ -44,14 +48,14 @@ export const FormContent = ({ price, bookedDates, maxGuests }: Props) => {
             bookedDates={bookedDates}
             setDate={setStartDate}
             selectedDate={startDate}
-            overlayDate={endDate || new Date()}
+            overlayDate={endDate}
           />
           <DatePicker
             label="Check out"
             bookedDates={bookedDates}
             setDate={setEndDate}
             selectedDate={endDate}
-            overlayDate={startDate || new Date()}
+            overlayDate={startDate}
           />
         </div>
         {!areDatesAvailable && (

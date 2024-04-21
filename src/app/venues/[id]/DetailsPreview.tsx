@@ -1,9 +1,11 @@
 import { Badge } from '@/components/ui/badge';
+import { Amenities, amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import React from 'react';
+import { z } from 'zod';
 
 type Props = {
   maxGuests: number;
-  amenities: string[];
+  amenities: z.infer<typeof amenitiesKeysSchema>;
 };
 export const DetailsPreview = ({ maxGuests, amenities }: Props) => {
   return (

@@ -15,7 +15,7 @@ type Props = {
   bookedDates: Date[];
   selectedDate: Date | undefined;
   setDate: (date: Date | undefined) => void;
-  overlayDate: Date;
+  overlayDate: Date | undefined;
 };
 export const DatePicker = ({
   label,
@@ -26,7 +26,7 @@ export const DatePicker = ({
 }: Props) => {
   const dateRange = eachDayOfInterval({
     start: selectedDate || new Date(),
-    end: overlayDate,
+    end: overlayDate || new Date(),
   });
 
   return (

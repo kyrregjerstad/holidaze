@@ -10,12 +10,18 @@ export const locationSchema = z.object({
   lng: z.number().nullish(),
 });
 
-const metaSchema = z.object({
-  Wifi: z.boolean().nullish(),
+export const amenitiesSchema = z.object({
+  wifi: z.boolean().nullish(),
   parking: z.boolean(),
   breakfast: z.boolean(),
   pets: z.boolean(),
 });
+
+export type Amenities = z.infer<typeof amenitiesSchema>;
+
+export const amenityEnum = z.enum(['wifi', 'parking', 'breakfast', 'pets']);
+
+export const amenitiesKeysSchema = z.array(amenityEnum);
 
 const mediaSchema = z.object({
   url: z.string(),
@@ -32,7 +38,7 @@ export const venueSchema = z.object({
   rating: z.number(),
   created: z.string(),
   updated: z.string(),
-  meta: metaSchema,
+  meta: amenitiesSchema,
   location: locationSchema,
 });
 

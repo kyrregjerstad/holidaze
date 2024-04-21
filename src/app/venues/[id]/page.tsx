@@ -11,6 +11,7 @@ import { VenueAmenitiesPreview } from './VenueAmenitiesPreview';
 import { DetailsPreview } from './DetailsPreview';
 import { Debug } from '@/components/Debug';
 import { Location } from './Location';
+import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 
 type Props = {
   params: { id: string };
@@ -23,9 +24,11 @@ const VenuePage = async ({ params }: Props) => {
   const { venue } = await fetchVenueById(result.data.id);
   if (!venue) return notFound();
 
-  const amenities = Object.entries(venue.meta)
-    .filter(([_key, value]) => Boolean(value))
-    .map(([key]) => key);
+  const amenities = amenitiesKeysSchema.parse(
+    Object.entries(venue.meta)
+      .filter(([_key, value]) => Boolean(value))
+      .map(([key]) => key)
+  );
 
   return (
     <div className="mx-auto max-w-6xl p-4 sm:py-8 md:py-10 lg:px-6">
