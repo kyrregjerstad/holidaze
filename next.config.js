@@ -8,6 +8,9 @@ const coreConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    ppr: true,
+  },
   async rewrites() {
     return [
       {
