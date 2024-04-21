@@ -1,17 +1,15 @@
-import { Venue, fetchVenueById } from '@/lib/services/venuesService';
+import { Debug } from '@/components/Debug';
+import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
+import { fetchVenueById } from '@/lib/services/venuesService';
 import { notFound } from 'next/navigation';
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
 import { z } from 'zod';
-import { VenueGallery } from './VenueGallery';
 import { BookingCard } from './BookingCard';
+import { DetailsPreview } from './DetailsPreview';
+import { Location } from './Location';
+import { OwnerCard } from './OwnerCard';
 import { ReportDialog } from './ReportDialog';
 import { VenueAmenitiesPreview } from './VenueAmenitiesPreview';
-import { DetailsPreview } from './DetailsPreview';
-import { Debug } from '@/components/Debug';
-import { Location } from './Location';
-import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
+import { VenueGallery } from './VenueGallery';
 
 type Props = {
   params: { id: string };
@@ -37,53 +35,33 @@ const VenuePage = async ({ params }: Props) => {
       <section className="grid items-start gap-8 py-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-[1fr_400px]">
         <div className="row-start-2 grid gap-8 md:row-start-auto">
           <div className="hidden flex-col gap-1 md:flex">
-            <h2 className="text-4xl font-semibold">{venue.name}</h2>
+            <h2 className="pb-6 text-5xl font-semibold">{venue.name}</h2>
             <DetailsPreview maxGuests={venue.maxGuests} amenities={amenities} />
           </div>
           <div className="prose">
             <p>{venue.description}</p>
           </div>
-          <div className="grid gap-8">
+          <div className="grid gap-12">
             {amenities.length > 0 && (
               <>
-                <h3 className="text-xl font-semibold">
-                  What this place offers
-                </h3>
-                <VenueAmenitiesPreview amenities={amenities} />
+                <div className="grid gap-4">
+                  <h3 className="text-xl font-semibold">
+                    What this place offers
+                  </h3>
+                  <div className="grid gap-8">
+                    <VenueAmenitiesPreview amenities={amenities} />
+                  </div>
+                </div>
               </>
             )}
-            {amenities.length > 6 && (
-              <Button className="justify-self-start" variant="outline">
-                Show all amenities
-              </Button>
-            )}
-          </div>
-          <div className="grid gap-8">
-            <div className="grid gap-0.5">
-              <h3 className="text-xl font-semibold">Find a date</h3>
-              <div className="text-gray-500 dark:text-gray-400">
-                Pick your travel dates for availability.
-              </div>
-            </div>
-            <div className="justify-self-start rounded-lg p-0 sm:border sm:p-4">
-              <Calendar
-                className="hidden p-0 xl:flex [&>div]:gap-6 [&>div]:space-x-0 [&_[name=day]]:h-10 [&_[name=day]]:w-10 [&_td]:h-10 [&_td]:w-10 [&_th]:w-10"
-                mode="range"
-                numberOfMonths={2}
-              />
-              {/* <Calendar className="flex p-0 xl:hidden" /> */}
+            <div className="grid gap-4">
+              <h3 className="text-xl font-semibold">About the Owner</h3>
+              <OwnerCard owner={venue.owner} />
             </div>
           </div>
         </div>
+
         <div className="row-start-1 grid gap-4 md:row-start-auto">
-          {/* <div className="flex flex-col gap-1 sm:hidden">
-            <h2 className="font-semibold sm:text-2xl">
-              Venue in Santa Cruz, California, United States
-            </h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-              2 guests · 1 bedroom · 1 bed · 1 bath · Wifi · Kitchen
-            </p>
-          </div> */}
           <BookingCard venue={venue} />
           <ReportDialog />
         </div>
