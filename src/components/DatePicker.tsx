@@ -16,6 +16,7 @@ type Props = {
   setDate: (date: Date | undefined) => void;
   overlayDate: Date | undefined;
   label?: string;
+  buttonText?: string;
 };
 export const DatePicker = ({
   label,
@@ -23,6 +24,7 @@ export const DatePicker = ({
   selectedDate,
   setDate,
   overlayDate,
+  buttonText,
 }: Props) => {
   const dateRange = eachDayOfInterval({
     start: selectedDate || new Date(),
@@ -42,7 +44,9 @@ export const DatePicker = ({
               {selectedDate ? (
                 selectedDate?.toLocaleDateString('en-UK')
               ) : (
-                <span className="text-muted-foreground">Select date</span>
+                <span className="text-muted-foreground">
+                  {buttonText ? buttonText : 'Select date'}
+                </span>
               )}
             </span>
           </Button>

@@ -11,6 +11,7 @@ import { isWithinInterval, parseISO } from 'date-fns';
 import { VenueCard } from '../../components/VenueCard';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
+import { SearchBar } from './SearchBar';
 
 type Props = {
   searchParams?: {
@@ -61,8 +62,8 @@ const SearchPage = async ({ searchParams }: Props) => {
 
   return (
     <section className="container">
-      <div className="py-20">
-        <HeroSearch prefilledTerm={q} />
+      <div className="py-8">
+        <SearchBar prefilledTerm={q} />
       </div>
       <SearchResult venues={venues} startDate={startDate} endDate={endDate} />
     </section>
