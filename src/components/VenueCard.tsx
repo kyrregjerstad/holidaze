@@ -8,6 +8,7 @@ import {
 import { venueSchema } from '@/lib/schema/venueSchema';
 import Link from 'next/link';
 import { z } from 'zod';
+import { VenueCardImage } from './VenueCardImage';
 
 export const VenueCard = ({
   venue,
@@ -19,16 +20,10 @@ export const VenueCard = ({
       <Link href={`/venues/${venue.id}`} className="group cursor-pointer">
         <CardHeader>
           <div className="overflow-hidden">
-            <img
-              alt={`Holidaze featured Home: ${venue.name} - ${venue.description}`}
-              className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              height="200"
-              src={venue.media.at(0)?.url || '/placeholder.jpg'}
-              style={{
-                aspectRatio: '300/200',
-                objectFit: 'cover',
-              }}
-              width="300"
+            <VenueCardImage
+              url={venue.media?.at(0)?.url}
+              name={venue.name}
+              description={venue.description}
             />
           </div>
         </CardHeader>

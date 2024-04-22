@@ -32,7 +32,9 @@ export default function RootLayout({
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <QueryClientProvider>
             <Header />
-            <main className="min-h-[calc(100dvh-56px)]">{children}</main>
+            <main className="flex min-h-[calc(100dvh-56px)] flex-col items-center">
+              {children}
+            </main>
             <Footer />
             {modal}
             <div id="modal-root" />
