@@ -74,5 +74,3 @@ const paramsSchema = z.object({
 });
 
 export default VenuePage;
-
-export const dynamic = 'force-dynamic';
