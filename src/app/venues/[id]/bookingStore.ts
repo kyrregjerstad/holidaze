@@ -15,8 +15,8 @@ type FormState = {
 };
 
 export const useBookingStore = create<FormState>((set, get) => ({
-  startDate: new Date(),
-  endDate: addDays(new Date(), 1),
+  startDate: undefined,
+  endDate: undefined,
   guests: 2,
   amountOfDays: 1,
   areDatesAvailable: true,

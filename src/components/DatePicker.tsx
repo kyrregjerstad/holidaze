@@ -11,11 +11,11 @@ import {
 import { eachDayOfInterval } from 'date-fns';
 
 type Props = {
-  label: string;
   bookedDates: Date[];
   selectedDate: Date | undefined;
   setDate: (date: Date | undefined) => void;
   overlayDate: Date | undefined;
+  label?: string;
 };
 export const DatePicker = ({
   label,
@@ -33,13 +33,17 @@ export const DatePicker = ({
     <Popover>
       <PopoverTrigger asChild>
         <div className="flex flex-1 flex-col">
-          <Label className="text-sm">{label}</Label>
+          {label && <Label className="text-sm">{label}</Label>}
           <Button
-            className="h-auto w-full flex-col items-start"
+            className="h-10 w-full flex-col items-start"
             variant="outline"
           >
             <span className="font-normal">
-              {selectedDate?.toLocaleDateString('en-UK')}
+              {selectedDate ? (
+                selectedDate?.toLocaleDateString('en-UK')
+              ) : (
+                <span className="text-muted-foreground">Select date</span>
+              )}
             </span>
           </Button>
         </div>

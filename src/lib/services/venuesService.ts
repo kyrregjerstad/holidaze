@@ -2,7 +2,12 @@ import { z } from 'zod';
 import { API_BASE_URL } from '../constants';
 import { useFetch } from '../hooks/useFetch';
 import { createApiResponseSchema } from '../schema/apiSchema';
-import { venueSchema, venueSchemaExtended } from '../schema/venueSchema';
+import {
+  bookingSchema,
+  ownerSchema,
+  venueSchema,
+  venueSchemaExtended,
+} from '../schema/venueSchema';
 import { createUrl } from '../utils';
 
 export async function fetchAllVenues({ owner = false, bookings = false } = {}) {
@@ -35,4 +40,33 @@ export async function fetchVenueById(
   return { venue: res?.data, error };
 }
 
-export type Venue = Awaited<ReturnType<typeof fetchVenueById>>['venue'];
+export type Venue = NonNullable<
+  Awaited<ReturnType<typeof fetchVenueById>>['venue']
+>;
+
+/* search Term search by the title and description of the venue */
+export async function fetchVenuesBySearchTerm(searchTerm: string) {
+  const { res, error } = await useFetch({
+    url: createUrl(`${API_BASE_URL}/holidaze/venues/search`, {
+      q: searchTerm,
+      _bookings: true,
+      _owner: true,
+    }),
+    schema: createApiResponseSchema(
+      z.array(
+        venueSchema.extend({
+          bookings: z.array(bookingSchema),
+          owner: ownerSchema,
+        })
+      )
+    ),
+  });
+
+  if (!res) return { venues: [], error };
+
+  return { venues: res?.data, error };
+}
+
+export type VenuesBySearchTerm = Awaited<
+  ReturnType<typeof fetchVenuesBySearchTerm>
+>['venues'];

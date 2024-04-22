@@ -1,8 +1,7 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Metadata } from 'next';
 import { VenuesGrid } from './VenuesGrid';
 import { Suspense } from 'react';
+import { HeroSearch } from './HeroSearch';
 
 export default async function HomePage() {
   return (
@@ -18,14 +17,7 @@ export default async function HomePage() {
                 Your Gateway to Unforgettable Getaways
               </p>
             </div>
-            <div className="w-full max-w-md">
-              <Input className="mb-2" placeholder="Search location" />
-              <div className="flex gap-2">
-                <Input placeholder="Start date" type="date" />
-                <Input placeholder="End date" type="date" />
-              </div>
-              <Button className="mt-4 w-full">Search</Button>
-            </div>
+            <HeroSearch />
           </div>
         </div>
       </section>
