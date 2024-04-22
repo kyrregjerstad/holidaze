@@ -43,16 +43,14 @@ const VenuePage = async ({ params }: Props) => {
           </div>
           <div className="grid gap-12">
             {amenities.length > 0 && (
-              <>
-                <div className="grid gap-4">
-                  <h3 className="text-xl font-semibold">
-                    What this place offers
-                  </h3>
-                  <div className="grid gap-8">
-                    <VenueAmenitiesPreview amenities={amenities} />
-                  </div>
+              <div className="grid gap-4">
+                <h3 className="text-xl font-semibold">
+                  What this place offers
+                </h3>
+                <div className="grid gap-8">
+                  <VenueAmenitiesPreview amenities={amenities} />
                 </div>
-              </>
+              </div>
             )}
             <div className="grid gap-4">
               <h3 className="text-xl font-semibold">About the Owner</h3>
