@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { VenuesGrid } from './VenuesGrid';
 import { Suspense } from 'react';
 import { HeroSearch } from './HeroSearch';
+import { VenuesGridSkeleton } from './VenuesGridSkeleton';
 
 export default async function HomePage() {
   return (
@@ -26,7 +27,7 @@ export default async function HomePage() {
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             Featured Homes
           </h2>
-          <Suspense fallback="loading...">
+          <Suspense fallback={<VenuesGridSkeleton />}>
             <VenuesGrid />
           </Suspense>
         </div>

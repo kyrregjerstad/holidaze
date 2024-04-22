@@ -10,6 +10,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { CookieUser } from '@/lib/utils/cookies';
 import { LogOutBtn } from './LogOutBtn';
+import Link from 'next/link';
 
 type Props = {
   user: CookieUser;
@@ -27,7 +28,9 @@ export const AccountMenu = ({ user }: Props) => {
       <DropdownMenuContent>
         <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href={`/profiles/${user.name}`}>Profile</Link>
+        </DropdownMenuItem>
         <DropdownMenuItem>Billing</DropdownMenuItem>
         <DropdownMenuItem>Team</DropdownMenuItem>
         <Separator />

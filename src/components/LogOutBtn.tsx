@@ -4,11 +4,7 @@ import { handleLogout } from '@/lib/services/handleLogout';
 
 export const LogOutBtn = () => {
   return (
-    <Button
-      variant="destructive"
-      className="w-full"
-      onClick={() => handleLogout()}
-    >
+    <Button variant="outline" className="w-full" onClick={() => handleLogout()}>
       Log Out
     </Button>
   );

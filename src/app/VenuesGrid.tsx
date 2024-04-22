@@ -1,14 +1,5 @@
 import { VenueCard } from '@/components/VenueCard';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { fetchAllVenues } from '@/lib/services/venuesService';
-import Link from 'next/link';
-import { Suspense } from 'react';
 
 export const VenuesGrid = async () => {
   const { venues, error } = await fetchAllVenues();
