@@ -1,11 +1,15 @@
 import { redirect } from 'next/navigation';
 import { LoginForm } from './LoginForm';
+import { BackgroundClipPath } from './BackgroundClipPath';
+import { BackgroundImage } from './BackgroundImage';
+import { Header } from './Header';
 
 type Props = {
   searchParams?: {
     callbackUrl?: string;
   };
 };
+
 export default function Page({ searchParams }: Props) {
   const callbackUrl = searchParams?.callbackUrl || '/';
 
@@ -18,19 +22,13 @@ export default function Page({ searchParams }: Props) {
     <section>
       <div className="relative grid h-svh w-screen grid-cols-2">
         <div className="absolute z-10 h-full w-full drop-shadow-md">
-          <div className="hero-clip-path h-full w-full bg-gradient-to-tr from-sky-600 to-sky-400 opacity-95 backdrop-blur-sm"></div>
+          <BackgroundClipPath />
         </div>
         <div className="absolute top-0 h-full w-full ">
-          <img
-            src="/assets/holidaze-bg-2.webp"
-            alt=""
-            className=" h-full w-full object-cover"
-          />
+          <BackgroundImage />
         </div>
         <div className="z-10">
-          <h1 className="p-20 text-8xl font-bold tracking-tighter text-white">
-            Holidaze
-          </h1>
+          <Header />
         </div>
         <div className="z-10 col-start-2 flex flex-col items-center justify-center">
           <LoginForm onSuccess={onSuccess} />

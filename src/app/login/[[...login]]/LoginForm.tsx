@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { motion } from 'framer-motion';
 
 import { loginUserSchema } from '@/lib/schema/userSchema';
 import { handleLoginApi } from '@/lib/services/authService';
@@ -45,57 +46,64 @@ export const LoginForm = ({ onSuccess }: Props) => {
   };
 
   return (
-    <Card className="mx-auto min-w-96">
-      <div className="py-2"></div>
-      <CardContent>
-        <Form {...form}>
-          <form
-            className="space-y-2"
-            onSubmit={form.handleSubmit(onSubmit)}
-            method="POST"
-          >
-            {form.formState.errors.root && (
-              <p className="text-center text-red-600">
-                {form.formState.errors.root.message}
-              </p>
-            )}
-            <FormField
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <Input placeholder="email" type="email" {...field} />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <Input placeholder="password" type="password" {...field} />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="py-2"></div>
-            <Button
-              type="submit"
-              disabled={form.formState.isSubmitting}
-              className="w-full"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, delay: 0.25, ease: 'easeInOut' }}
+      className="z-10"
+    >
+      <Card className="mx-auto min-w-96">
+        <div className="py-2"></div>
+        <CardContent>
+          <Form {...form}>
+            <form
+              className="space-y-2"
+              onSubmit={form.handleSubmit(onSubmit)}
+              method="POST"
             >
-              Log in ☀️
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-      <CardFooter className="flex flex-col justify-center text-xs">
-        <p>Don't have an account?</p>
-        <Link href="/register" className="cursor-pointer hover:underline">
-          Register
-        </Link>
-      </CardFooter>
-    </Card>
+              {form.formState.errors.root && (
+                <p className="text-center text-red-600">
+                  {form.formState.errors.root.message}
+                </p>
+              )}
+              <FormField
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <Input placeholder="email" type="email" {...field} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <Input placeholder="password" type="password" {...field} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="py-2"></div>
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                className="w-full"
+              >
+                Log in ☀️
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+        <CardFooter className="flex flex-col justify-center text-xs">
+          <p>Don't have an account?</p>
+          <Link href="/register" className="cursor-pointer hover:underline">
+            Register
+          </Link>
+        </CardFooter>
+      </Card>
+    </motion.div>
   );
 };
