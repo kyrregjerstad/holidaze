@@ -41,7 +41,7 @@ const UserPage = ({
   profile: z.infer<typeof userProfileSchema>;
 }) => {
   return (
-    <>
+    <div className="flex max-w-7xl flex-col items-center">
       <div className="w-full">
         <img
           src={profile.banner?.url || '/placeholder.svg'}
@@ -66,7 +66,7 @@ const UserPage = ({
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
@@ -76,7 +76,7 @@ const ManagerPage = ({
   profile: z.infer<typeof userProfileSchema>;
 }) => {
   return (
-    <>
+    <div className="flex max-w-7xl flex-col items-center">
       <div className="w-full">
         <img
           src={profile.banner?.url || '/placeholder.svg'}
@@ -129,6 +129,6 @@ const ManagerPage = ({
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };

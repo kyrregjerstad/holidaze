@@ -1,7 +1,12 @@
 'use client';
 import { useAuth } from '@/app/_providers/AuthProvider';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
 import {
   Form,
   FormField,
@@ -14,6 +19,7 @@ import { Input } from '@/components/ui/input';
 import { loginUserSchema } from '@/lib/schema/userSchema';
 import { handleLoginApi } from '@/lib/services/authService';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -47,12 +53,12 @@ export const LoginForm = ({ onSuccess }: Props) => {
   };
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader />
+    <Card className="mx-auto min-w-96">
+      <div className="py-2"></div>
       <CardContent>
         <Form {...form}>
           <form
-            className="space-y-6"
+            className="space-y-2"
             onSubmit={form.handleSubmit(onSubmit)}
             method="POST"
           >
@@ -81,13 +87,23 @@ export const LoginForm = ({ onSuccess }: Props) => {
                 </FormItem>
               )}
             />
-
-            <Button type="submit" disabled={form.formState.isSubmitting}>
+            <div className="py-2"></div>
+            <Button
+              type="submit"
+              disabled={form.formState.isSubmitting}
+              className="w-full"
+            >
               Log in
             </Button>
           </form>
         </Form>
       </CardContent>
+      <CardFooter className="flex flex-col justify-center text-xs">
+        <p>Don't have an account?</p>
+        <Link href="/register" className="cursor-pointer hover:underline">
+          Register
+        </Link>
+      </CardFooter>
     </Card>
   );
 };

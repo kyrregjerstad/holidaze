@@ -2,14 +2,12 @@ import './globals.css';
 import '@uploadthing/react/styles.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import QueryClientProvider from './_providers/QueryClientProvider';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
 
 import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import { extractRouterConfig } from 'uploadthing/server';
-import { ourFileRouter } from './api/uploadthing/core';
 import { AuthProvider } from './_providers/AuthProvider';
+import QueryClientProvider from './_providers/QueryClientProvider';
+import { ourFileRouter } from './api/uploadthing/core';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -31,13 +29,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <QueryClientProvider>
-            <Header />
-            <main className="flex min-h-[calc(100dvh-56px)] flex-col items-center">
-              <div className="flex max-w-7xl flex-col items-center">
-                {children}
-              </div>
-            </main>
-            <Footer />
+            {children}
             {modal}
             <div id="modal-root" />
           </QueryClientProvider>

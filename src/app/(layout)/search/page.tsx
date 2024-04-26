@@ -8,7 +8,7 @@ import { useBookingStore } from '../venues/[id]/bookingStore';
 import { z } from 'zod';
 import { notFound } from 'next/navigation';
 import { isWithinInterval, parseISO } from 'date-fns';
-import { VenueCard } from '../../components/VenueCard';
+import { VenueCard } from '../../../components/VenueCard';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { SearchBar } from './SearchBar';
