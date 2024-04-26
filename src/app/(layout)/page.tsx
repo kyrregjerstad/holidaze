@@ -6,7 +6,7 @@ import { VenuesGridSkeleton } from './VenuesGridSkeleton';
 
 export default async function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen w-full flex-col">
       <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center space-y-4 text-center">
