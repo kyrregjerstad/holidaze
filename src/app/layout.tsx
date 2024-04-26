@@ -29,7 +29,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <QueryClientProvider>
-            {children}
+            <div className="bg-background">{children}</div>
             {modal}
             <div id="modal-root" />
           </QueryClientProvider>
