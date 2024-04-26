@@ -1,6 +1,11 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
 import {
   Form,
   FormField,
@@ -17,6 +22,8 @@ import { fetchRegisterUser, handleLoginApi } from '@/lib/services/authService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 type Props = {
   onSuccess: () => Promise<void>;
@@ -68,67 +75,84 @@ export const RegisterForm = ({ onSuccess }: Props) => {
   };
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader />
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {form.formState.errors.root && (
-              <p className="text-center text-red-600">
-                {form.formState.errors.root.message}
-              </p>
-            )}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, delay: 0.25, ease: 'easeInOut' }}
+      className="z-10"
+    >
+      <Card className="mx-auto min-w-96">
+        <CardHeader />
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              {form.formState.errors.root && (
+                <p className="text-center text-red-600">
+                  {form.formState.errors.root.message}
+                </p>
+              )}
 
-            <FormField
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <Input placeholder="name" {...field} />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <Input placeholder="email" type="email" {...field} />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <Input placeholder="password" type="password" {...field} />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="repeatPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Repeat Password</FormLabel>
-                  <Input
-                    placeholder="repeat password"
-                    type="password"
-                    {...field}
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" disabled={form.formState.isSubmitting}>
-              Register
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+              <FormField
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <Input placeholder="name" {...field} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <Input placeholder="email" type="email" {...field} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <Input placeholder="password" type="password" {...field} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="repeatPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Repeat Password</FormLabel>
+                    <Input
+                      placeholder="repeat password"
+                      type="password"
+                      {...field}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                disabled={form.formState.isSubmitting}
+                className="w-full"
+              >
+                Register
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+        <CardFooter className="flex flex-col justify-center text-xs">
+          <p>Already have an account?</p>
+          <Link href="/login" className="cursor-pointer hover:underline">
+            Login
+          </Link>
+        </CardFooter>
+      </Card>
+    </motion.div>
   );
 };

@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { LoginForm } from './LoginForm';
-import { BackgroundClipPath } from './BackgroundClipPath';
-import { BackgroundImage } from './BackgroundImage';
+import { BackgroundClipPath } from '../../../components/BackgroundClipPath';
+import { BackgroundImage } from '../../../components/BackgroundImage';
 import { Header } from './Header';
 
 type Props = {
