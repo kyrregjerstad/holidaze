@@ -10,6 +10,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { OwnerCardBanner } from './OwnerCardBanner';
 
 type Props = {
   owner: {
@@ -31,13 +32,7 @@ export const OwnerCard = ({ owner }: Props) => {
     <Card>
       <CardHeader className="relative flex flex-row gap-2">
         {owner.banner && (
-          <img
-            src={owner.banner.url}
-            alt={owner.banner.alt}
-            width={48}
-            height={48}
-            className="absolute left-0 top-0 h-full w-full rounded-lg object-cover opacity-30"
-          />
+          <OwnerCardBanner url={owner.banner?.url} alt={owner.banner?.alt} />
         )}
         <div className="z-10 flex items-center justify-center gap-2 ">
           <Avatar>

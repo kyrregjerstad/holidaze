@@ -38,10 +38,10 @@ const VenuePage = async ({ params }: Props) => {
             <h2 className="pb-6 text-5xl font-semibold">{venue.name}</h2>
             <DetailsPreview maxGuests={venue.maxGuests} amenities={amenities} />
           </div>
-          <div className="prose">
+          <div className="prose pb-8">
             <p>{venue.description}</p>
           </div>
-          <div className="grid gap-12">
+          <div className="grid gap-20">
             {amenities.length > 0 && (
               <div className="grid gap-4">
                 <h3 className="text-xl font-semibold">
