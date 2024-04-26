@@ -1,12 +1,6 @@
 'use client';
-import { useAuth } from '@/app/_providers/AuthProvider';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import {
   Form,
   FormField,
@@ -35,8 +29,6 @@ export const LoginForm = ({ onSuccess }: Props) => {
       password: '',
     },
   });
-
-  const { login } = useAuth();
 
   const onSubmit = async ({
     email,
@@ -93,7 +85,7 @@ export const LoginForm = ({ onSuccess }: Props) => {
               disabled={form.formState.isSubmitting}
               className="w-full"
             >
-              Log in
+              Log in ☀️
             </Button>
           </form>
         </Form>

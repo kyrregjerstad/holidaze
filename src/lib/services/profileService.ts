@@ -7,8 +7,8 @@ import { createApiResponseSchema } from '../schema/apiSchema';
 import { userProfileSchema } from '../schema/userSchema';
 import { createUrl } from '../utils';
 
-export async function fetchProfileByName(name: string) {
-  const accessToken = cookies().get('accessToken')?.value;
+export async function fetchProfileByName(name: string, token?: string) {
+  const accessToken = token || cookies().get('accessToken')?.value;
   const apiKey = process.env.NOROFF_API_KEY;
 
   if (!apiKey) {
@@ -18,6 +18,7 @@ export async function fetchProfileByName(name: string) {
   }
 
   if (!accessToken || !apiKey) {
+    console.error('Missing access token or api key');
     redirect('/login');
   }
 

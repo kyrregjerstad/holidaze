@@ -10,7 +10,10 @@ export const registerUserSchema = z.object({
   email: z
     .string()
     .email()
-    .regex(/@noroff.no$/, 'Only @noroff.no emails are allowed'),
+    .regex(
+      /@(noroff\.no|stud\.noroff\.no)$/,
+      'Only @noroff.no and @stud.noroff.no emails are allowed'
+    ),
   password: z.string().min(8, 'Password must be at least 8 characters'),
   bio: z.string().min(3).nullish(),
   avatar: z

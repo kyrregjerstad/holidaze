@@ -5,54 +5,58 @@ import { createCookie } from '@/lib/utils/createCookie';
 import { type NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
-  const validation = await loginUserSchema.safeParseAsync(await req.json());
+  try {
+    const validation = await loginUserSchema.safeParseAsync(await req.json());
 
-  if (!validation.success) {
-    return Response.json(validation.error, { status: 400 });
-  }
+    if (!validation.success) {
+      return Response.json(validation.error, { status: 400 });
+    }
 
-  const { res, error } = await fetchLoginUser({ ...validation.data });
+    const { res, error } = await fetchLoginUser({ ...validation.data });
 
-  console.log('res', res?.data);
+    if (error || !res || !res.data.accessToken) {
+      return Response.json('error', { status: 400 });
+    }
 
-  if (error || !res || !res.data.accessToken) {
-    console.log('error', error, res);
-    return Response.json('error', { status: 400 });
-  }
+    const { profile } = await fetchProfileByName(
+      res.data.name,
+      res.data.accessToken
+    );
 
-  const { profile } = await fetchProfileByName(res.data.name);
+    const accessToken = createCookie({
+      name: 'accessToken',
+      value: res.data.accessToken,
+      days: 7,
+    });
 
-  console.log(profile);
+    const user = createCookie({
+      name: 'user',
+      value: JSON.stringify({
+        name: res.data.name,
+        email: res.data.email,
+        avatarUrl: res.data.avatar?.url
+          ? encodeURIComponent(res.data.avatar.url)
+          : null,
+        isVenueManager: profile?.venueManager || false,
+      }),
 
-  const accessToken = createCookie({
-    name: 'accessToken',
-    value: res.data.accessToken,
-    days: 7,
-  });
+      days: 7,
+    });
 
-  const user = createCookie({
-    name: 'user',
-    value: JSON.stringify({
+    const body = JSON.stringify({
       name: res.data.name,
       email: res.data.email,
-      avatarUrl: res.data.avatar?.url
-        ? encodeURIComponent(res.data.avatar.url)
-        : null,
-      isVenueManager: profile?.venueManager || false,
-    }),
-    days: 7,
-  });
+    });
 
-  const body = JSON.stringify({
-    name: res.data.name,
-    email: res.data.email,
-  });
-
-  return new Response(body, {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Set-Cookie': `${accessToken}, ${user}`,
-    },
-  });
+    return new Response(body, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Set-Cookie': `${accessToken}, ${user}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return Response.json('error', { status: 500 });
+  }
 }
