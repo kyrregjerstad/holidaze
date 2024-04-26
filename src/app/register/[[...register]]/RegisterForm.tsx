@@ -141,7 +141,7 @@ export const RegisterForm = ({ onSuccess }: Props) => {
                 disabled={form.formState.isSubmitting}
                 className="group w-full"
               >
-                register
+                Register
                 <span className="translate-x-1 transition-transform group-hover:scale-125">
                   ☀️
                 </span>

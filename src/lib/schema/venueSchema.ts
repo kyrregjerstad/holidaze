@@ -70,3 +70,7 @@ export const venueSchemaExtended = venueSchema.extend({
   owner: ownerSchema,
   bookings: z.array(bookingSchema),
 });
+
+export const venueSchemaWithBookings = venueSchema.extend({
+  bookings: z.array(bookingSchema),
+});
