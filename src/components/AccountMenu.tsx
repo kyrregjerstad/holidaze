@@ -28,11 +28,23 @@ export const AccountMenu = ({ user }: Props) => {
       <DropdownMenuContent>
         <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Link href={`/profiles/${user.name}`}>Profile</Link>
+        <DropdownMenuItem asChild>
+          <Link href={`/profiles/${user.name}`} className="cursor-pointer">
+            Profile
+          </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/bookings" className="cursor-pointer">
+            My Bookings
+          </Link>
+        </DropdownMenuItem>
+        {user.isVenueManager && (
+          <DropdownMenuItem asChild>
+            <Link href="/venues" className="cursor-pointer">
+              My Venues
+            </Link>
+          </DropdownMenuItem>
+        )}
         <Separator />
         <DropdownMenuItem>
           <LogOutBtn />

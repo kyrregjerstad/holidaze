@@ -24,6 +24,7 @@ const userCookieSchema = z.object({
   name: z.string(),
   email: z.string(),
   avatarUrl: z.string().nullable(),
+  isVenueManager: z.boolean(),
 });
 
 export type CookieUser = z.infer<typeof userCookieSchema>;

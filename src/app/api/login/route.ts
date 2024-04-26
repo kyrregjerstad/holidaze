@@ -1,5 +1,6 @@
 import { loginUserSchema } from '@/lib/schema/userSchema';
 import { fetchLoginUser } from '@/lib/services/authService';
+import { fetchProfileByName } from '@/lib/services/profileService';
 import { createCookie } from '@/lib/utils/createCookie';
 import { type NextRequest } from 'next/server';
 
@@ -12,9 +13,16 @@ export async function POST(req: NextRequest) {
 
   const { res, error } = await fetchLoginUser({ ...validation.data });
 
+  console.log('res', res?.data);
+
   if (error || !res || !res.data.accessToken) {
+    console.log('error', error, res);
     return Response.json('error', { status: 400 });
   }
+
+  const { profile } = await fetchProfileByName(res.data.name);
+
+  console.log(profile);
 
   const accessToken = createCookie({
     name: 'accessToken',
@@ -30,6 +38,7 @@ export async function POST(req: NextRequest) {
       avatarUrl: res.data.avatar?.url
         ? encodeURIComponent(res.data.avatar.url)
         : null,
+      isVenueManager: profile?.venueManager || false,
     }),
     days: 7,
   });

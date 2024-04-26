@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const VenuesGridSkeleton = async () => {
@@ -27,9 +21,7 @@ const SkeletonCard = () => {
         <CardTitle>
           <Skeleton className="mb-2 h-8 w-1/2" />
         </CardTitle>
-        <CardDescription>
-          <Skeleton className="mb-4 h-7 w-3/4" />
-        </CardDescription>
+        <Skeleton className="mb-4 h-7 w-3/4" />
       </CardContent>
     </Card>
   );

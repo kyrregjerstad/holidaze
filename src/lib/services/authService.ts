@@ -68,27 +68,34 @@ export async function handleLoginApi(
   email: string,
   password: string
 ): Promise<HandleLoginApiReturn> {
-  const res = await fetch('/api/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  });
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-  if (!res.ok) {
-    return { user: null, error: 'Incorrect email or password' };
+    if (!res.ok) {
+      return { user: null, error: 'Incorrect email or password' };
+    }
+
+    const data = await res.json();
+
+    console.log(data);
+
+    const validation = loginApiResponseSchema.safeParse(data);
+
+    if (!validation.success) {
+      return { user: null, error: 'Failed to parse response' };
+    }
+
+    return { user: validation.data, error: null };
+  } catch (error) {
+    console.error('ERROR', error);
+    return { user: null, error: 'Failed to fetch' };
   }
-
-  const data = await res.json();
-
-  const validation = loginApiResponseSchema.safeParse(data);
-
-  if (!validation.success) {
-    return { user: null, error: 'Failed to parse response' };
-  }
-
-  return { user: validation.data, error: null };
 }
 
 const loginApiResponseSchema = z.object({

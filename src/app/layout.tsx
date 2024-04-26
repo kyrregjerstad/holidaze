@@ -33,7 +33,9 @@ export default function RootLayout({
           <QueryClientProvider>
             <Header />
             <main className="flex min-h-[calc(100dvh-56px)] flex-col items-center">
-              {children}
+              <div className="flex max-w-7xl flex-col items-center">
+                {children}
+              </div>
             </main>
             <Footer />
             {modal}
