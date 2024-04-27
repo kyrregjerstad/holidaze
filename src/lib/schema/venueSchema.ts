@@ -74,3 +74,5 @@ export const venueSchemaExtended = venueSchema.extend({
 export const venueSchemaWithBookings = venueSchema.extend({
   bookings: z.array(bookingSchema),
 });
+
+export type VenueWithBookings = z.infer<typeof venueSchemaWithBookings>;

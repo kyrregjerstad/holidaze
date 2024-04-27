@@ -4,7 +4,7 @@ import {
   fetchVenuesBySearchTerm,
 } from '@/lib/services/venuesService';
 import { HeroSearch } from '../HeroSearch';
-import { useBookingStore } from '../venues/[id]/bookingStore';
+import { useBookingStore } from '../../../components/venue/bookingStore';
 import { z } from 'zod';
 import { notFound } from 'next/navigation';
 import { isWithinInterval, parseISO } from 'date-fns';

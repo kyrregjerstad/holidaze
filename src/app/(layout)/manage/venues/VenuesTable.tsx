@@ -1,9 +1,8 @@
 'use client';
 
-import { venueSchemaWithBookings } from '@/lib/schema/venueSchema';
+import { VenueWithBookings } from '@/lib/schema/venueSchema';
 
-import React from 'react';
-import { z } from 'zod';
+import React, { useState } from 'react';
 
 import {
   ColumnDef,
@@ -19,18 +18,18 @@ import {
 } from '@tanstack/react-table';
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
 import {
   Table,
   TableBody,
@@ -39,22 +38,39 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { cn } from '@/lib/utils';
+import { compareAsc } from 'date-fns';
 import Link from 'next/link';
 
-type Venue = z.infer<typeof venueSchemaWithBookings>;
+type BookingWithDatesAsStrings = {
+  dateFrom: string;
+  dateTo: string;
+};
 
+type BookingWithDatesAsDates = Omit<
+  BookingWithDatesAsStrings,
+  'dateFrom' | 'dateTo'
+> & {
+  dateFrom: Date;
+  dateTo: Date;
+};
+
+type VenueWithBookingsAndDatesAsDates = Omit<VenueWithBookings, 'bookings'> & {
+  bookings: BookingWithDatesAsDates[];
+};
+
+type VenueTable = VenueWithBookingsAndDatesAsDates & {
+  status: string;
+};
 type Props = {
-  venues: Venue[];
+  venues: VenueTable[];
 };
 
 export const VenuesTable = ({ venues }: Props) => {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
     data: venues,
@@ -86,50 +102,54 @@ export const VenuesTable = ({ venues }: Props) => {
           }
           className="max-w-sm"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="ml-auto flex items-center gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto flex gap-2">
+                <span>Columns</span>
+                <ChevronDown className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Link href="/manage/venues/new" className={buttonVariants()}>
+            Add Venue
+          </Link>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -191,7 +211,7 @@ export const VenuesTable = ({ venues }: Props) => {
   );
 };
 
-export const columns: ColumnDef<Venue>[] = [
+export const columns: ColumnDef<VenueTable>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -221,21 +241,25 @@ export const columns: ColumnDef<Venue>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="gap-2"
         >
-          Name
+          <span>Name</span>
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue('name')}</div>,
+    cell: ({ row }) => (
+      <div className="px-4 lowercase">{row.getValue('name')}</div>
+    ),
   },
   {
-    accessorKey: 'location',
+    id: 'location',
+    accessorKey: 'location.city',
     header: () => <div className="text-right">Location</div>,
     cell: ({ row }) => {
       return (
-        <div className="text-right font-medium">
-          {row.getValue('location.city')}
+        <div className="px-4 text-right font-medium ">
+          {row.getValue('location')}
         </div>
       );
     },
@@ -248,15 +272,39 @@ export const columns: ColumnDef<Venue>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="gap-2"
         >
-          Status
+          Booking
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue('status')}</div>
-    ),
+    cell: ({ row }) => {
+      const status = row.getValue('status') as string;
+      return (
+        <div
+          className={cn(
+            'px-4 capitalize',
+            status === 'Now' && 'font-bold',
+            status === 'No bookings' && 'text-neutral-400'
+          )}
+        >
+          {row.getValue('status')}
+        </div>
+      );
+    },
+    sortingFn: (rowA, rowB) => {
+      const dateA =
+        rowA.original.bookings.length > 0
+          ? new Date(rowA.original.bookings[0].dateFrom)
+          : new Date(0);
+      const dateB =
+        rowB.original.bookings.length > 0
+          ? new Date(rowB.original.bookings[0].dateFrom)
+          : new Date(0);
+
+      return compareAsc(dateA, dateB);
+    },
   },
   {
     accessorKey: 'price',
@@ -266,6 +314,7 @@ export const columns: ColumnDef<Venue>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="gap-2"
         >
           Price
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -277,7 +326,7 @@ export const columns: ColumnDef<Venue>[] = [
         style: 'currency',
         currency: 'USD',
       }).format(parseInt(row.getValue('price'), 10));
-      return <div className="capitalize">{formatted}</div>;
+      return <div className="px-4 capitalize">{formatted}</div>;
     },
   },
   {
@@ -296,17 +345,13 @@ export const columns: ColumnDef<Venue>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/venues/${row.original.id}`}>View venue page</Link>
+              <Link href={`/venues/${row.original.id}`}>View</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <Separator />
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

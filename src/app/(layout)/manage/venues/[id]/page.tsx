@@ -1,15 +1,15 @@
+import { VenueGallery } from '@/app/(layout)/venues/[id]/VenueGallery';
 import { Debug } from '@/components/Debug';
+import { BookingCard } from '@/components/venue/BookingCard';
+import { DetailsPreview } from '@/components/venue/DetailsPreview';
+import { Location } from '@/components/venue/Location';
+import { OwnerCard } from '@/components/venue/OwnerCard';
+import { ReportDialog } from '@/components/venue/ReportDialog';
+import { VenueAmenitiesPreview } from '@/components/venue/VenueAmenitiesPreview';
 import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import { fetchVenueById } from '@/lib/services/venuesService';
 import { notFound } from 'next/navigation';
 import { z } from 'zod';
-import { BookingCard } from '../../../../components/venue/BookingCard';
-import { DetailsPreview } from '../../../../components/venue/DetailsPreview';
-import { Location } from '../../../../components/venue/Location';
-import { OwnerCard } from '../../../../components/venue/OwnerCard';
-import { ReportDialog } from '../../../../components/venue/ReportDialog';
-import { VenueAmenitiesPreview } from '../../../../components/venue/VenueAmenitiesPreview';
-import { VenueGallery } from './VenueGallery';
 
 type Props = {
   params: { id: string };
@@ -52,17 +52,10 @@ const VenuePage = async ({ params }: Props) => {
                 </div>
               </div>
             )}
-            <div className="grid gap-4">
-              <h3 className="text-xl font-semibold">About the Owner</h3>
-              <OwnerCard owner={venue.owner} />
-            </div>
           </div>
         </div>
 
-        <div className="row-start-1 grid gap-4 md:row-start-auto">
-          <BookingCard venue={venue} />
-          <ReportDialog />
-        </div>
+        <div className="row-start-1 grid gap-4 md:row-start-auto"></div>
       </section>
       <Location location={venue.location} />
     </div>

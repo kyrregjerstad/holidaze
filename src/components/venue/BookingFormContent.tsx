@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { formatUSD } from '@/lib/utils';
 import { useEffect } from 'react';
-import { DatePicker } from '../../../../components/DatePicker';
+import { DatePicker } from '../DatePicker';
 import { useBookingStore } from './bookingStore';
 
 type Props = {

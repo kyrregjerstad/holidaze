@@ -5,7 +5,7 @@ export const VenuesGridSkeleton = async () => {
   return (
     <div className="mt-8 grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: 6 }).map((_, index) => (
-        <SkeletonCard />
+        <SkeletonCard key={index} />
       ))}
     </div>
   );

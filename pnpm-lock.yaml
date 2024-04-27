@@ -125,6 +125,9 @@ dependencies:
   date-fns:
     specifier: ^3.6.0
     version: 3.6.0
+  effect:
+    specifier: ^3.0.7
+    version: 3.0.7
   embla-carousel-react:
     specifier: ^8.0.1
     version: 8.0.1(react@18.2.0)
@@ -3580,6 +3583,10 @@ packages:
     optionalDependencies:
       wcwidth: 1.0.1
     dev: true
+
+  /effect@3.0.7:
+    resolution: {integrity: sha512-VlEpWUc3IBc7k9NUdsdbh7cnGFNIdMpIoUFbbiVkt304d40pSr6Zadnr5Tk8m1cniqOLo4SXSZLw0M6f7N17Hg==}
+    dev: false
 
   /electron-to-chromium@1.4.729:
     resolution: {integrity: sha512-bx7+5Saea/qu14kmPTDHQxkp2UnziG3iajUQu3BxFvCOnpAJdDbMV4rSl+EqFDkkpNNVUFlR1kDfpL59xfy1HA==}

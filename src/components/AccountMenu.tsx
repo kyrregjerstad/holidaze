@@ -43,14 +43,14 @@ export const AccountMenu = ({ user }: Props) => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/bookings" className="flex cursor-pointer gap-1">
+          <Link href="/manage/bookings" className="flex cursor-pointer gap-1">
             <FolderOpenIcon size={18} />
             My Bookings
           </Link>
         </DropdownMenuItem>
         {user.isVenueManager && (
           <DropdownMenuItem asChild>
-            <Link href="/venues" className="flex cursor-pointer gap-1">
+            <Link href="/manage/venues" className="flex cursor-pointer gap-1">
               <HomeIcon size={18} />
               My Venues
             </Link>
