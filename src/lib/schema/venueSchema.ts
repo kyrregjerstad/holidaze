@@ -11,7 +11,7 @@ export const locationSchema = z.object({
 });
 
 export const amenitiesSchema = z.object({
-  wifi: z.boolean().nullish(),
+  wifi: z.boolean(),
   parking: z.boolean(),
   breakfast: z.boolean(),
   pets: z.boolean(),
@@ -76,3 +76,12 @@ export const venueSchemaWithBookings = venueSchema.extend({
 });
 
 export type VenueWithBookings = z.infer<typeof venueSchemaWithBookings>;
+
+export const createVenueSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  price: z.number(),
+  maxGuests: z.number(),
+  meta: amenitiesSchema,
+  location: locationSchema,
+});

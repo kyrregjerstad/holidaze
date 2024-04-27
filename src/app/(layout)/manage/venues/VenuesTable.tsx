@@ -94,18 +94,18 @@ export const VenuesTable = ({ venues }: Props) => {
   return (
     <div className="w-full p-4">
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter by name..."
-          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('name')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <div className="ml-auto flex items-center gap-4">
+        <div className="flex gap-2">
+          <Input
+            placeholder="Filter by name..."
+            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+            onChange={(event) =>
+              table.getColumn('name')?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto flex gap-2">
+              <Button variant="outline" className="flex gap-2">
                 <span>Columns</span>
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
@@ -130,6 +130,8 @@ export const VenuesTable = ({ venues }: Props) => {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
+        </div>
+        <div className="ml-auto flex items-center gap-4">
           <Link href="/manage/venues/new" className={buttonVariants()}>
             Add Venue
           </Link>
