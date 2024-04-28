@@ -1,19 +1,11 @@
 'use client';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
 import {
+  Card,
   CardContent,
   CardFooter,
-  Card,
   CardHeader,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { createVenueSchema } from '@/lib/schema/venueSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
   FormField,
@@ -21,37 +13,79 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  createVenueSchema,
+  createVenueSchemaFlattened,
+} from '@/lib/schema/venueSchema';
+import { CreateVenue } from '@/lib/services/venuesService';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-export const NewVenueForm = () => {
-  const form = useForm<z.infer<typeof createVenueSchema>>({
-    resolver: zodResolver(createVenueSchema),
+type Props = {
+  submitFn: (data: z.infer<typeof createVenueSchema>) => Promise<CreateVenue>;
+};
+
+export const NewVenueForm = ({ submitFn }: Props) => {
+  const form = useForm<z.infer<typeof createVenueSchemaFlattened>>({
+    resolver: zodResolver(createVenueSchemaFlattened),
     defaultValues: {
       name: '',
       description: '',
       price: 0,
       maxGuests: 0,
-      meta: {
-        wifi: false,
-        parking: false,
-        breakfast: false,
-        pets: false,
-      },
-      location: {
-        address: '',
-        city: '',
-        zip: '',
-        country: '',
-        continent: '',
-        lat: 0,
-        lng: 0,
-      },
+
+      wifi: false,
+      parking: false,
+      breakfast: false,
+      pets: false,
+
+      address: '',
+      city: '',
+      zip: '',
+      country: '',
+      continent: '',
+      lat: 0,
+      lng: 0,
     },
   });
+
+  const onSubmit = async (data: z.infer<typeof createVenueSchemaFlattened>) => {
+    const transformedData = {
+      ...data,
+      meta: {
+        wifi: data.wifi,
+        parking: data.parking,
+        breakfast: data.breakfast,
+        pets: data.pets,
+      },
+      location: {
+        address: data.address,
+        city: data.city,
+        zip: data.zip,
+        country: data.country,
+        continent: data.continent,
+        lat: data.lat,
+        lng: data.lng,
+      },
+    };
+
+    const res = await submitFn(transformedData);
+
+    if (res.error) {
+      form.setError('root', { message: res.error.message });
+      return;
+    }
+  };
 
   return (
     <Card>
       <Form {...form}>
-        <form>
+        <form onSubmit={form.handleSubmit(onSubmit)} method="POST">
           <CardHeader />
           <CardContent className="space-y-8">
             {form.formState.errors.root && (
@@ -124,33 +158,70 @@ export const NewVenueForm = () => {
                 )}
               />
             </div>
-
-            <FormField
-              name="meta"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Amenities</FormLabel>
-                  <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid w-fit grid-cols-2 gap-y-8">
+              <FormField
+                name="wifi"
+                render={({ field }) => (
+                  <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch id="wifi" {...field} />
+                      <Switch
+                        id="wifi"
+                        {...field}
+                        onCheckedChange={field.onChange}
+                      />
                       <Label htmlFor="wifi">Wifi</Label>
                     </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="parking"
+                render={({ field }) => (
+                  <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch id="parking" {...field} />
+                      <Switch
+                        id="parking"
+                        {...field}
+                        onCheckedChange={field.onChange}
+                      />
                       <Label htmlFor="parking">Parking</Label>
                     </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="breakfast"
+                render={({ field }) => (
+                  <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch id="breakfast" {...field} />
+                      <Switch
+                        id="breakfast"
+                        {...field}
+                        onCheckedChange={field.onChange}
+                      />
                       <Label htmlFor="breakfast">Breakfast</Label>
                     </div>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                name="pets"
+                render={({ field }) => (
+                  <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch id="pets" {...field} />
+                      <Switch
+                        id="pets"
+                        {...field}
+                        onCheckedChange={field.onChange}
+                      />
                       <Label htmlFor="pets">Pets Allowed</Label>
                     </div>
-                  </div>
-                </FormItem>
-              )}
-            />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               name="location"
               render={({ field }) => (

@@ -85,3 +85,26 @@ export const createVenueSchema = z.object({
   meta: amenitiesSchema,
   location: locationSchema,
 });
+
+export const createVenueSchemaBase = z.object({
+  name: z
+    .string()
+    .min(3, 'Name must be at least 3 characters')
+    .max(255, 'Name must be at most 255 characters'),
+  description: z
+    .string()
+    .min(10, 'Description must be at least 10 characters')
+    .max(500, 'Description must be at most 500 characters'),
+  price: z.coerce
+    .number()
+    .min(1, 'Price must be more than $1')
+    .max(10000, 'Price must be less than $10,000'),
+  maxGuests: z.coerce
+    .number()
+    .min(1, 'Minimum 1 guest')
+    .max(100, 'Max 100 guests'),
+});
+
+export const createVenueSchemaFlattened = createVenueSchemaBase
+  .merge(amenitiesSchema)
+  .merge(locationSchema);

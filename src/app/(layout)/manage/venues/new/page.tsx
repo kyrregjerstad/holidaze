@@ -1,6 +1,13 @@
+import { z } from 'zod';
 import { NewVenueForm } from './NewVenueForm';
+import { fetchCreateVenue } from '@/lib/services/venuesService';
+import { createVenueSchema } from '@/lib/schema/venueSchema';
 
 const CreateNewVenuePage = async () => {
+  const submitFn = async (data: z.infer<typeof createVenueSchema>) => {
+    'use server';
+    return fetchCreateVenue(data);
+  };
   return (
     <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
       <div className="py-8">
@@ -12,7 +19,7 @@ const CreateNewVenuePage = async () => {
             Add details for your new holiday home listing.
           </p>
         </div>
-        <NewVenueForm />
+        <NewVenueForm submitFn={submitFn} />
       </div>
     </div>
   );
