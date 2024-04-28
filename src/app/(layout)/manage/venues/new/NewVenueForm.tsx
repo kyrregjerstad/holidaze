@@ -1,4 +1,6 @@
 'use client';
+
+import { OurFileRouter } from '@/app/api/uploadthing/core';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -22,6 +24,7 @@ import {
   createVenueSchemaFlattened,
 } from '@/lib/schema/venueSchema';
 import { CreateVenue } from '@/lib/services/venuesService';
+import { UploadButton } from '@/lib/utils/uploadthing';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -55,7 +58,7 @@ export const NewVenueForm = ({ submitFn }: Props) => {
   });
 
   const onSubmit = async (data: z.infer<typeof createVenueSchemaFlattened>) => {
-    const transformedData = {
+    const res = await submitFn({
       ...data,
       meta: {
         wifi: data.wifi,
@@ -72,9 +75,7 @@ export const NewVenueForm = ({ submitFn }: Props) => {
         lat: data.lat,
         lng: data.lng,
       },
-    };
-
-    const res = await submitFn(transformedData);
+    });
 
     if (res.error) {
       form.setError('root', { message: res.error.message });
@@ -93,6 +94,10 @@ export const NewVenueForm = ({ submitFn }: Props) => {
                 {form.formState.errors.root.message}
               </p>
             )}
+            <UploadButton<OurFileRouter>
+              endpoint="imageUploader"
+              onUploadComplete={(files) => console.log('files', files)}
+            />
             <FormField
               name="image"
               render={({ field }) => (
