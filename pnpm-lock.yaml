@@ -113,6 +113,9 @@ dependencies:
   '@uploadthing/svelte':
     specifier: ^6.4.1
     version: 6.4.1(react@18.2.0)(svelte@4.2.15)(uploadthing@6.10.0)
+  '@vis.gl/react-google-maps':
+    specifier: ^0.9.0
+    version: 0.9.0(react-dom@18.2.0)(react@18.2.0)
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
@@ -2950,6 +2953,18 @@ packages:
       - '@uploadthing/mime-types'
       - react
       - solid-js
+    dev: false
+
+  /@vis.gl/react-google-maps@0.9.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-wgErgurwc6Tqu8Ic10F6oNe39FgSmEz3z2zu2h0wgJGD0wMaNobd5uuleoMklGZMycXrYhSecJw9Tlp/Z/UEoQ==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@types/google.maps': 3.55.2
+      fast-deep-equal: 3.1.3
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@zkochan/retry@0.2.0:

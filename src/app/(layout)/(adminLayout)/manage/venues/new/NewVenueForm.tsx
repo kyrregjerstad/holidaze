@@ -1,5 +1,8 @@
 'use client';
 
+import { APIProvider } from '@vis.gl/react-google-maps';
+
+import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { ImageUploader } from '@/components/ImageUploader';
 import { Button } from '@/components/ui/button';
 import {
@@ -26,10 +29,17 @@ import {
 import { CreateVenue } from '@/lib/services/venuesService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { XIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+/* 
+TODO: 
+- transform the address returned from google map into the format the API expects
+- currently, lat and lng are excluded. Should they be included?
+- we need to find a way to map over the returned address and extract the necessary fields for the API
+- accessibility could also be improved, with keyboard navigation.
+*/
 type Props = {
   submitFn: (data: z.infer<typeof createVenueSchema>) => Promise<CreateVenue>;
 };
@@ -250,20 +260,13 @@ export const NewVenueForm = ({ submitFn }: Props) => {
                 )}
               />
             </div>
-
-            <FormField
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Location</FormLabel>
-                  <Input
-                    placeholder="Enter the location of your venue"
-                    {...field}
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <APIProvider
+              apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}
+            >
+              <AddressAutocomplete
+                onPlaceSelect={(place) => console.log(place)}
+              />
+            </APIProvider>
           </CardContent>
           <CardFooter>
             <Button className="ml-auto" disabled={form.formState.isSubmitting}>
