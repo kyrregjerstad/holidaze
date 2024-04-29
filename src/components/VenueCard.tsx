@@ -1,11 +1,12 @@
 import {
   Card,
   CardContent,
-  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
 import { venueSchema } from '@/lib/schema/venueSchema';
+import { formatUSD } from '@/lib/utils';
 import Link from 'next/link';
 import { z } from 'zod';
 import { VenueCardImage } from './VenueCardImage';
@@ -16,9 +17,9 @@ export const VenueCard = ({
   venue: z.infer<typeof venueSchema>;
 }) => {
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <Link href={`/venues/${venue.id}`} className="group cursor-pointer">
-        <CardHeader>
+        <CardHeader className=" p-0 pb-2">
           <div className="overflow-hidden">
             <VenueCardImage
               url={venue.media?.at(0)?.url}
@@ -27,13 +28,22 @@ export const VenueCard = ({
             />
           </div>
         </CardHeader>
-        <CardContent>
-          <CardTitle>{venue.name}</CardTitle>
-          <CardDescription>{venue.description}</CardDescription>
-          <span className="mt-4 inline-flex items-center font-semibold group-hover:underline">
-            View Details
-          </span>
+        <CardContent className="px-4 py-2">
+          <CardTitle className="group-hover:underline">{venue.name}</CardTitle>
+          {venue.location.city && venue.location.country ? (
+            <span className="text-sm">
+              {venue.location.city}, {venue.location.country}
+            </span>
+          ) : (
+            <div className="py-3"></div>
+          )}
         </CardContent>
+        <CardFooter className="p-4 pt-0">
+          <div className="flex flex-col items-center justify-between">
+            <span>{formatUSD(venue.price)} per night</span>
+          </div>
+          <div></div>
+        </CardFooter>
       </Link>
     </Card>
   );

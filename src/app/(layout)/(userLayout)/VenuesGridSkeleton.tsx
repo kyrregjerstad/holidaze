@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export const VenuesGridSkeleton = async () => {
   return (
-    <div className="mt-8 grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="mt-8 grid gap-x-6 gap-y-12 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {Array.from({ length: 6 }).map((_, index) => (
         <SkeletonCard key={index} />
       ))}
@@ -13,11 +13,11 @@ export const VenuesGridSkeleton = async () => {
 
 const SkeletonCard = () => {
   return (
-    <Card>
-      <CardHeader>
+    <Card className="overflow-hidden">
+      <CardHeader className=" p-0 pb-2">
         <Skeleton className="h-48 w-full" />
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-4 py-2">
         <CardTitle>
           <Skeleton className="mb-2 h-8 w-1/2" />
         </CardTitle>

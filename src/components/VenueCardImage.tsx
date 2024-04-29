@@ -12,7 +12,7 @@ export const VenueCardImage = ({
   return (
     <img
       alt={`Holidaze featured Home: ${name} - ${description}`}
-      className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      className="aspect-square size-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
       height="200"
       src={url || '/holidaze-fallback-square.webp'}
       onError={(e) => {
