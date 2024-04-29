@@ -1,6 +1,6 @@
 'use client';
 
-import { OurFileRouter } from '@/app/api/uploadthing/core';
+import { ImageUploader } from '@/components/ImageUploader';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -24,8 +24,9 @@ import {
   createVenueSchemaFlattened,
 } from '@/lib/schema/venueSchema';
 import { CreateVenue } from '@/lib/services/venuesService';
-import { UploadButton } from '@/lib/utils/uploadthing';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { XIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -56,6 +57,9 @@ export const NewVenueForm = ({ submitFn }: Props) => {
       lng: 0,
     },
   });
+
+  const [images, setImages] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
 
   const onSubmit = async (data: z.infer<typeof createVenueSchemaFlattened>) => {
     const res = await submitFn({
@@ -94,22 +98,42 @@ export const NewVenueForm = ({ submitFn }: Props) => {
                 {form.formState.errors.root.message}
               </p>
             )}
-            <UploadButton<OurFileRouter>
-              endpoint="imageUploader"
-              onUploadComplete={(files) => console.log('files', files)}
-            />
-            <FormField
-              name="image"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Image</FormLabel>
-                  <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Input type="file" {...field} />
-                  </div>
-                  <FormMessage />
-                </FormItem>
+            {images.length < 8 && (
+              <ImageUploader
+                files={files}
+                setFiles={setFiles}
+                uploadedImages={images}
+                setUploadedImages={setImages}
+              />
+            )}
+            <div className="grid grid-cols-4 gap-2">
+              {images.length > 0 && (
+                <>
+                  {images.map((url) => (
+                    <div
+                      key={url}
+                      className="group relative aspect-square overflow-hidden rounded-sm"
+                    >
+                      <Button
+                        variant="ghost"
+                        className="absolute right-0 top-0 size-8 p-0 opacity-50 group-hover:bg-background group-hover:opacity-100"
+                        type="button"
+                        onClick={() => {
+                          setImages(images.filter((img) => img !== url));
+                        }}
+                      >
+                        <XIcon className="text-red-600" />
+                      </Button>
+                      <img
+                        src={url}
+                        alt="venue"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </>
               )}
-            />
+            </div>
             <FormField
               name="name"
               render={({ field }) => (

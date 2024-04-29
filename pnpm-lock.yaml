@@ -108,8 +108,8 @@ dependencies:
     specifier: ^8.16.0
     version: 8.16.0(react-dom@18.2.0)(react@18.2.0)
   '@uploadthing/react':
-    specifier: ^6.4.4
-    version: 6.4.4(next@14.3.0-canary.29)(react@18.2.0)(svelte@4.2.15)(uploadthing@6.10.0)
+    specifier: ^6.5.0
+    version: 6.5.0(fast-check@3.18.0)(next@14.3.0-canary.29)(react@18.2.0)(svelte@4.2.15)(uploadthing@6.10.0)
   '@uploadthing/svelte':
     specifier: ^6.4.1
     version: 6.4.1(react@18.2.0)(svelte@4.2.15)(uploadthing@6.10.0)
@@ -2857,22 +2857,44 @@ packages:
       svelte: 4.2.15
     dev: false
 
+  /@uploadthing/dropzone@0.4.0(react@18.2.0)(svelte@4.2.15):
+    resolution: {integrity: sha512-IZmmUu3vSSmUoToSf6CTprSlMJuQ2n75u7XcXrNjPG4TgyQpSiYPKqkdHV2/JPzsXfzITM+i3SPW5Ez3fdGQnA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      solid-js: ^1.7.11
+      svelte: ^4.2.12
+      vue: ^3.4.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      solid-js:
+        optional: true
+      svelte:
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      file-selector: 0.6.0
+      react: 18.2.0
+      svelte: 4.2.15
+    dev: false
+
   /@uploadthing/mime-types@0.2.8:
     resolution: {integrity: sha512-x+OhjdgC+FXzIScuVDzWxUpPKRjq/WiXNh6bUz1pNAHsb7ecKhxHUfhdWg8+YkO32kDs8TCuMN1bVWTyJYDMQA==}
     dev: false
 
-  /@uploadthing/react@6.4.4(next@14.3.0-canary.29)(react@18.2.0)(svelte@4.2.15)(uploadthing@6.10.0):
-    resolution: {integrity: sha512-/sE1BbtMNhL9YuIppI2eieMdvjWBCtP+zxjtwGD13kpTJcW7E8GytWTQcdXamURVHUgFH2n1Gsfxf0OWC9rdhA==}
+  /@uploadthing/react@6.5.0(fast-check@3.18.0)(next@14.3.0-canary.29)(react@18.2.0)(svelte@4.2.15)(uploadthing@6.10.0):
+    resolution: {integrity: sha512-Mapjyl897k93b7SRi5A+Ez4hOpBrgu0vgRFbM2Ni/2GIul1jdJVebcOJ0LDB9TAZmQ4G4sMgL7h1QlfDUBSvlg==}
     peerDependencies:
       next: '*'
       react: ^17.0.2 || ^18.0.0
-      uploadthing: 6.9.0
+      uploadthing: 6.10.0
     peerDependenciesMeta:
       next:
         optional: true
     dependencies:
-      '@uploadthing/dropzone': 0.3.1(react@18.2.0)(svelte@4.2.15)
-      '@uploadthing/shared': 6.6.0
+      '@uploadthing/dropzone': 0.4.0(react@18.2.0)(svelte@4.2.15)
+      '@uploadthing/shared': 6.7.0(@uploadthing/mime-types@0.2.8)(fast-check@3.18.0)
       file-selector: 0.6.0
       next: 14.3.0-canary.29(@babel/core@7.24.4)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -2880,8 +2902,10 @@ packages:
       uploadthing: 6.10.0(fast-check@3.18.0)(next@14.3.0-canary.29)(tailwindcss@3.4.3)
     transitivePeerDependencies:
       - '@uploadthing/mime-types'
+      - fast-check
       - solid-js
       - svelte
+      - vue
     dev: false
 
   /@uploadthing/shared@6.6.0:
