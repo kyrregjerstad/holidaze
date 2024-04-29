@@ -6,7 +6,7 @@ import { KeyboardEvent, useState } from 'react';
 import { DatePicker } from '@/components/DatePicker';
 
 import { useRouter } from 'next/navigation';
-import { useBookingStore } from '../../../components/venue/bookingStore';
+import { useBookingStore } from '../../../../components/venue/bookingStore';
 import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
 import { TimerResetIcon, RotateCcwIcon } from 'lucide-react';
