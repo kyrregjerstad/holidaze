@@ -85,8 +85,8 @@ const ManagerPage = ({
         />
       </div>
       <section className="w-full">
-        <div className="mt-6 flex flex-col gap-6 sm:flex-row">
-          <div className="flex w-full items-center gap-4">
+        <div className="mt-6 flex flex-col gap-6 ">
+          <div className="flex w-full items-center gap-4 sm:flex-row">
             <Avatar className="size-32 border">
               <AvatarImage
                 alt={profile.avatar?.alt || undefined}
