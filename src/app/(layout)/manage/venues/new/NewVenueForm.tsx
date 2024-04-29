@@ -106,8 +106,8 @@ export const NewVenueForm = ({ submitFn }: Props) => {
                 setUploadedImages={setImages}
               />
             )}
-            <div className="grid grid-cols-4 gap-2">
-              {images.length > 0 && (
+            {images.length > 0 && (
+              <div className="grid grid-cols-4 gap-2">
                 <>
                   {images.map((url) => (
                     <div
@@ -132,8 +132,8 @@ export const NewVenueForm = ({ submitFn }: Props) => {
                     </div>
                   ))}
                 </>
-              )}
-            </div>
+              </div>
+            )}
             <FormField
               name="name"
               render={({ field }) => (

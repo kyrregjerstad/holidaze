@@ -3,6 +3,7 @@ import { useDropzone } from '@uploadthing/react';
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { generateClientDropzoneAccept } from 'uploadthing/client';
 import { Progress } from './ui/progress';
+import { Label } from './ui/label';
 
 type Props = {
   files: File[];
@@ -60,18 +61,21 @@ export const ImageUploader = ({
   });
 
   return (
-    <div
-      {...getRootProps()}
-      className="focus: group flex min-h-20 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-4 text-center shadow-inner transition-all hover:border-gray-500"
-    >
-      <input {...getInputProps()} />
-      <p>
-        {uploadedImages.length} out of {maxFiles} files
-      </p>
-      <p className="text-neutral-500 group-hover:text-foreground">
-        Drag and drop files here or click to select
-      </p>
-      <Progress value={progress} className="mt-2 h-2" />
+    <div>
+      <Label htmlFor="file-upload">Images</Label>
+      <div
+        {...getRootProps()}
+        className="focus: group flex min-h-20 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-4 text-center shadow-inner transition-all hover:border-gray-500"
+      >
+        <input {...getInputProps()} id="file-upload" />
+        <p>
+          {uploadedImages.length} out of {maxFiles} files
+        </p>
+        <p className="text-neutral-500 group-hover:text-foreground">
+          Drag and drop files here or click to select
+        </p>
+        <Progress value={progress} className="mt-2 h-2" />
+      </div>
     </div>
   );
 };
