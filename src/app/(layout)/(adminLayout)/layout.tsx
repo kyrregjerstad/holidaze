@@ -2,7 +2,7 @@ import { Header } from '@/components/Header';
 import { CalendarIcon, HomeIcon, NotepadTextIcon } from 'lucide-react';
 import Link from 'next/link';
 
-export default function RootLayout({
+export default function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
