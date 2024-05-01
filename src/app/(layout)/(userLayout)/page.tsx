@@ -7,14 +7,21 @@ import { VenuesGridSkeleton } from './VenuesGridSkeleton';
 export default async function HomePage() {
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
-        <div className="container px-4 md:px-6">
+      <section className="relative flex min-h-[80dvh] w-full flex-col items-center justify-center">
+        <div className="absolute top-0 h-full w-full overflow-hidden">
+          <img
+            src="/assets/holidaze-bg-2.webp"
+            alt=""
+            className="left-0 right-0 h-full w-full object-cover opacity-50 blur-sm"
+          />
+        </div>
+        <div className="container relative z-10 px-4 md:px-6">
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
                 Holidaze
               </h1>
-              <p className="mx-auto max-w-[700px] text-gray-500 dark:text-gray-400 md:text-xl">
+              <p className="mx-auto max-w-[700px] text-gray-600 dark:text-gray-400 md:text-xl">
                 Your Gateway to Unforgettable Getaways
               </p>
             </div>
@@ -22,7 +29,7 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      <section className="w-full py-12 md:py-24 lg:py-32">
+      <section className="w-full pt-12">
         <div className="px-4">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
             Featured Homes
