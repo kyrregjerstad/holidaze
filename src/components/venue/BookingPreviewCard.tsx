@@ -1,45 +1,56 @@
-'use client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { venueSchemaExtended } from '@/lib/schema/venueSchema';
+import { getUserFromCookie } from '@/lib/utils/cookies';
+import { differenceInDays, parseISO } from 'date-fns';
 
 import { z } from 'zod';
+import { Badge } from '../ui/badge';
 
 type Props = {
   venue: z.infer<typeof venueSchemaExtended>;
 };
 export const BookingPreviewCard = ({ venue }: Props) => {
-  const today = new Date();
-  const tomorrow = new Date(today);
+  const user = getUserFromCookie();
+
+  if (!user || !user.name) {
+    return null;
+  }
+
+  const nextUserBooking = venue.bookings.find(
+    (booking) => booking.customer.name === user.name
+  );
+
+  if (!nextUserBooking) {
+    return null;
+  }
+
+  const amountOfDays = differenceInDays(
+    parseISO(nextUserBooking.dateTo),
+    parseISO(nextUserBooking.dateFrom)
+  );
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="">
         <CardTitle>
-          ${venue.price}
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            /night
+          <span className="block text-lg font-normal">
+            Your upcoming booking at
           </span>
+          <span>{venue.name}</span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-6"></CardContent>
+      <CardContent>
+        <div className="pb-4 text-lg">
+          {parseISO(nextUserBooking.dateFrom).toDateString()} -{' '}
+          {parseISO(nextUserBooking.dateTo).toDateString()}
+        </div>
+        <div className="flex gap-2 pt-2">
+          <Badge className="px-4 py-2">
+            {amountOfDays} night{amountOfDays > 1 ? 's' : ''}
+          </Badge>
+          <Badge className="px-4 py-2">{nextUserBooking.guests} guests</Badge>
+        </div>
+      </CardContent>
     </Card>
   );
 };
-
-function extractBookedDates(bookings: { dateFrom: string; dateTo: string }[]) {
-  return bookings.flatMap(({ dateFrom, dateTo }) => {
-    const start = new Date(dateFrom);
-    const end = new Date(dateTo);
-    return generateDates(start, end);
-  });
-}
-
-function generateDates(start: Date, end: Date): Date[] {
-  if (start > end) {
-    return [];
-  } else {
-    const nextDate = new Date(start);
-    nextDate.setDate(nextDate.getDate() + 1);
-    return [new Date(start), ...generateDates(nextDate, end)];
-  }
-}

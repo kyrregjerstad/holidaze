@@ -13,8 +13,6 @@ export function getUserFromCookie() {
 
   const validation = userCookieSchema.safeParse(userData);
 
-  console.log(validation);
-
   if (!validation.success) {
     return null;
   }

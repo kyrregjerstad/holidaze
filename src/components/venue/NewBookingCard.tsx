@@ -47,6 +47,11 @@ export const NewBookingCard = ({ venue }: Props) => {
 
   const totalPrice = venue.price * amountOfDays;
 
+  const onSuccess = () => {
+    setStartDate(undefined, bookedDates);
+    setEndDate(undefined, bookedDates);
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -119,6 +124,7 @@ export const NewBookingCard = ({ venue }: Props) => {
               endDate={endDate}
               amountOfDays={amountOfDays}
               totalPrice={totalPrice}
+              onSuccess={onSuccess}
             >
               <DrawerTrigger
                 className={buttonVariants({ className: 'w-full' })}

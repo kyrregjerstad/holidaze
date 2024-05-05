@@ -11,10 +11,11 @@ import {
 import { fetchCreateBooking } from '@/lib/services/bookingService';
 import { Venue } from '@/lib/services/venuesService';
 import { formatUSD } from '@/lib/utils';
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 import { Badge } from './ui/badge';
 import { Button, buttonVariants } from './ui/button';
 import { useToast } from './ui/use-toast';
+import { revalidateVenue } from '@/lib/utils/revalidateVenue';
 
 type Props = {
   venue: Venue;
@@ -23,6 +24,7 @@ type Props = {
   endDate: Date | undefined;
   totalPrice: number;
   amountOfDays: number;
+  onSuccess: () => void;
   children: ReactNode;
 };
 
@@ -33,14 +35,19 @@ export const BookingDrawer = ({
   endDate,
   totalPrice,
   amountOfDays,
+  onSuccess,
   children,
 }: Props) => {
   const closeDrawerRef = useRef<HTMLButtonElement | null>(null);
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = async () => {
     if (!startDate || !endDate) {
       return;
     }
+
+    setIsSubmitting(true);
     const res = await fetchCreateBooking({
       dateFrom: startDate.toISOString(),
       dateTo: endDate.toISOString(),
@@ -49,7 +56,6 @@ export const BookingDrawer = ({
     });
 
     if (res.status === 200 && res.error === null) {
-      console.log('Booking successful');
       closeDrawerRef.current?.click();
 
       // Show toast after drawer has closed
@@ -60,6 +66,8 @@ export const BookingDrawer = ({
           duration: 8000,
         });
       }, 500);
+
+      onSuccess();
     } else {
       console.error('Booking failed', res.error);
       closeDrawerRef.current?.click();
@@ -74,6 +82,9 @@ export const BookingDrawer = ({
         });
       }, 500);
     }
+
+    setIsSubmitting(false);
+    revalidateVenue(venue.id);
   };
   return (
     <Drawer>
@@ -120,7 +131,9 @@ export const BookingDrawer = ({
             >
               Cancel
             </DrawerClose>
-            <Button className="flex-1">Confirm</Button>
+            <Button className="flex-1" disabled={isSubmitting}>
+              Confirm
+            </Button>
           </DrawerFooter>
         </form>
       </DrawerContent>

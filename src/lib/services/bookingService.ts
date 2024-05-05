@@ -6,6 +6,7 @@ import { useFetch } from '../hooks/useFetch';
 import { createApiResponseSchema } from '../schema/apiSchema';
 import { bookingReturnSchema } from '../schema/bookingSchema';
 import { createUrl } from '../utils';
+import { revalidatePath } from 'next/cache';
 
 type BookVenue = {
   dateFrom: string;
@@ -40,8 +41,6 @@ export async function fetchCreateBooking(data: BookVenue) {
       body: JSON.stringify({ ...data }),
     },
   });
-
-  console.log('res', res);
 
   if (!res) return { venue: null, error, status };
 
