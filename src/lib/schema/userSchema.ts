@@ -15,6 +15,7 @@ export const registerUserSchema = z.object({
       'Only @noroff.no and @stud.noroff.no emails are allowed'
     ),
   password: z.string().min(8, 'Password must be at least 8 characters'),
+  venueManager: z.boolean().default(false),
   bio: z.string().min(3).nullish(),
   avatar: z
     .object({

@@ -1,5 +1,4 @@
 import { fetchAllVenues } from '@/lib/services/venuesService';
-import React from 'react';
 import { VenueCard } from '../VenueCard';
 
 export const RelatedVenues = async ({ venueId }: { venueId: string }) => {

@@ -24,6 +24,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 
 type Props = {
   onSuccess: () => Promise<void>;
@@ -40,16 +42,8 @@ export const RegisterForm = ({ onSuccess }: Props) => {
     },
   });
 
-  const onSubmit = async ({
-    name,
-    email,
-    password,
-  }: z.infer<typeof registerUserSchema>) => {
-    const { res, error: registerError } = await fetchRegisterUser({
-      name,
-      email,
-      password,
-    });
+  const onSubmit = async (data: z.infer<typeof registerUserSchema>) => {
+    const { res, error: registerError } = await fetchRegisterUser(data);
 
     if (registerError) {
       console.error('API RESPONSE: ', registerError);
@@ -64,7 +58,10 @@ export const RegisterForm = ({ onSuccess }: Props) => {
       return;
     }
 
-    const { user, error: loginError } = await handleLoginApi(email, password);
+    const { user, error: loginError } = await handleLoginApi(
+      data.email,
+      data.password
+    );
 
     if (loginError) {
       form.setError('root', { message: loginError });
@@ -136,6 +133,14 @@ export const RegisterForm = ({ onSuccess }: Props) => {
                   </FormItem>
                 )}
               />
+              <Label className="flex items-center gap-2">
+                <Input
+                  type="checkbox"
+                  {...form.register('venueManager')}
+                  className="size-4"
+                />
+                I'm a venue manager
+              </Label>
               <Button
                 type="submit"
                 disabled={form.formState.isSubmitting}
