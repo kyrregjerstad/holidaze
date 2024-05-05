@@ -29,10 +29,10 @@ const VenuePage = async ({ params }: Props) => {
   );
 
   return (
-    <div className="mx-auto max-w-6xl p-4 sm:py-8 md:py-10 lg:px-6">
+    <div className="mx-auto w-full max-w-6xl p-4 sm:py-8 md:py-10 lg:px-6">
       <Debug data={venue} />
       <VenueGallery images={venue.media} />
-      <section className="grid items-start gap-8 py-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-[1fr_400px]">
+      <section className="grid w-full items-start gap-8 py-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-[1fr_400px]">
         <div className="row-start-2 grid gap-8 md:row-start-auto">
           <div className="hidden flex-col gap-1 md:flex">
             <h2 className="pb-6 text-5xl font-semibold">{venue.name}</h2>

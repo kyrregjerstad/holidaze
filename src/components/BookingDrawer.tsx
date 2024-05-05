@@ -98,7 +98,7 @@ export const BookingDrawer = ({
           <DrawerHeader className="flex flex-col">
             <div className="">
               <img
-                src={venue.media[0].url}
+                src={venue.media[0]?.url || '/holidaze-fallback-square.webp'}
                 alt=""
                 className="max-w-full overflow-hidden rounded-md"
               />
