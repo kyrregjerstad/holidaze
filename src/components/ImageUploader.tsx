@@ -65,7 +65,7 @@ export const ImageUploader = ({
       <Label htmlFor="file-upload">Images</Label>
       <div
         {...getRootProps()}
-        className="focus: group flex min-h-20 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-4 text-center shadow-inner transition-all hover:border-gray-500"
+        className="group flex min-h-20 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-4 text-center transition-all hover:border-gray-500"
       >
         <input {...getInputProps()} id="file-upload" />
         <p>

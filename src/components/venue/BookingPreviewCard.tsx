@@ -8,10 +8,9 @@ import { Badge } from '../ui/badge';
 
 type Props = {
   venue: z.infer<typeof venueSchemaExtended>;
+  user: { name: string } | null;
 };
-export const BookingPreviewCard = ({ venue }: Props) => {
-  const user = getUserFromCookie();
-
+export const BookingPreviewCard = ({ venue, user }: Props) => {
   if (!user || !user.name) {
     return null;
   }

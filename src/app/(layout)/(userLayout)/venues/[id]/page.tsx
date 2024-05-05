@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Debug } from '@/components/Debug';
 import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
-import { fetchVenueById } from '@/lib/services/venuesService';
+import { Venue, fetchVenueById } from '@/lib/services/venuesService';
 import { notFound } from 'next/navigation';
 import { z } from 'zod';
 import { DetailsPreview } from '@/components/venue/DetailsPreview';
@@ -21,9 +21,21 @@ import { VenueGallery } from './VenueGallery';
 import { BookingPreviewCard } from '@/components/venue/BookingPreviewCard';
 import { RelatedVenues } from '@/components/venue/RelatedVenues';
 import { Suspense } from 'react';
+import { getUserFromCookie } from '@/lib/utils/cookies';
 
 type Props = {
   params: { id: string };
+};
+
+const InfoCards = (props: { venue: Venue }) => {
+  const user = getUserFromCookie();
+
+  return (
+    <div>
+      <BookingPreviewCard venue={props.venue} user={user} />
+      <NewBookingCard venue={props.venue} user={user} />
+    </div>
+  );
 };
 
 const VenuePage = async ({ params }: Props) => {
@@ -89,8 +101,9 @@ const VenuePage = async ({ params }: Props) => {
         </div>
 
         <div className="row-start-1 grid gap-4 md:row-start-auto">
-          <BookingPreviewCard venue={venue} />
-          <NewBookingCard venue={venue} />
+          <Suspense>
+            <InfoCards venue={venue} />
+          </Suspense>
           <ReportDialog />
         </div>
       </section>
