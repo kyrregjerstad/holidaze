@@ -2,9 +2,16 @@ import { fetchAllVenuesByProfile } from '@/lib/services/profileService';
 
 import { VenuesTable } from './VenuesTable';
 import { processVenue } from './processVenue';
+import { getUserFromCookie } from '@/lib/utils/cookies';
+import { notFound } from 'next/navigation';
 
 const ManageVenuesPage = async () => {
-  const { venues, error } = await fetchAllVenuesByProfile('kyrre');
+  const user = getUserFromCookie();
+
+  if (!user || !user.isVenueManager) {
+    notFound();
+  }
+  const { venues, error } = await fetchAllVenuesByProfile(user.name);
 
   if (error) {
     console.error(error);
