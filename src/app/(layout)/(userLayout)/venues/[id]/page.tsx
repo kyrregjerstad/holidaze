@@ -20,6 +20,7 @@ import { VenueAmenitiesPreview } from '@/components/venue/VenueAmenitiesPreview'
 import { VenueGallery } from './VenueGallery';
 import { BookingPreviewCard } from '@/components/venue/BookingPreviewCard';
 import { RelatedVenues } from '@/components/venue/RelatedVenues';
+import { Suspense } from 'react';
 
 type Props = {
   params: { id: string };
@@ -40,7 +41,9 @@ const VenuePage = async ({ params }: Props) => {
 
   return (
     <div className="mx-auto max-w-6xl px-4">
-      <Debug data={venue} />
+      <Suspense>
+        <Debug data={venue} />
+      </Suspense>
       <Breadcrumb className="py-8">
         <BreadcrumbList>
           <BreadcrumbItem>

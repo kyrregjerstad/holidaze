@@ -1,14 +1,12 @@
 import { VenueGallery } from '@/app/(layout)/(userLayout)/venues/[id]/VenueGallery';
 import { Debug } from '@/components/Debug';
-import { NewBookingCard } from '@/components/venue/NewBookingCard';
 import { DetailsPreview } from '@/components/venue/DetailsPreview';
 import { Location } from '@/components/venue/Location';
-import { OwnerCard } from '@/components/venue/OwnerCard';
-import { ReportDialog } from '@/components/venue/ReportDialog';
 import { VenueAmenitiesPreview } from '@/components/venue/VenueAmenitiesPreview';
 import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import { fetchVenueById } from '@/lib/services/venuesService';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { z } from 'zod';
 
 type Props = {
@@ -30,7 +28,9 @@ const VenuePage = async ({ params }: Props) => {
 
   return (
     <div className="mx-auto w-full max-w-6xl p-4 sm:py-8 md:py-10 lg:px-6">
-      <Debug data={venue} />
+      <Suspense>
+        <Debug data={venue} />
+      </Suspense>
       <VenueGallery images={venue.media} />
       <section className="grid w-full items-start gap-8 py-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-[1fr_400px]">
         <div className="row-start-2 grid gap-8 md:row-start-auto">

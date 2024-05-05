@@ -26,3 +26,5 @@ const CreateNewVenuePage = async () => {
 };
 
 export default CreateNewVenuePage;
+
+export const dynamic = 'force-dynamic';

@@ -3,16 +3,27 @@ import { buttonVariants } from '@/components/ui/button';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { HomeIcon } from 'lucide-react';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 export const Header = () => {
-  const user = getUserFromCookie();
-
   return (
     <header className="sticky top-0 z-50 flex h-14 items-center justify-between bg-background px-4 drop-shadow-sm lg:px-6">
       <Link className="flex items-center justify-center" href="/">
         <HomeIcon className="h-6 w-6" />
         <span className="sr-only">Holidaze</span>
       </Link>
+      <Suspense>
+        <HeaderContent />
+      </Suspense>
+    </header>
+  );
+};
+
+const HeaderContent = () => {
+  const user = getUserFromCookie();
+
+  return (
+    <>
       {user ? (
         <AccountMenu user={user} />
       ) : (
@@ -31,6 +42,6 @@ export const Header = () => {
           </Link>
         </div>
       )}
-    </header>
+    </>
   );
 };
