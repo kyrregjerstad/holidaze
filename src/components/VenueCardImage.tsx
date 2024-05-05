@@ -1,5 +1,8 @@
 'use client';
 
+import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
+import Image from 'next/image';
+
 export const VenueCardImage = ({
   url,
   name,
@@ -10,20 +13,16 @@ export const VenueCardImage = ({
   description: string;
 }) => {
   return (
-    <img
+    <Image
       alt={`Holidaze featured Home: ${name} - ${description}`}
-      className="aspect-square size-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-      height="200"
-      src={url || '/holidaze-fallback-square.webp'}
+      className="size-52 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      width="314"
+      height="192"
+      src={url || VENUE_FALLBACK_IMAGE}
       onError={(e) => {
         e.currentTarget.onerror = null;
-        e.currentTarget.src = '/holidaze-fallback-square.webp';
+        e.currentTarget.src = VENUE_FALLBACK_IMAGE.src;
       }}
-      style={{
-        aspectRatio: '300/200',
-        objectFit: 'cover',
-      }}
-      width="300"
     />
   );
 };

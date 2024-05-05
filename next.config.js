@@ -11,6 +11,14 @@ const coreConfig = {
   experimental: {
     ppr: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
   async rewrites() {
     return [
       {

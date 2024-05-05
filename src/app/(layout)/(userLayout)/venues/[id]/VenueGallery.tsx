@@ -1,7 +1,9 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 import { GripIcon } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -23,13 +25,14 @@ export const VenueGallery = ({ images }: Props) => {
             <DialogTrigger
               key={url}
               onClick={() => setSelectedImage({ url, alt })}
+              className="cursor-pointer"
             >
-              <img
+              <Image
                 alt={alt}
                 className="aspect-square object-cover"
                 height={600}
-                src={url}
                 width={600}
+                src={url}
               />
             </DialogTrigger>
           ))}
@@ -44,31 +47,15 @@ export const VenueGallery = ({ images }: Props) => {
         </Button>
       </section>
       <DialogContent className="w-full">
-        <div className="w-full">
-          <img
-            alt={selectedImage?.alt}
-            src={selectedImage?.url}
-            className="w-full"
+        <div className="aspect-video w-full">
+          <Image
+            alt={selectedImage?.alt || 'Selected image'}
+            src={selectedImage?.url || VENUE_FALLBACK_IMAGE}
+            fill
+            className="w-full object-cover"
           />
         </div>
       </DialogContent>
     </Dialog>
-  );
-};
-
-const ImagePreview = ({ image }: { image: { url: string; alt: string } }) => {
-  return (
-    <Link
-      className="relative overflow-hidden rounded-xl transition-all after:absolute after:inset-0 after:bg-black after:opacity-0 hover:after:opacity-20 focus:after:opacity-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 dark:focus-visible:ring-gray-300"
-      href="#"
-    >
-      <img
-        alt={image.alt}
-        className="aspect-square object-cover"
-        height={600}
-        src={image.url}
-        width={600}
-      />
-    </Link>
   );
 };

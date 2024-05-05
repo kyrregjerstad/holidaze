@@ -16,6 +16,8 @@ import { Badge } from './ui/badge';
 import { Button, buttonVariants } from './ui/button';
 import { useToast } from './ui/use-toast';
 import { revalidateVenue } from '@/lib/utils/revalidateVenue';
+import Image from 'next/image';
+import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 
 type Props = {
   venue: Venue;
@@ -89,18 +91,20 @@ export const BookingDrawer = ({
   return (
     <Drawer>
       <>{children}</>
-      <DrawerContent className="mx-auto max-w-3xl pb-8">
+      <DrawerContent className="mx-auto max-w-3xl pb-8 ">
         <form
           action={async () => {
             await handleSubmit();
           }}
         >
-          <DrawerHeader className="flex flex-col">
-            <div className="">
-              <img
-                src={venue.media[0]?.url || '/holidaze-fallback-square.webp'}
-                alt=""
-                className="max-w-full overflow-hidden rounded-md"
+          <DrawerHeader className="flex flex-col pt-0">
+            <div className="pb-2">
+              <Image
+                src={venue.media[0]?.url || VENUE_FALLBACK_IMAGE}
+                alt={`Image of ${venue.name}`}
+                width={600}
+                height={400}
+                className="aspect-video w-full max-w-full overflow-hidden rounded-md object-cover"
               />
             </div>
             <DrawerTitle className="text-3xl">{venue.name}</DrawerTitle>
@@ -126,12 +130,12 @@ export const BookingDrawer = ({
               ref={closeDrawerRef}
               className={buttonVariants({
                 variant: 'outline',
-                className: 'flex-1',
+                className: 'flex-1 cursor-pointer',
               })}
             >
               Cancel
             </DrawerClose>
-            <Button className="flex-1" disabled={isSubmitting}>
+            <Button className="flex-1 cursor-pointer" disabled={isSubmitting}>
               Confirm
             </Button>
           </DrawerFooter>

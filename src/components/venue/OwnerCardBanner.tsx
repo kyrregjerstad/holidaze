@@ -1,5 +1,8 @@
 'use client';
 
+import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
+import Image from 'next/image';
+
 export const OwnerCardBanner = ({
   url,
   alt,
@@ -8,15 +11,15 @@ export const OwnerCardBanner = ({
   alt: string | null;
 }) => {
   return (
-    <img
-      src={url || '/holidaze-fallback-square.webp'}
+    <Image
+      src={url || VENUE_FALLBACK_IMAGE}
       alt={alt || 'Holidaze owner banner'}
       width={48}
       height={48}
       className="absolute left-0 top-0 h-full w-full rounded-lg object-cover opacity-30"
       onError={(e) => {
         e.currentTarget.onerror = null;
-        e.currentTarget.src = '/assets/holidaze-bg-3.webp';
+        e.currentTarget.src = VENUE_FALLBACK_IMAGE.src;
       }}
     />
   );

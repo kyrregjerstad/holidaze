@@ -3,16 +3,19 @@ import { VenuesGrid } from './VenuesGrid';
 import { Suspense } from 'react';
 import { HeroSearch } from './HeroSearch';
 import { VenuesGridSkeleton } from './VenuesGridSkeleton';
+import Image from 'next/image';
+import { HERO_IMAGE } from '@/lib/constants';
 
 export default async function HomePage() {
   return (
     <div className="flex min-h-screen w-full flex-col">
       <section className="relative flex min-h-[80dvh] w-full flex-col items-center justify-center">
         <div className="absolute top-0 h-full w-full overflow-hidden">
-          <img
-            src="/assets/holidaze-bg-2.webp"
-            alt=""
-            className="left-0 right-0 h-full w-full object-cover opacity-50 blur-sm"
+          <Image
+            src={HERO_IMAGE}
+            alt="Tropical beach with palm trees and clear blue water"
+            placeholder="blur"
+            className="left-0 right-0 h-full w-full bg-sky-400 object-cover opacity-50 blur-sm"
           />
         </div>
         <div className="container relative z-10 px-4 md:px-6">
@@ -48,5 +51,3 @@ export const metadata: Metadata = {
   description:
     'Holidaze is your gateway to unforgettable getaways. Find your perfect holiday home today.',
 };
-
-export const dynamic = 'force-dynamic';

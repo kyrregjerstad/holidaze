@@ -2,8 +2,10 @@ import { Debug } from '@/components/Debug';
 import { VenueCard } from '@/components/VenueCard';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
+import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 import { userProfileSchema } from '@/lib/schema/userSchema';
 import { fetchProfileByName } from '@/lib/services/profileService';
+import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
 import React from 'react';
 import { z } from 'zod';
@@ -43,9 +45,11 @@ const UserPage = ({
   return (
     <div className="flex max-w-7xl flex-col items-center">
       <div className="w-full">
-        <img
-          src={profile.banner?.url || '/placeholder.svg'}
+        <Image
+          src={profile.banner?.url || VENUE_FALLBACK_IMAGE}
           alt={profile.banner?.alt || `${profile.name} profile banner`}
+          width={1152}
+          height={348}
           className="h-96 w-full object-cover"
         />
       </div>
@@ -78,9 +82,11 @@ const ManagerPage = ({
   return (
     <div className="flex max-w-7xl flex-col items-center">
       <div className="w-full">
-        <img
-          src={profile.banner?.url || '/placeholder.svg'}
+        <Image
+          src={profile.banner?.url || VENUE_FALLBACK_IMAGE}
           alt={profile.banner?.alt || `${profile.name} profile banner`}
+          width={1152}
+          height={348}
           className="h-96 w-full object-cover"
         />
       </div>

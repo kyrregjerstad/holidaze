@@ -32,6 +32,7 @@ import { XIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import Image from 'next/image';
 
 /* 
 TODO: 
@@ -134,9 +135,11 @@ export const NewVenueForm = ({ submitFn }: Props) => {
                       >
                         <XIcon className="text-red-600" />
                       </Button>
-                      <img
+                      <Image
                         src={url}
                         alt="venue"
+                        width={1920}
+                        height={1080}
                         className="h-full w-full object-cover"
                       />
                     </div>
