@@ -8,6 +8,7 @@ import { extractRouterConfig } from 'uploadthing/server';
 import { AuthProvider } from './_providers/AuthProvider';
 import QueryClientProvider from './_providers/QueryClientProvider';
 import { ourFileRouter } from './api/uploadthing/core';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -32,6 +33,7 @@ export default function RootLayout({
             <div className="bg-background">{children}</div>
             {modal}
             <div id="modal-root" />
+            <Toaster />
           </QueryClientProvider>
         </body>
       </html>

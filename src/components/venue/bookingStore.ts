@@ -7,11 +7,10 @@ type FormState = {
   guests: number;
   amountOfDays: number;
   areDatesAvailable: boolean;
-  setStartDate: (date: Date | undefined) => void;
-  setEndDate: (date: Date | undefined) => void;
+  setStartDate: (date: Date | undefined, bookedDates: Date[]) => void;
+  setEndDate: (date: Date | undefined, bookedDates: Date[]) => void;
   setGuests: (guests: number) => void;
-  checkAvailability: (bookedDates: Date[]) => void;
-  calculateDays: () => void;
+  calculateTotalDays: () => void;
 };
 
 export const useBookingStore = create<FormState>((set, get) => ({
@@ -20,41 +19,49 @@ export const useBookingStore = create<FormState>((set, get) => ({
   guests: 2,
   amountOfDays: 1,
   areDatesAvailable: true,
-  setStartDate: (date) => {
+
+  setStartDate: (date, bookedDates) => {
     set({ startDate: date });
     const { endDate } = get();
     if (endDate && date && differenceInDays(endDate, date) < 1) {
       set({ endDate: addDays(date, 1) });
     }
+    const available = checkAvailability(date, endDate, bookedDates);
+    set({ areDatesAvailable: available });
   },
-  setEndDate: (date) => {
+
+  setEndDate: (date, bookedDates) => {
     const { startDate } = get();
     if (startDate && date && differenceInDays(date, startDate) < 1) {
       return;
     }
     set({ endDate: date });
-    get().calculateDays();
+    const available = checkAvailability(startDate, date, bookedDates);
+    set({ areDatesAvailable: available });
   },
+
   setGuests: (guests) => set({ guests }),
-  calculateDays: () => {
+  calculateTotalDays: () => {
     const { startDate, endDate } = get();
     if (startDate && endDate) {
       set({ amountOfDays: differenceInDays(endDate, startDate) });
     }
   },
-  checkAvailability: (bookedDates) => {
-    const { startDate, endDate } = get();
-    set({
-      areDatesAvailable: !(
-        startDate &&
-        endDate &&
-        bookedDates.some((date) =>
-          areIntervalsOverlapping(
-            { start: startDate, end: endDate },
-            { start: date, end: date }
-          )
-        )
-      ),
-    });
-  },
 }));
+
+function checkAvailability(
+  startDate?: Date,
+  endDate?: Date,
+  bookedDates: Date[] = []
+): boolean {
+  return !(
+    startDate &&
+    endDate &&
+    bookedDates.some((date) =>
+      areIntervalsOverlapping(
+        { start: startDate, end: endDate },
+        { start: date, end: date }
+      )
+    )
+  );
+}

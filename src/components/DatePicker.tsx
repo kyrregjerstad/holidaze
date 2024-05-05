@@ -13,7 +13,7 @@ import { eachDayOfInterval } from 'date-fns';
 type Props = {
   bookedDates: Date[];
   selectedDate: Date | undefined;
-  setDate: (date: Date | undefined) => void;
+  setDate: (date: Date | undefined, bookedDates: Date[]) => void;
   overlayDate: Date | undefined;
   label?: string;
   buttonText?: string;
@@ -39,6 +39,7 @@ export const DatePicker = ({
           <Button
             className="h-10 w-full flex-col items-start"
             variant="outline"
+            type="button"
           >
             <span className="font-normal">
               {selectedDate ? (
@@ -55,7 +56,7 @@ export const DatePicker = ({
       <PopoverContent className="max-w-[276px] p-0">
         <Calendar
           selected={selectedDate}
-          onSelect={setDate}
+          onSelect={(selectedDate) => setDate(selectedDate, bookedDates)}
           mode="single"
           modifiers={{ booked: dateRange }}
           modifiersClassNames={{

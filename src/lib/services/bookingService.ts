@@ -4,9 +4,8 @@ import { redirect } from 'next/navigation';
 import { API_BASE_URL } from '../constants';
 import { useFetch } from '../hooks/useFetch';
 import { createApiResponseSchema } from '../schema/apiSchema';
-import { userProfileSchema } from '../schema/userSchema';
-import { createUrl } from '../utils';
 import { bookingReturnSchema } from '../schema/bookingSchema';
+import { createUrl } from '../utils';
 
 type BookVenue = {
   dateFrom: string;

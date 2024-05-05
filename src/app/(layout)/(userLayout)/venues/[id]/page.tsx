@@ -3,9 +3,9 @@ import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import { fetchVenueById } from '@/lib/services/venuesService';
 import { notFound } from 'next/navigation';
 import { z } from 'zod';
-import { BookingCard } from '../../../../../components/venue/BookingCard';
 import { DetailsPreview } from '../../../../../components/venue/DetailsPreview';
 import { Location } from '../../../../../components/venue/Location';
+import { NewBookingCard } from '../../../../../components/venue/NewBookingCard';
 import { OwnerCard } from '../../../../../components/venue/OwnerCard';
 import { ReportDialog } from '../../../../../components/venue/ReportDialog';
 import { VenueAmenitiesPreview } from '../../../../../components/venue/VenueAmenitiesPreview';
@@ -38,6 +38,7 @@ const VenuePage = async ({ params }: Props) => {
             <h2 className="pb-6 text-5xl font-semibold">{venue.name}</h2>
             <DetailsPreview maxGuests={venue.maxGuests} amenities={amenities} />
           </div>
+
           <div className="prose pb-8">
             <p>{venue.description}</p>
           </div>
@@ -60,7 +61,7 @@ const VenuePage = async ({ params }: Props) => {
         </div>
 
         <div className="row-start-1 grid gap-4 md:row-start-auto">
-          <BookingCard venue={venue} />
+          <NewBookingCard venue={venue} />
           <ReportDialog />
         </div>
       </section>

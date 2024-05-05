@@ -1,6 +1,6 @@
 import { VenueGallery } from '@/app/(layout)/(userLayout)/venues/[id]/VenueGallery';
 import { Debug } from '@/components/Debug';
-import { BookingCard } from '@/components/venue/BookingCard';
+import { NewBookingCard } from '@/components/venue/NewBookingCard';
 import { DetailsPreview } from '@/components/venue/DetailsPreview';
 import { Location } from '@/components/venue/Location';
 import { OwnerCard } from '@/components/venue/OwnerCard';
