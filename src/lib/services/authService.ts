@@ -12,6 +12,7 @@ import {
   registerUserResponseSchema,
   registerUserSchema,
 } from '../schema/userSchema';
+import { createUrl } from '../utils';
 
 export async function fetchRegisterUser(
   data: z.infer<typeof registerUserSchema>
@@ -29,7 +30,7 @@ export async function fetchRegisterUser(
 
 export async function fetchLoginUser(data: z.infer<typeof loginUserSchema>) {
   const { res, error } = await useFetch({
-    url: `${API_BASE_URL}/auth/login`,
+    url: createUrl(`${API_BASE_URL}/auth/login`, { _holidaze: true }),
     options: {
       method: 'POST',
       body: JSON.stringify(data),

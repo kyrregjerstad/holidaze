@@ -79,6 +79,7 @@ export const loginUserReturnSchema = z.object({
   avatar: avatarSchema.nullable(),
   banner: bannerSchema.nullable(),
   accessToken: z.string(),
+  venueManager: z.boolean(),
 });
 
 export const userProfileSchema = z.object({
