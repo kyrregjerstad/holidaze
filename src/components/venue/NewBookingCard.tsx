@@ -75,7 +75,7 @@ export const NewBookingCard = ({ venue, user }: Props) => {
               to book this venue
             </span>
           </div>
-          <div className="grid gap-6 opacity-50 blur-sm">
+          <div className="pointer-events-none grid gap-6 opacity-50 blur-sm">
             <div className="grid gap-4">
               <div className="flex justify-between gap-2">
                 <DatePicker
