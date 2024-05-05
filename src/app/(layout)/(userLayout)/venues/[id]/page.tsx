@@ -1,3 +1,11 @@
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import { Debug } from '@/components/Debug';
 import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import { fetchVenueById } from '@/lib/services/venuesService';
@@ -11,6 +19,7 @@ import { ReportDialog } from '@/components/venue/ReportDialog';
 import { VenueAmenitiesPreview } from '@/components/venue/VenueAmenitiesPreview';
 import { VenueGallery } from './VenueGallery';
 import { BookingPreviewCard } from '@/components/venue/BookingPreviewCard';
+import { RelatedVenues } from '@/components/venue/RelatedVenues';
 
 type Props = {
   params: { id: string };
@@ -30,8 +39,23 @@ const VenuePage = async ({ params }: Props) => {
   );
 
   return (
-    <div className="mx-auto max-w-6xl p-4 sm:py-8 md:py-10 lg:px-6">
+    <div className="mx-auto max-w-6xl px-4">
       <Debug data={venue} />
+      <Breadcrumb className="py-8">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/search">Venues</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{venue.name}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <VenueGallery images={venue.media} />
       <section className="grid items-start gap-8 py-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-[1fr_400px]">
         <div className="row-start-2 grid gap-8 md:row-start-auto">
@@ -68,6 +92,7 @@ const VenuePage = async ({ params }: Props) => {
         </div>
       </section>
       <Location location={venue.location} />
+      <RelatedVenues venueId={venue.id} />
     </div>
   );
 };

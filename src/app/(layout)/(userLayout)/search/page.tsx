@@ -1,16 +1,14 @@
+import { buttonVariants } from '@/components/ui/button';
 import {
   Venue,
   VenuesBySearchTerm,
   fetchVenuesBySearchTerm,
 } from '@/lib/services/venuesService';
-import { HeroSearch } from '../HeroSearch';
-import { useBookingStore } from '../../../../components/venue/bookingStore';
-import { z } from 'zod';
-import { notFound } from 'next/navigation';
 import { isWithinInterval, parseISO } from 'date-fns';
-import { VenueCard } from '../../../../components/VenueCard';
 import Link from 'next/link';
-import { buttonVariants } from '@/components/ui/button';
+import { notFound } from 'next/navigation';
+import { z } from 'zod';
+import { VenueCard } from '@/components/VenueCard';
 import { SearchBar } from './SearchBar';
 
 type Props = {

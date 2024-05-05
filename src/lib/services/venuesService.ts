@@ -15,9 +15,19 @@ import {
 import { createUrl } from '../utils';
 import { cookies } from 'next/headers';
 
-export async function fetchAllVenues({ owner = false, bookings = false } = {}) {
+type SortOptions = 'id' | 'name' | 'price' | 'rating' | 'created' | 'maxGuests';
+
+type QueryParams = {
+  _owner?: boolean;
+  _bookings?: boolean;
+  limit?: number;
+  page?: number;
+  sort?: SortOptions;
+  sortOrder?: 'asc' | 'desc';
+};
+export async function fetchAllVenues(query: QueryParams = {}) {
   const { res, error } = await useFetch({
-    url: createUrl(`${API_BASE_URL}/holidaze/venues`, { owner, bookings }),
+    url: createUrl(`${API_BASE_URL}/holidaze/venues`, query),
     schema: createApiResponseSchema(z.array(venueSchema)),
   });
 
