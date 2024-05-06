@@ -25,6 +25,8 @@ import { getUserFromCookie } from '@/lib/utils/cookies';
 import { DisabledBookingCard } from '@/components/venue/DisabledBookingCard';
 import { VenueManagerCard } from '@/components/venue/VenueManagerCard';
 import { Skeleton } from '@/components/ui/skeleton';
+import { OtherVenuesByOwner } from '@/components/venue/OtherVenuesByOwner';
+import { Separator } from '@/components/ui/separator';
 
 type Props = {
   params: { id: string };
@@ -89,7 +91,7 @@ const VenuePage = async ({ params }: Props) => {
       <section className="grid items-start gap-8 py-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-[1fr_400px]">
         <div className="row-start-2 grid gap-8 md:row-start-auto">
           <div className="hidden flex-col gap-1 md:flex">
-            <h2 className="max-w-[600px] overflow-hidden break-all pb-6 text-5xl font-semibold">
+            <h2 className="max-w-[600px] overflow-hidden text-pretty break-words pb-6 text-5xl font-semibold">
               {venue.name}
             </h2>
             <DetailsPreview maxGuests={venue.maxGuests} amenities={amenities} />
@@ -117,13 +119,28 @@ const VenuePage = async ({ params }: Props) => {
         </div>
 
         <div className="row-start-1 grid gap-4 md:row-start-auto">
-          <Suspense fallback={<SuspenseCard />}>
+          <Suspense fallback={<Skeleton className="h-64" />}>
             <InfoCards venue={venue} />
           </Suspense>
         </div>
       </section>
       <Location location={venue.location} />
-      <RelatedVenues venueId={venue.id} />
+      <Separator className="my-12" />
+      <section className="">
+        <h3 className="pb-4 text-xl font-bold">
+          Other venues by {venue.owner.name}:{' '}
+        </h3>
+        <Suspense fallback={<OtherVenuesSkeleton />}>
+          <OtherVenuesByOwner venueId={venue.id} ownerName={venue.owner.name} />
+        </Suspense>
+      </section>
+      <Separator className="my-20" />
+      <section className="pb-20">
+        <h3 className="pb-4 text-xl font-bold">Related Venues: </h3>
+        <Suspense fallback={<OtherVenuesSkeleton />}>
+          <RelatedVenues venueId={venue.id} />
+        </Suspense>
+      </section>
     </div>
   );
 };
@@ -134,6 +151,15 @@ const paramsSchema = z.object({
 
 export default VenuePage;
 
-const SuspenseCard = () => {
-  return <Skeleton className="h-64" />;
+const OtherVenuesSkeleton = () => {
+  return (
+    <section className="py-8">
+      <h3 className="pb-4 text-xl font-bold">Other venues by: </h3>
+      <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        {Array.from({ length: 8 }).map((_, index) => (
+          <Skeleton key={index} className="h-64" />
+        ))}
+      </div>
+    </section>
+  );
 };
