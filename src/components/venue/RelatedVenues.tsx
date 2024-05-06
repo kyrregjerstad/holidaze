@@ -2,10 +2,13 @@ import { fetchAllVenues } from '@/lib/services/venuesService';
 import { VenueCard } from '../VenueCard';
 
 export const RelatedVenues = async ({ venueId }: { venueId: string }) => {
+  // fetch one more venue to ensure we have 4 related venues
   const { venues } = await fetchAllVenues({ limit: 5 });
 
   // To ensure we're not showing the current venue in the related venues
-  const filteredVenues = venues.filter((venue) => venue.id !== venueId);
+  const filteredVenues = venues
+    .filter((venue) => venue.id !== venueId)
+    .slice(0, 4);
 
   return (
     <section className="py-8">
