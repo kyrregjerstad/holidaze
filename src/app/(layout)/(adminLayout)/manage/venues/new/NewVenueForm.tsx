@@ -33,6 +33,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useToast } from '@/components/ui/use-toast';
 
 /* 
 TODO: 
@@ -44,6 +45,7 @@ type Props = {
 };
 
 export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof createVenueSchemaFlattened>>({
     resolver: zodResolver(createVenueSchemaFlattened),
     defaultValues: {
@@ -95,6 +97,10 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
       return;
     }
 
+    toast({
+      title: 'Venue Created',
+      description: `Your venue ${data.name} has been created successfully.`,
+    });
     onSuccess();
   };
 
