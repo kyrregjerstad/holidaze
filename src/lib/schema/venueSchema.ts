@@ -84,6 +84,7 @@ export const createVenueSchema = z.object({
   maxGuests: z.number(),
   meta: amenitiesSchema,
   location: locationSchema,
+  media: z.array(mediaSchema),
 });
 
 export const createVenueSchemaBase = z.object({
@@ -107,4 +108,5 @@ export const createVenueSchemaBase = z.object({
 
 export const createVenueSchemaFlattened = createVenueSchemaBase
   .merge(amenitiesSchema)
-  .merge(locationSchema);
+  .merge(locationSchema)
+  .merge(z.object({ media: z.array(mediaSchema) }));

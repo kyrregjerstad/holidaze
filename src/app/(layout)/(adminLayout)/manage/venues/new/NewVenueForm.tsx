@@ -66,6 +66,8 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
       continent: '',
       lat: 0,
       lng: 0,
+
+      media: [],
     },
   });
 
@@ -73,6 +75,7 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
   const [files, setFiles] = useState<File[]>([]);
 
   const onSubmit = async (data: z.infer<typeof createVenueSchemaFlattened>) => {
+    console.log('data', data);
     const res = await submitFn({
       ...data,
       meta: {
@@ -90,6 +93,7 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
         lat: data.lat,
         lng: data.lng,
       },
+      media: images.map((url, i) => ({ url, alt: `${data.name} ${i}` })),
     });
 
     if (res.error) {
