@@ -26,6 +26,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
 
 type Props = {
   onSuccess: () => Promise<void>;
@@ -41,6 +42,8 @@ export const RegisterForm = ({ onSuccess }: Props) => {
       repeatPassword: '',
     },
   });
+
+  const { toast } = useToast();
 
   const onSubmit = async (data: z.infer<typeof registerUserSchema>) => {
     const { res, error: registerError } = await fetchRegisterUser(data);
@@ -65,8 +68,20 @@ export const RegisterForm = ({ onSuccess }: Props) => {
 
     if (loginError) {
       form.setError('root', { message: loginError });
+      toast({
+        title: 'Registration failed 😢',
+        description: 'Please try again later',
+        duration: 10000,
+        variant: 'destructive',
+      });
       return;
     }
+
+    toast({
+      title: 'Account created 🎊',
+      description: `Welcome ${user?.name || 'friend'}! ☀️`,
+      duration: 10000,
+    });
 
     await onSuccess();
   };

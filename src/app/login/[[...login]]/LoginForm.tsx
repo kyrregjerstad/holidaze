@@ -17,6 +17,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useToast } from '@/components/ui/use-toast';
 
 type Props = {
   onSuccess?: () => void;
@@ -31,6 +32,8 @@ export const LoginForm = ({ onSuccess }: Props) => {
     },
   });
 
+  const { toast } = useToast();
+
   const onSubmit = async ({
     email,
     password,
@@ -41,6 +44,11 @@ export const LoginForm = ({ onSuccess }: Props) => {
       form.setError('root', { message: error });
       return;
     }
+
+    toast({
+      title: `Welcome back ${user?.name || 'friend'}! 👋`,
+      description: `Where will your next adventure take you?`,
+    });
 
     onSuccess?.();
   };
