@@ -1,13 +1,17 @@
 import { VenueGallery } from '@/app/(layout)/(userLayout)/venues/[id]/VenueGallery';
 import { Debug } from '@/components/Debug';
+import { Calendar } from '@/components/ui/calendar';
 import { DetailsPreview } from '@/components/venue/DetailsPreview';
 import { Location } from '@/components/venue/Location';
 import { VenueAmenitiesPreview } from '@/components/venue/VenueAmenitiesPreview';
 import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
-import { fetchVenueById } from '@/lib/services/venuesService';
+import { Venue, fetchVenueById } from '@/lib/services/venuesService';
+import { getUserFromCookie } from '@/lib/utils/cookies';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { z } from 'zod';
+import { UpcomingBookingsTable } from '../UpcomingBookingsTable';
+import { processVenue } from '../processVenue';
 
 type Props = {
   params: { id: string };
@@ -20,11 +24,11 @@ const VenuePage = async ({ params }: Props) => {
   const { venue } = await fetchVenueById(result.data.id);
   if (!venue) return notFound();
 
-  const amenities = amenitiesKeysSchema.parse(
-    Object.entries(venue.meta)
-      .filter(([_key, value]) => Boolean(value))
-      .map(([key]) => key)
-  );
+  const user = getUserFromCookie();
+
+  if (!user || user.name !== venue.owner.name) return notFound();
+
+  const transformedVenues = processVenue(venue);
 
   return (
     <div className="mx-auto w-full max-w-6xl p-4 sm:py-8 md:py-10 lg:px-6">
@@ -32,29 +36,10 @@ const VenuePage = async ({ params }: Props) => {
         <Debug data={venue} />
       </Suspense>
       <VenueGallery images={venue.media} />
-      <section className="grid w-full items-start gap-8 py-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-[1fr_400px]">
-        <div className="row-start-2 grid gap-8 md:row-start-auto">
-          <div className="hidden flex-col gap-1 md:flex">
-            <h2 className="pb-6 text-5xl font-semibold">{venue.name}</h2>
-            <DetailsPreview maxGuests={venue.maxGuests} amenities={amenities} />
-          </div>
-          <div className="prose pb-8">
-            <p>{venue.description}</p>
-          </div>
-          <div className="grid gap-20">
-            {amenities.length > 0 && (
-              <div className="grid gap-4">
-                <h3 className="text-xl font-semibold">
-                  What this place offers
-                </h3>
-                <div className="grid gap-8">
-                  <VenueAmenitiesPreview amenities={amenities} />
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
+      <section className="flex flex-col">
+        <h2 className="pb-4 text-5xl font-semibold">{venue.name}</h2>
+        <UpcomingBookingsTable bookings={transformedVenues.bookings} />
+        <Calendar numberOfMonths={2} className="w-full" />
         <div className="row-start-1 grid gap-4 md:row-start-auto"></div>
       </section>
       <Location location={venue.location} />
@@ -67,3 +52,5 @@ const paramsSchema = z.object({
 });
 
 export default VenuePage;
+
+export const dynamic = 'force-dynamic';

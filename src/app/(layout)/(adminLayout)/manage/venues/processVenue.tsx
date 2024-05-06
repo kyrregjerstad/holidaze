@@ -1,6 +1,7 @@
 import { VenueWithBookings } from '@/lib/schema/venueSchema';
 import {
   compareAsc,
+  differenceInDays,
   formatDistanceToNow,
   isFuture,
   isPast,
@@ -13,10 +14,13 @@ type Booking = {
   dateTo: Date;
 };
 
+export type TransformedVenue = ReturnType<typeof processVenue>;
+
 export const processVenue = (venue: VenueWithBookings) => {
   const sortedAndFilteredBookings = parseBookingDates(venue)
     .bookings.filter(removePastDates)
-    .sort(sortDatesAsc);
+    .sort(sortDatesAsc)
+    .map((booking) => ({ ...booking, totalDays: countTotalDays(booking) }));
 
   return {
     ...venue,
@@ -81,6 +85,9 @@ const parseBookingDates = (venue: VenueWithBookings) => ({
     dateTo: parseISO(booking.dateTo),
   })),
 });
+
+const countTotalDays = (booking: { dateFrom: Date; dateTo: Date }) =>
+  differenceInDays(booking.dateTo, booking.dateFrom);
 
 const removePastDates = (booking: { dateTo: Date }) => !isPast(booking.dateTo);
 
