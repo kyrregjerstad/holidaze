@@ -94,6 +94,11 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
 
     if (res.error) {
       form.setError('root', { message: res.error.message });
+      toast({
+        title: 'Error',
+        description: res.error.message,
+        variant: 'destructive',
+      });
       return;
     }
 
