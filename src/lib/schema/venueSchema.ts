@@ -87,6 +87,8 @@ export const createVenueSchema = z.object({
   media: z.array(mediaSchema),
 });
 
+export type CreateVenue = z.infer<typeof createVenueSchema>;
+
 export const createVenueSchemaBase = z.object({
   name: z
     .string()

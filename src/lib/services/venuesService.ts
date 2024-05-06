@@ -6,6 +6,7 @@ import { API_BASE_URL } from '../constants';
 import { useFetch } from '../hooks/useFetch';
 import { createApiResponseSchema } from '../schema/apiSchema';
 import {
+  CreateVenue,
   bookingSchema,
   createVenueSchema,
   ownerSchema,
@@ -86,9 +87,7 @@ export type VenuesBySearchTerm = Awaited<
   ReturnType<typeof fetchVenuesBySearchTerm>
 >['venues'];
 
-export async function fetchCreateVenue(
-  data: z.infer<typeof createVenueSchema>
-) {
+export async function fetchCreateVenue(data: CreateVenue) {
   const accessToken = cookies().get('accessToken')?.value;
   const apiKey = process.env.NOROFF_API_KEY;
 
@@ -115,4 +114,39 @@ export async function fetchCreateVenue(
   return { venue: res?.data, error };
 }
 
-export type CreateVenue = Awaited<ReturnType<typeof fetchCreateVenue>>;
+export type CreateVenueReturn = Awaited<ReturnType<typeof fetchCreateVenue>>;
+export type UpdateVenueSchema = Partial<CreateVenue>;
+
+export async function fetchUpdateVenueById(
+  id: string,
+  data: UpdateVenueSchema
+) {
+  const accessToken = cookies().get('accessToken')?.value;
+  const apiKey = process.env.NOROFF_API_KEY;
+
+  if (!accessToken || !apiKey) {
+    console.error('Missing access token or api key');
+    return { venue: null, error: null };
+  }
+
+  const { res, error } = await useFetch({
+    url: createUrl(`${API_BASE_URL}/holidaze/venues/${id}`),
+    options: {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    },
+    schema: createApiResponseSchema(venueSchema),
+    auth: {
+      accessToken,
+      apiKey,
+    },
+  });
+
+  if (!res) return { venue: null, error };
+
+  return { venue: res?.data, error };
+}
+
+export type UpdateVenueReturn = Awaited<
+  ReturnType<typeof fetchUpdateVenueById>
+>;

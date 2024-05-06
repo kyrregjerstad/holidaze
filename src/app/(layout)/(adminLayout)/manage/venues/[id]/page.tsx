@@ -12,6 +12,8 @@ import { Suspense } from 'react';
 import { z } from 'zod';
 import { UpcomingBookingsTable } from '../UpcomingBookingsTable';
 import { processVenue } from '../processVenue';
+import Link from 'next/link';
+import { buttonVariants } from '@/components/ui/button';
 
 type Props = {
   params: { id: string };
@@ -38,11 +40,16 @@ const VenuePage = async ({ params }: Props) => {
       <VenueGallery images={venue.media} />
       <section className="flex flex-col">
         <h2 className="pb-4 text-5xl font-semibold">{venue.name}</h2>
+        <Link
+          href={`/manage/venues/edit/${venue.id}`}
+          className={buttonVariants({ className: 'self-start px-8' })}
+        >
+          Edit
+        </Link>
         <UpcomingBookingsTable bookings={transformedVenues.bookings} />
-        <Calendar numberOfMonths={2} className="w-full" />
+        {/* <Calendar numberOfMonths={2} className="flex w-full" /> */}
         <div className="row-start-1 grid gap-4 md:row-start-auto"></div>
       </section>
-      <Location location={venue.location} />
     </div>
   );
 };

@@ -1,10 +1,10 @@
 'use client';
 
 import { APIProvider } from '@vis.gl/react-google-maps';
-
+import Link from 'next/link';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { ImageUploader } from '@/components/ImageUploader';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -26,7 +26,12 @@ import {
   createVenueSchema,
   createVenueSchemaFlattened,
 } from '@/lib/schema/venueSchema';
-import { CreateVenueReturn } from '@/lib/services/venuesService';
+import {
+  CreateVenueReturn,
+  UpdateVenueReturn,
+  UpdateVenueSchema,
+  Venue,
+} from '@/lib/services/venuesService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { XIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -34,51 +39,52 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useToast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 /* 
 TODO: 
 - accessibility could be improved, with keyboard navigation.
 */
 type Props = {
-  submitFn: (
-    data: z.infer<typeof createVenueSchema>
-  ) => Promise<CreateVenueReturn>;
+  venue: Venue;
+  submitFn: (id: string, data: UpdateVenueSchema) => Promise<UpdateVenueReturn>;
   onSuccess: () => Promise<void>;
 };
 
-export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
+export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
   const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<z.infer<typeof createVenueSchemaFlattened>>({
     resolver: zodResolver(createVenueSchemaFlattened),
     defaultValues: {
-      name: '',
-      description: '',
-      price: 50,
-      maxGuests: 2,
+      name: venue.name,
+      description: venue.description,
+      price: venue.price,
+      maxGuests: venue.maxGuests,
 
-      wifi: false,
-      parking: false,
-      breakfast: false,
-      pets: false,
+      wifi: venue.meta.wifi,
+      parking: venue.meta.parking,
+      breakfast: venue.meta.breakfast,
+      pets: venue.meta.pets,
 
-      address: '',
-      city: '',
-      zip: '',
-      country: '',
-      continent: '',
-      lat: 0,
-      lng: 0,
+      address: venue.location.address,
+      city: venue.location.city,
+      zip: venue.location.zip,
+      country: venue.location.country,
+      continent: venue.location.continent,
+      lat: venue.location.lat || 0,
+      lng: venue.location.lng || 0,
 
-      media: [],
+      media: venue.media || [],
     },
   });
 
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<string[]>(venue.media.map((m) => m.url));
   const [files, setFiles] = useState<File[]>([]);
 
   const onSubmit = async (data: z.infer<typeof createVenueSchemaFlattened>) => {
     console.log('data', data);
-    const res = await submitFn({
+    const res = await submitFn(venue.id, {
       ...data,
       meta: {
         wifi: data.wifi,
@@ -109,8 +115,8 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
     }
 
     toast({
-      title: 'Venue Created',
-      description: `Your venue ${data.name} has been created successfully.`,
+      title: 'Venue Updated!',
+      description: `Your venue ${data.name} has been updated successfully.`,
     });
     onSuccess();
   };
@@ -302,8 +308,15 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
             </APIProvider>
           </CardContent>
           <CardFooter>
+            <Button
+              onClick={() => router.back()}
+              variant="secondary"
+              type="button"
+            >
+              Cancel
+            </Button>
             <Button className="ml-auto" disabled={form.formState.isSubmitting}>
-              Create Venue
+              Update Venue
             </Button>
           </CardFooter>
         </form>
