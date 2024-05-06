@@ -336,8 +336,6 @@ export const columns: ColumnDef<VenueTable>[] = [
     enableHiding: false,
     header: 'Actions',
     cell: ({ row }) => {
-      const payment = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -348,8 +346,13 @@ export const columns: ColumnDef<VenueTable>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link href={`/venues/${row.original.id}`}>View</Link>
+            <DropdownMenuItem asChild>
+              <Link
+                href={`/venues/${row.original.id}`}
+                className="cursor-pointer"
+              >
+                View
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>Edit</DropdownMenuItem>
             <Separator />
