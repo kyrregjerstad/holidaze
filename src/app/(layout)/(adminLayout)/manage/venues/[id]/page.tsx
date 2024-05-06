@@ -14,6 +14,8 @@ import { UpcomingBookingsTable } from '../UpcomingBookingsTable';
 import { processVenue } from '../processVenue';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
+import Image from 'next/image';
+import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 
 type Props = {
   params: { id: string };
@@ -37,9 +39,14 @@ const VenuePage = async ({ params }: Props) => {
       <Suspense>
         <Debug data={venue} />
       </Suspense>
-      <VenueGallery images={venue.media} />
+      <Image
+        src={venue.media[0].url || VENUE_FALLBACK_IMAGE}
+        alt={venue.name}
+        width={1200}
+        height={600}
+      />
       <section className="flex flex-col">
-        <h2 className="pb-4 text-5xl font-semibold">{venue.name}</h2>
+        <h2 className="truncate py-4 text-5xl font-semibold">{venue.name}</h2>
         <Link
           href={`/manage/venues/edit/${venue.id}`}
           className={buttonVariants({ className: 'self-start px-8' })}
