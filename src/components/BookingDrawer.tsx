@@ -107,7 +107,9 @@ export const BookingDrawer = ({
                 className="aspect-video w-full max-w-full overflow-hidden rounded-md object-cover"
               />
             </div>
-            <DrawerTitle className="text-3xl">{venue.name}</DrawerTitle>
+            <DrawerTitle className="truncate text-3xl">
+              {venue.name}
+            </DrawerTitle>
             <DrawerDescription>Owned by {venue.owner.name}</DrawerDescription>
 
             <div className="flex flex-wrap justify-center gap-2 sm:justify-start">

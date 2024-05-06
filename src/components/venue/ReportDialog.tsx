@@ -1,8 +1,9 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
+'use client';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import {
   DialogTrigger,
+  DialogClose,
   DialogTitle,
   DialogDescription,
   DialogHeader,
@@ -13,8 +14,10 @@ import {
 import { RadioGroupItem, RadioGroup } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { FlagIcon } from 'lucide-react';
+import { useToast } from '../ui/use-toast';
 
-export function ReportDialog() {
+export const ReportDialog = () => {
+  const { toast } = useToast();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -96,11 +99,23 @@ export function ReportDialog() {
         </DialogHeader>
         <DialogFooter>
           <div>
-            <Button variant="ghost">Cancel</Button>
+            <DialogClose className={buttonVariants({ variant: 'secondary' })}>
+              Cancel
+            </DialogClose>
           </div>
-          <Button>Report</Button>
+          <DialogClose
+            className={buttonVariants()}
+            onClick={() =>
+              toast({
+                title: 'Reported',
+                description: 'Thank you for reporting this listing.',
+              })
+            }
+          >
+            Report
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   );
-}
+};

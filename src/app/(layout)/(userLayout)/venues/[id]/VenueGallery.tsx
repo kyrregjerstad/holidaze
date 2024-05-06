@@ -1,10 +1,7 @@
 'use client';
-import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
-import { GripIcon } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 
 type Image = {
@@ -37,14 +34,6 @@ export const VenueGallery = ({ images }: Props) => {
             </DialogTrigger>
           ))}
         </div>
-        <Button
-          className="absolute bottom-4 right-4 gap-1"
-          size="sm"
-          variant="secondary"
-        >
-          <GripIcon className="h-4 w-4" />
-          Show all photos
-        </Button>
       </section>
       <DialogContent className="w-full">
         <div className="aspect-video w-full">

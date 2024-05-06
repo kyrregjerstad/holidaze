@@ -24,6 +24,7 @@ import { Suspense } from 'react';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { DisabledBookingCard } from '@/components/venue/DisabledBookingCard';
 import { VenueManagerCard } from '@/components/venue/VenueManagerCard';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type Props = {
   params: { id: string };
@@ -41,9 +42,10 @@ const InfoCards = ({ venue }: { venue: Venue }) => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col justify-center">
       <BookingPreviewCard venue={venue} user={user} />
       <NewBookingCard venue={venue} user={user} />
+      <ReportDialog />
     </div>
   );
 };
@@ -77,7 +79,9 @@ const VenuePage = async ({ params }: Props) => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>{venue.name}</BreadcrumbPage>
+            <BreadcrumbPage className="max-w-xs truncate">
+              {venue.name}
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -85,7 +89,9 @@ const VenuePage = async ({ params }: Props) => {
       <section className="grid items-start gap-8 py-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-[1fr_400px]">
         <div className="row-start-2 grid gap-8 md:row-start-auto">
           <div className="hidden flex-col gap-1 md:flex">
-            <h2 className="pb-6 text-5xl font-semibold">{venue.name}</h2>
+            <h2 className="max-w-[600px] overflow-hidden break-all pb-6 text-5xl font-semibold">
+              {venue.name}
+            </h2>
             <DetailsPreview maxGuests={venue.maxGuests} amenities={amenities} />
           </div>
 
@@ -111,10 +117,9 @@ const VenuePage = async ({ params }: Props) => {
         </div>
 
         <div className="row-start-1 grid gap-4 md:row-start-auto">
-          <Suspense>
+          <Suspense fallback={<SuspenseCard />}>
             <InfoCards venue={venue} />
           </Suspense>
-          <ReportDialog />
         </div>
       </section>
       <Location location={venue.location} />
@@ -128,3 +133,7 @@ const paramsSchema = z.object({
 });
 
 export default VenuePage;
+
+const SuspenseCard = () => {
+  return <Skeleton className="h-64" />;
+};

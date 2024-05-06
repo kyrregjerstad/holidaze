@@ -19,7 +19,7 @@ export const VenueManagerCard = ({ venue, user }: Props) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <Link href={`/manage/venue/${venue.id}`} className={buttonVariants()}>
+        <Link href={`/manage/venues/${venue.id}`} className={buttonVariants()}>
           Manage
         </Link>
         <div className="flex gap-2 pt-2"></div>

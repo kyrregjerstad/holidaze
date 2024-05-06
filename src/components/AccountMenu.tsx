@@ -18,7 +18,7 @@ type Props = {
 };
 
 export const AccountMenu = ({ user }: Props) => {
-  const greeting = getGreetings(user.name);
+  const greeting = getGreetings();
 
   return (
     <DropdownMenu>
@@ -28,31 +28,38 @@ export const AccountMenu = ({ user }: Props) => {
           <AvatarFallback>{user.name[0]}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="p-2">
-        <DropdownMenuLabel className="max-w-64 break-all">
+      <DropdownMenuContent align="end" className="max-w-[200px] p-2">
+        <DropdownMenuLabel className="flex max-w-64 flex-col items-end justify-end text-pretty break-all">
           {greeting}
+          <div>{user.name}</div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator className="mb-2" />
         <DropdownMenuItem asChild>
           <Link
             href={`/profiles/${user.name}`}
-            className="flex cursor-pointer gap-1"
+            className="flex cursor-pointer justify-end gap-1"
           >
-            <CircleUserIcon size={18} />
             Profile
+            <CircleUserIcon size={18} />
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/manage/bookings" className="flex cursor-pointer gap-1">
-            <FolderOpenIcon size={18} />
+          <Link
+            href="/manage/bookings"
+            className="flex cursor-pointer justify-end gap-1"
+          >
             My Bookings
+            <FolderOpenIcon size={18} />
           </Link>
         </DropdownMenuItem>
         {user.isVenueManager && (
           <DropdownMenuItem asChild>
-            <Link href="/manage/venues" className="flex cursor-pointer gap-1">
-              <HomeIcon size={18} />
+            <Link
+              href="/manage/venues"
+              className="flex cursor-pointer justify-end gap-1"
+            >
               My Venues
+              <HomeIcon size={18} />
             </Link>
           </DropdownMenuItem>
         )}
@@ -65,17 +72,17 @@ export const AccountMenu = ({ user }: Props) => {
   );
 };
 
-function getGreetings(name: string) {
+function getGreetings() {
   const date = new Date();
   const hours = date.getHours();
 
   if (hours >= 0 && hours < 12) {
-    return `🌞 Good morning, ${name} `;
+    return `Good morning,`;
   }
   if (hours >= 12 && hours < 18) {
-    return `☀️ Good afternoon, ${name}`;
+    return `Good afternoon,`;
   }
   if (hours >= 18 && hours < 24) {
-    return `🌔 Good evening, ${name}`;
+    return `Good evening,`;
   }
 }

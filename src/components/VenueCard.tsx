@@ -28,8 +28,10 @@ export const VenueCard = ({
             />
           </div>
         </CardHeader>
-        <CardContent className="px-4 py-2">
-          <CardTitle className="group-hover:underline">{venue.name}</CardTitle>
+        <CardContent className="truncate px-4 py-2">
+          <CardTitle className="truncate group-hover:underline">
+            {venue.name}
+          </CardTitle>
           {venue.location.city && venue.location.country ? (
             <span className="text-sm">
               {venue.location.city}, {venue.location.country}
