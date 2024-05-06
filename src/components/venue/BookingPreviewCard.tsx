@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { venueSchemaExtended } from '@/lib/schema/venueSchema';
-import { getUserFromCookie } from '@/lib/utils/cookies';
 import { differenceInDays, parseISO } from 'date-fns';
 
 import { z } from 'zod';

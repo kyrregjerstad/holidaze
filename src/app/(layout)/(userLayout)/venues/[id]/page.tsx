@@ -22,18 +22,28 @@ import { BookingPreviewCard } from '@/components/venue/BookingPreviewCard';
 import { RelatedVenues } from '@/components/venue/RelatedVenues';
 import { Suspense } from 'react';
 import { getUserFromCookie } from '@/lib/utils/cookies';
+import { DisabledBookingCard } from '@/components/venue/DisabledBookingCard';
+import { VenueManagerCard } from '@/components/venue/VenueManagerCard';
 
 type Props = {
   params: { id: string };
 };
 
-const InfoCards = (props: { venue: Venue }) => {
+const InfoCards = ({ venue }: { venue: Venue }) => {
   const user = getUserFromCookie();
+
+  if (!user) {
+    return <DisabledBookingCard venue={venue} />;
+  }
+
+  if (user.name === venue.owner.name) {
+    return <VenueManagerCard venue={venue} user={user} />;
+  }
 
   return (
     <div>
-      <BookingPreviewCard venue={props.venue} user={user} />
-      <NewBookingCard venue={props.venue} user={user} />
+      <BookingPreviewCard venue={venue} user={user} />
+      <NewBookingCard venue={venue} user={user} />
     </div>
   );
 };

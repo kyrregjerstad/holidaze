@@ -1,6 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { Amenities, amenitiesKeysSchema } from '@/lib/schema/venueSchema';
-import React from 'react';
+import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import { z } from 'zod';
 
 type Props = {
