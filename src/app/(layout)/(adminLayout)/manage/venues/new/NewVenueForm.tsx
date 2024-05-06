@@ -29,30 +29,28 @@ import {
 import { CreateVenue } from '@/lib/services/venuesService';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { XIcon } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import Image from 'next/image';
 
 /* 
 TODO: 
-- transform the address returned from google map into the format the API expects
-- currently, lat and lng are excluded. Should they be included?
-- we need to find a way to map over the returned address and extract the necessary fields for the API
-- accessibility could also be improved, with keyboard navigation.
+- accessibility could be improved, with keyboard navigation.
 */
 type Props = {
   submitFn: (data: z.infer<typeof createVenueSchema>) => Promise<CreateVenue>;
+  onSuccess: () => Promise<void>;
 };
 
-export const NewVenueForm = ({ submitFn }: Props) => {
+export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
   const form = useForm<z.infer<typeof createVenueSchemaFlattened>>({
     resolver: zodResolver(createVenueSchemaFlattened),
     defaultValues: {
       name: '',
       description: '',
-      price: 0,
-      maxGuests: 0,
+      price: 50,
+      maxGuests: 2,
 
       wifi: false,
       parking: false,
@@ -96,6 +94,8 @@ export const NewVenueForm = ({ submitFn }: Props) => {
       form.setError('root', { message: res.error.message });
       return;
     }
+
+    onSuccess();
   };
 
   return (
@@ -179,6 +179,8 @@ export const NewVenueForm = ({ submitFn }: Props) => {
                     <Input
                       placeholder="Enter price per night"
                       type="number"
+                      min={1}
+                      max={10000}
                       {...field}
                     />
                     <FormMessage />
@@ -193,6 +195,8 @@ export const NewVenueForm = ({ submitFn }: Props) => {
                     <Input
                       placeholder="Enter maximum number of guests"
                       type="number"
+                      min={1}
+                      max={100}
                       {...field}
                     />
                     <FormMessage />
@@ -267,7 +271,16 @@ export const NewVenueForm = ({ submitFn }: Props) => {
               apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}
             >
               <AddressAutocomplete
-                onPlaceSelect={(place) => console.log(place)}
+                onPlaceSelect={(place) => {
+                  const address = transformAddress(place?.address_components);
+                  form.setValue('address', address.address);
+                  form.setValue('city', address.city);
+                  form.setValue('zip', address.zip);
+                  form.setValue('country', address.country);
+                  form.setValue('continent', address.continent);
+                  form.setValue('lat', place?.geometry?.location?.lat());
+                  form.setValue('lng', place?.geometry?.location?.lng());
+                }}
               />
             </APIProvider>
           </CardContent>
@@ -281,3 +294,52 @@ export const NewVenueForm = ({ submitFn }: Props) => {
     </Card>
   );
 };
+
+type Address = {
+  address: string | null;
+  city: string | null;
+  zip: string | null;
+  country: string | null;
+  continent: string | null;
+};
+
+function transformAddress(
+  googleMapsAddress: google.maps.places.PlaceResult['address_components']
+): Address {
+  if (!googleMapsAddress) {
+    return {
+      address: null,
+      city: null,
+      zip: null,
+      country: null,
+      continent: null,
+    };
+  }
+
+  const streetNumber = googleMapsAddress.find((address) =>
+    address.types.includes('street_number')
+  );
+  const route = googleMapsAddress.find((address) =>
+    address.types.includes('route')
+  );
+
+  const city = googleMapsAddress.find((address) =>
+    address.types.includes('locality')
+  );
+  const zip = googleMapsAddress.find((address) =>
+    address.types.includes('postal_code')
+  );
+  const country = googleMapsAddress.find((address) =>
+    address.types.includes('country')
+  );
+
+  const address = `${route?.long_name ?? ''} ${streetNumber?.long_name ?? ''}`;
+
+  return {
+    address: address || null,
+    city: city?.long_name ?? null,
+    zip: zip?.long_name ?? null,
+    country: country?.long_name ?? null,
+    continent: null,
+  };
+}

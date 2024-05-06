@@ -1,6 +1,7 @@
 import { useGooglePlacesAutocomplete } from '@/lib/hooks/useGooglePlacesAutocomplete';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { Input } from './ui/input';
+import { Label } from './ui/label';
 
 type Props = {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
@@ -19,17 +20,15 @@ export const AddressAutocomplete = ({ onPlaceSelect }: Props) => {
     setIsFocused(true);
   };
 
-  useEffect(() => {
-    console.log(predictions);
-  }, [predictions]);
-
   return (
     <div className="relative" ref={containerRef}>
+      <Label htmlFor="address">Address</Label>
       <Input
         value={inputValue}
         onChange={handleInputChange}
         onFocus={handleFocus}
-        placeholder="Search for a place"
+        placeholder="Search for a location"
+        id="address"
       />
 
       {predictions.length > 0 && isFocused && (

@@ -2,11 +2,17 @@ import { z } from 'zod';
 import { NewVenueForm } from './NewVenueForm';
 import { fetchCreateVenue } from '@/lib/services/venuesService';
 import { createVenueSchema } from '@/lib/schema/venueSchema';
+import { redirect } from 'next/navigation';
 
 const CreateNewVenuePage = async () => {
   const submitFn = async (data: z.infer<typeof createVenueSchema>) => {
     'use server';
     return fetchCreateVenue(data);
+  };
+
+  const onSuccess = async () => {
+    'use server';
+    return redirect('/manage/venues');
   };
   return (
     <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
@@ -19,7 +25,7 @@ const CreateNewVenuePage = async () => {
             Add details for your new holiday home listing.
           </p>
         </div>
-        <NewVenueForm submitFn={submitFn} />
+        <NewVenueForm submitFn={submitFn} onSuccess={onSuccess} />
       </div>
     </div>
   );

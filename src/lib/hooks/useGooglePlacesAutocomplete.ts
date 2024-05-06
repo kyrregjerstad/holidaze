@@ -58,7 +58,7 @@ export const useGooglePlacesAutocomplete = ({ onPlaceSelect }: Params) => {
 
       const detailsRequestOptions = {
         placeId,
-        fields: ['formatted_address', 'address_components'],
+        fields: ['formatted_address', 'address_components', 'geometry'],
         sessionToken,
       };
 
