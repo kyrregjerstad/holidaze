@@ -65,7 +65,7 @@ export const UpcomingBookingsTable = ({ bookings }: Props) => {
 
   return (
     <div className="col-span-2 w-full">
-      <div className="flex items-center py-4">
+      <div className="flex max-w-[100vw] items-center py-4">
         <div className="flex w-full justify-between gap-2">
           <h3 className="self-end">Upcoming bookings: </h3>
           <DropdownMenu>
