@@ -26,7 +26,7 @@ export const VenueGallery = ({ images }: Props) => {
             >
               <Image
                 alt={alt}
-                className="aspect-square object-cover"
+                className="aspect-square rounded-lg object-cover"
                 height={600}
                 width={600}
                 src={url}

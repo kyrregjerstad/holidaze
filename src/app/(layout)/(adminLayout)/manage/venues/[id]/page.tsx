@@ -2,7 +2,7 @@ import { VenueGallery } from '@/app/(layout)/(userLayout)/venues/[id]/VenueGalle
 import { Debug } from '@/components/Debug';
 import { Calendar } from '@/components/ui/calendar';
 import { DetailsPreview } from '@/components/venue/DetailsPreview';
-import { Location } from '@/components/venue/Location';
+import { LocationMap } from '@/components/venue/Location';
 import { VenueAmenitiesPreview } from '@/components/venue/VenueAmenitiesPreview';
 import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import { Venue, fetchVenueById } from '@/lib/services/venuesService';

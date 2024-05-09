@@ -1,9 +1,9 @@
 'use client';
 
 import { locationSchema } from '@/lib/schema/venueSchema';
-import React, { useCallback, useEffect, useState } from 'react';
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
+import React, { useEffect, useState } from 'react';
 import { z } from 'zod';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
 type Props = {
   location: z.infer<typeof locationSchema>;
@@ -12,14 +12,17 @@ type Props = {
 const containerStyle = {
   width: '100%',
   height: '500px',
-};
+  borderRadius: '0.5rem',
+  border: '1px solid #e5e7eb',
+  boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+} satisfies React.CSSProperties;
 
 type Coordinates = {
   lat: number;
   lng: number;
 };
 
-export function Location({ location }: Props) {
+export const LocationMap = ({ location }: Props) => {
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   if (!API_KEY) {
@@ -66,4 +69,4 @@ export function Location({ location }: Props) {
       <Marker position={mapCenter} />
     </GoogleMap>
   );
-}
+};

@@ -1,12 +1,25 @@
+import { PathsList } from '@/app/(layout)/(adminLayout)/PathsList';
 import { AccountMenu } from '@/components/AccountMenu';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { getUserFromCookie } from '@/lib/utils/cookies';
+import { MenuIcon } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
 export const AdminHeader = () => {
   return (
-    <header className="sticky top-0 z-50 flex h-14 items-center justify-end bg-background px-4 drop-shadow-sm lg:px-6">
+    <header className="sticky top-0 z-50 flex h-14 items-center justify-between bg-background px-4 drop-shadow-sm sm:justify-end lg:px-6">
+      <Drawer>
+        <DrawerTrigger asChild>
+          <Button variant="ghost" className="inline sm:hidden">
+            <MenuIcon />
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent className="p-8">
+          <PathsList />
+        </DrawerContent>
+      </Drawer>
       <Suspense>
         <HeaderContent />
       </Suspense>

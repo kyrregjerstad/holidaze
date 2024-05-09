@@ -42,20 +42,20 @@ const UserPage = ({
   profile: z.infer<typeof userProfileSchema>;
 }) => {
   return (
-    <div className="flex max-w-7xl flex-col items-center">
+    <div className="flex w-full max-w-7xl flex-col items-center">
       <div className="w-full">
         <Image
           src={profile.banner?.url || VENUE_FALLBACK_IMAGE}
           alt={profile.banner?.alt || `${profile.name} profile banner`}
           width={1152}
           height={348}
-          className="h-96 w-full object-cover"
+          className="aspect-[16/9] w-full object-cover sm:h-96"
         />
       </div>
-      <section className="w-full">
+      <section className="w-full px-4">
         <div className="mt-6 flex flex-col gap-6 sm:flex-row">
           <div className="flex w-full items-center gap-4">
-            <Avatar className="size-32 border">
+            <Avatar className="size-16 border sm:size-32">
               <AvatarImage
                 alt={profile.avatar?.alt || undefined}
                 src={profile.avatar?.url || undefined}
@@ -79,20 +79,20 @@ const ManagerPage = ({
   profile: z.infer<typeof userProfileSchema>;
 }) => {
   return (
-    <div className="flex max-w-7xl flex-col items-center">
+    <div className="flex w-full max-w-7xl flex-col items-center">
       <div className="w-full">
         <Image
           src={profile.banner?.url || VENUE_FALLBACK_IMAGE}
           alt={profile.banner?.alt || `${profile.name} profile banner`}
           width={1152}
           height={348}
-          className="h-96 w-full object-cover"
+          className="aspect-[16/9] w-full object-cover sm:h-96"
         />
       </div>
-      <section className="w-full">
+      <section className="w-full px-4">
         <div className="mt-6 flex flex-col gap-6 ">
           <div className="flex w-full items-center gap-4 sm:flex-row">
-            <Avatar className="size-32 border">
+            <Avatar className="size-16 border sm:size-32">
               <AvatarImage
                 alt={profile.avatar?.alt || undefined}
                 src={profile.avatar?.url || undefined}

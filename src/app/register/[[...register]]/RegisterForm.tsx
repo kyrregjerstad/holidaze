@@ -14,19 +14,18 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
 import {
   registerUserSchema,
   registerUserSchemaExtended,
 } from '@/lib/schema/userSchema';
 import { fetchRegisterUser, handleLoginApi } from '@/lib/services/authService';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 type Props = {
   onSuccess: () => Promise<void>;
@@ -91,9 +90,9 @@ export const RegisterForm = ({ onSuccess }: Props) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.25, ease: 'easeInOut' }}
-      className="z-10"
+      className="z-10 w-full max-w-[500px]"
     >
-      <Card className="mx-auto min-w-96">
+      <Card className="mx-auto min-w-80 sm:min-w-96">
         <CardHeader />
         <CardContent>
           <Form {...form}>

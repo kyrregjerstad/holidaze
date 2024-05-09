@@ -60,7 +60,7 @@ export const LoginForm = ({ onSuccess }: Props) => {
       transition={{ duration: 0.5, delay: 0.25, ease: 'easeInOut' }}
       className="z-10"
     >
-      <Card className="mx-auto min-w-96">
+      <Card className="mx-auto min-w-80 sm:min-w-96">
         <div className="py-2"></div>
         <CardContent>
           <Form {...form}>

@@ -12,7 +12,7 @@ import { Venue, fetchVenueById } from '@/lib/services/venuesService';
 import { notFound } from 'next/navigation';
 import { z } from 'zod';
 import { DetailsPreview } from '@/components/venue/DetailsPreview';
-import { Location } from '@/components/venue/Location';
+import { LocationMap } from '@/components/venue/Location';
 import { NewBookingCard } from '@/components/venue/NewBookingCard';
 import { OwnerCard } from '@/components/venue/OwnerCard';
 import { ReportDialog } from '@/components/venue/ReportDialog';
@@ -44,7 +44,7 @@ const InfoCards = ({ venue }: { venue: Venue }) => {
   }
 
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center gap-4">
       <BookingPreviewCard venue={venue} user={user} />
       <NewBookingCard venue={venue} user={user} />
       <ReportDialog />
@@ -90,31 +90,27 @@ const VenuePage = async ({ params }: Props) => {
       <VenueGallery images={venue.media} />
       <section className="grid items-start gap-8 py-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-[1fr_400px]">
         <div className="row-start-2 grid gap-8 md:row-start-auto">
-          <div className="hidden flex-col gap-1 md:flex">
-            <h2 className="max-w-[600px] overflow-hidden text-pretty break-words pb-6 text-5xl font-semibold">
+          <div className="flex flex-col gap-1">
+            <h2 className="max-w-[600px] overflow-hidden text-pretty break-words pb-6 text-3xl font-semibold sm:text-5xl">
               {venue.name}
             </h2>
             <DetailsPreview maxGuests={venue.maxGuests} amenities={amenities} />
           </div>
 
-          <div className="prose pb-8">
+          <div className="prose">
             <p>{venue.description}</p>
           </div>
-          <div className="grid gap-20">
-            {amenities.length > 0 && (
-              <div className="grid gap-4">
-                <h3 className="text-xl font-semibold">
-                  What this place offers
-                </h3>
-                <div className="grid gap-8">
-                  <VenueAmenitiesPreview amenities={amenities} />
-                </div>
-              </div>
-            )}
+          {amenities.length > 0 && (
             <div className="grid gap-4">
-              <h3 className="text-xl font-semibold">About the Owner</h3>
-              <OwnerCard owner={venue.owner} />
+              <h3 className="text-xl font-semibold">What this place offers</h3>
+              <div className="grid gap-8">
+                <VenueAmenitiesPreview amenities={amenities} />
+              </div>
             </div>
+          )}
+          <div className="grid gap-4">
+            <h3 className="text-xl font-semibold">About the Owner</h3>
+            <OwnerCard owner={venue.owner} />
           </div>
         </div>
 
@@ -124,7 +120,7 @@ const VenuePage = async ({ params }: Props) => {
           </Suspense>
         </div>
       </section>
-      <Location location={venue.location} />
+      <LocationMap location={venue.location} />
       <Separator className="my-12" />
       <section className="">
         <h3 className="pb-4 text-xl font-bold">

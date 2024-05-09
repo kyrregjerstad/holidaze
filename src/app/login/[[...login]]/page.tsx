@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { LoginForm } from './LoginForm';
-import { BackgroundClipPath } from '../../../components/BackgroundClipPath';
-import { BackgroundImage } from '../../../components/BackgroundImage';
+import { BackgroundClipPath } from '@/components/BackgroundClipPath';
+import { BackgroundImage } from '@/components/BackgroundImage';
 import { Header } from './Header';
 
 type Props = {
@@ -20,17 +20,17 @@ export default function Page({ searchParams }: Props) {
 
   return (
     <section>
-      <div className="relative grid h-svh w-screen grid-cols-2">
+      <div className="relative grid h-svh w-screen grid-cols-1 items-baseline p-4 md:grid-cols-2 md:items-center">
         <div className="absolute z-10 h-full w-full drop-shadow-md">
           <BackgroundClipPath />
         </div>
         <div className="absolute top-0 h-full w-full ">
           <BackgroundImage />
         </div>
-        <div className="z-10">
+        <div className="z-10 self-center md:self-start">
           <Header />
         </div>
-        <div className="z-10 col-start-2 flex flex-col items-center justify-center">
+        <div className="z-10 flex flex-col items-center justify-center md:col-start-2">
           <LoginForm onSuccess={onSuccess} />
         </div>
       </div>
