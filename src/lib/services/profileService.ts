@@ -54,9 +54,9 @@ type FetchAllVenuesByProfileReturn = {
 };
 
 export async function fetchAllVenuesByProfile(
-  name: string
+  name: string,
+  accessToken: string
 ): Promise<FetchAllVenuesByProfileReturn> {
-  const accessToken = cookies().get('accessToken')?.value;
   const apiKey = getNoroffApiKey();
 
   if (!accessToken) {
