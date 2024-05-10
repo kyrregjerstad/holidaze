@@ -98,13 +98,18 @@ export const ReportDialog = () => {
           </div>
         </DialogHeader>
         <DialogFooter>
-          <div>
-            <DialogClose className={buttonVariants({ variant: 'secondary' })}>
-              Cancel
-            </DialogClose>
-          </div>
           <DialogClose
-            className={buttonVariants()}
+            className={buttonVariants({
+              variant: 'secondary',
+              className: 'flex-1',
+            })}
+          >
+            Cancel
+          </DialogClose>
+          <DialogClose
+            className={buttonVariants({
+              className: 'flex-1',
+            })}
             onClick={() =>
               toast({
                 title: 'Reported',

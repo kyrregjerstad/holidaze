@@ -9,7 +9,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative grid w-full max-w-full sm:grid-cols-[200px_1fr]">
+    <div className="relative grid min-h-dvh w-full max-w-full sm:grid-cols-[200px_1fr]">
       <div className="hidden sm:block">
         <Suspense>
           <AdminSidebar />

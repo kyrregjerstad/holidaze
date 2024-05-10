@@ -28,7 +28,10 @@ export const AccountMenu = ({ user }: Props) => {
           <AvatarFallback>{user.name[0]}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="max-w-[200px] p-2">
+      <DropdownMenuContent
+        align="end"
+        className="flex max-w-[200px] flex-col gap-1 p-4 sm:p-2"
+      >
         <DropdownMenuLabel className="flex max-w-64 flex-col items-end justify-end text-pretty break-all">
           {greeting}
           <div>{user.name}</div>
@@ -64,7 +67,7 @@ export const AccountMenu = ({ user }: Props) => {
           </DropdownMenuItem>
         )}
         <Separator className="my-2" />
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <LogOutBtn />
         </DropdownMenuItem>
       </DropdownMenuContent>

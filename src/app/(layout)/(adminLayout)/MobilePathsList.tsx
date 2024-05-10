@@ -10,7 +10,7 @@ import {
   DrawerClose,
 } from '@/components/ui/drawer';
 
-export const PathsList = () => {
+export const MobilePathsList = () => {
   const activePath = usePathname();
 
   const paths = [
@@ -25,12 +25,14 @@ export const PathsList = () => {
       {paths.map(({ path, Icon, label }) => (
         <li key={path} className="flex items-center gap-2">
           <Icon strokeWidth={activePath === path ? 2.2 : 1.8} />
-          <Link
-            href={path}
-            className={cn(activePath === path ? 'font-bold' : '')}
-          >
-            {label}
-          </Link>
+          <DrawerClose asChild>
+            <Link
+              href={path}
+              className={cn(activePath === path ? 'font-bold' : '')}
+            >
+              {label}
+            </Link>
+          </DrawerClose>
         </li>
       ))}
     </ul>

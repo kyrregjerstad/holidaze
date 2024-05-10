@@ -1,7 +1,12 @@
-import { PathsList } from '@/app/(layout)/(adminLayout)/PathsList';
+import { MobilePathsList } from '@/app/(layout)/(adminLayout)/MobilePathsList';
 import { AccountMenu } from '@/components/AccountMenu';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTrigger,
+} from '@/components/ui/drawer';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { MenuIcon } from 'lucide-react';
 import Link from 'next/link';
@@ -17,7 +22,9 @@ export const AdminHeader = () => {
           </Button>
         </DrawerTrigger>
         <DrawerContent className="p-8">
-          <PathsList />
+          <DrawerClose asChild>
+            <MobilePathsList />
+          </DrawerClose>
         </DrawerContent>
       </Drawer>
       <Suspense>
