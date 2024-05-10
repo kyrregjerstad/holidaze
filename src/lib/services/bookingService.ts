@@ -1,12 +1,11 @@
 'use server';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { z } from 'zod';
 import { API_BASE_URL } from '../constants';
 import { useFetch } from '../hooks/useFetch';
-import { createApiResponseSchema } from '../schema/apiSchema';
+import { createApiError, createApiResponseSchema } from '../schema/apiSchema';
 import { bookingReturnSchema } from '../schema/bookingSchema';
-import { createUrl } from '../utils';
-import { revalidatePath } from 'next/cache';
+import { createUrl, getNoroffApiKey } from '../utils';
 
 type BookVenue = {
   dateFrom: string;
@@ -15,18 +14,24 @@ type BookVenue = {
   venueId: string;
 };
 
-export async function fetchCreateBooking(data: BookVenue) {
-  const accessToken = cookies().get('accessToken')?.value;
-  const apiKey = process.env.NOROFF_API_KEY;
+type CreateBookingReturn = {
+  booking: z.infer<typeof bookingReturnSchema> | null;
+  error: z.ZodError | null;
+  status: number;
+};
 
-  if (!apiKey) {
-    throw new Error(
-      'Missing NOROFF_API key, did you forget to add it to your .env file?'
-    );
-  }
+export async function fetchCreateBooking(
+  data: BookVenue
+): Promise<CreateBookingReturn> {
+  const accessToken = cookies().get('accessToken')?.value;
+  const apiKey = getNoroffApiKey();
 
   if (!accessToken || !apiKey) {
-    redirect('/login');
+    return {
+      booking: null,
+      error: createApiError({ message: 'Missing access token or API key' }),
+      status: 401,
+    };
   }
 
   const { res, error, status } = await useFetch({
@@ -42,7 +47,7 @@ export async function fetchCreateBooking(data: BookVenue) {
     },
   });
 
-  if (!res) return { venue: null, error, status };
+  if (!res) return { booking: null, error, status };
 
   return { booking: res?.data, error, status };
 }

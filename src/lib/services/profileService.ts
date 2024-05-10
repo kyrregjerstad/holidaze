@@ -1,31 +1,33 @@
 'use server';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { z } from 'zod';
 import { API_BASE_URL } from '../constants';
 import { useFetch } from '../hooks/useFetch';
-import { createApiResponseSchema } from '../schema/apiSchema';
-import { userProfileSchema } from '../schema/userSchema';
-import { createUrl } from '../utils';
 import {
-  bookingSchema,
-  venueSchema,
-  venueSchemaWithBookings,
-} from '../schema/venueSchema';
-import { z } from 'zod';
+  createApiError,
+  createApiResponseSchema,
+} from '@/lib/schema/apiSchema';
+import { userProfileSchema } from '@/lib/schema/userSchema';
+import { venueSchemaWithBookings } from '@/lib/schema/venueSchema';
+import { createUrl, getNoroffApiKey } from '@/lib/utils';
 
-export async function fetchProfileByName(name: string, token?: string) {
+type FetchProfileByNameReturn = {
+  profile: z.infer<typeof userProfileSchema> | null;
+  error: z.ZodError | null;
+  status: number;
+};
+
+export async function fetchProfileByName(
+  name: string,
+  token?: string
+): Promise<FetchProfileByNameReturn> {
   const accessToken = token || cookies().get('accessToken')?.value;
-  const apiKey = process.env.NOROFF_API_KEY;
+  const apiKey = getNoroffApiKey();
 
-  if (!apiKey) {
-    throw new Error(
-      'Missing NOROFF_API key, did you forget to add it to your .env file?'
-    );
-  }
-
-  if (!accessToken || !apiKey) {
-    console.error('Missing access token or api key');
-    redirect('/login');
+  if (!accessToken) {
+    console.error('Missing access token');
+    const error = createApiError({ message: 'Missing access token' });
+    return { profile: null, error, status: 401 };
   }
 
   const { res, error, status } = await useFetch({
@@ -40,21 +42,30 @@ export async function fetchProfileByName(name: string, token?: string) {
     },
   });
 
-  if (!res) return { venue: null, error, status };
+  if (!res) return { profile: null, error, status };
 
-  return { profile: res?.data, error, status };
+  return { profile: res.data, error, status };
 }
 
-export async function fetchAllVenuesByProfile(name: string) {
-  const accessToken = cookies().get('accessToken')?.value;
-  const apiKey = process.env.NOROFF_API_KEY;
+type FetchAllVenuesByProfileReturn = {
+  venues: z.infer<typeof venueSchemaWithBookings>[];
+  error: z.ZodError | null;
+  status: number;
+};
 
-  if (!accessToken || !apiKey) {
-    console.error('Missing access token or api key');
-    redirect('/login');
+export async function fetchAllVenuesByProfile(
+  name: string
+): Promise<FetchAllVenuesByProfileReturn> {
+  const accessToken = cookies().get('accessToken')?.value;
+  const apiKey = getNoroffApiKey();
+
+  if (!accessToken) {
+    console.error('Missing access token');
+    const error = createApiError({ message: 'Missing access token' });
+    return { venues: [], error, status: 401 };
   }
 
-  const { res, error } = await useFetch({
+  const { res, error, status } = await useFetch({
     url: createUrl(`${API_BASE_URL}/holidaze/profiles/${name}/venues`, {
       _bookings: true,
     }),
@@ -65,7 +76,7 @@ export async function fetchAllVenuesByProfile(name: string) {
     },
   });
 
-  if (!res) return { venues: [], error };
+  if (!res) return { venues: [], error, status };
 
-  return { venues: res?.data, error };
+  return { venues: res.data, error, status };
 }

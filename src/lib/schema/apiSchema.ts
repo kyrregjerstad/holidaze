@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { ZodError, ZodIssueCode, z } from 'zod';
 
 export const apiMetaSchema = z.object({
   isFirstPage: z.boolean(),
@@ -39,3 +39,48 @@ export const errorsSchema = z.object({
   status: z.string(),
   statusCode: z.number(),
 });
+
+const ZodIssueCodeEnum = z.enum([
+  'invalid_type',
+  'invalid_literal',
+  'custom',
+  'invalid_union',
+  'invalid_union_discriminator',
+  'invalid_enum_value',
+  'unrecognized_keys',
+  'invalid_arguments',
+  'invalid_return_type',
+  'invalid_date',
+  'invalid_string',
+  'too_small',
+  'too_big',
+  'invalid_intersection_types',
+  'not_multiple_of',
+  'not_finite',
+]);
+
+const apiSubErrorSchema = z.object({
+  code: ZodIssueCodeEnum.optional(),
+  message: z.string(),
+  path: z.array(z.string()).optional(),
+});
+
+export const apiErrorSchema = z.object({
+  errors: z.array(apiSubErrorSchema),
+  status: z.string(),
+  statusCode: z.number(),
+});
+
+export function createApiError({
+  message,
+  code = 'custom',
+  path = [],
+}: {
+  message: string;
+  code?: string;
+  path?: string[];
+}): ZodError {
+  const error = apiSubErrorSchema.parse({ message, code, path });
+
+  return new ZodError([{ message: error.message, code: 'custom', path }]);
+}

@@ -51,7 +51,7 @@ export async function fetchCreateApiKey(
 
   const { name, accessToken } = validation.data;
 
-  const { res, error } = await useFetch({
+  const { res, error, status } = await useFetch({
     url: `${API_BASE_URL}/auth/create-api-key`,
     auth: {
       accessToken: accessToken,
@@ -62,7 +62,7 @@ export async function fetchCreateApiKey(
     },
     schema: createApiResponseSchema(apiKeySchema),
   });
-  return { res, error };
+  return { res, error, status };
 }
 
 export async function handleLoginApi(
@@ -83,8 +83,6 @@ export async function handleLoginApi(
     }
 
     const data = await res.json();
-
-    console.log(data);
 
     const validation = loginApiResponseSchema.safeParse(data);
 
