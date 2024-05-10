@@ -24,9 +24,9 @@ export default async function HomePage() {
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
                 Holidaze
               </h1>
-              <p className="mx-auto max-w-[700px] text-gray-600 dark:text-gray-400 md:text-xl">
+              <h2 className="mx-auto max-w-[700px] text-gray-600 dark:text-gray-400 md:text-xl">
                 Your Gateway to Unforgettable Getaways
-              </p>
+              </h2>
             </div>
             <HeroSearch />
           </div>
