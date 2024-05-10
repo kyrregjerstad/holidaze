@@ -71,7 +71,7 @@ export const VenuesTable = ({ venues }: Props) => {
   });
 
   return (
-    <div className="w-full max-w-[100vw] p-4">
+    <div className="w-full max-w-[100vw] p-4 sm:max-w-[calc(100vw_-_168px)]">
       <div className="flex items-center py-4">
         <div className="flex gap-2">
           <Input
