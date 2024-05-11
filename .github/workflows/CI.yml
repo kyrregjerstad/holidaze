@@ -75,6 +75,8 @@ jobs:
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ needs.setup.outputs.cache-key }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - run: pnpm install
       - run: pnpm run lint
 
@@ -96,6 +98,8 @@ jobs:
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ needs.setup.outputs.cache-key }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - run: pnpm install
       - run: pnpm run build
       - uses: actions/upload-artifact@v2
