@@ -62,15 +62,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.18.0'
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ needs.setup.outputs.cache-key }}
+      - run: pnpm install
       - run: pnpm run lint
 
   build:
     needs: lint
     runs-on: ubuntu-latest
-    outputs:
-      build-artifact: build
     steps:
       - uses: actions/checkout@v4.1.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18.18.0'
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ needs.setup.outputs.cache-key }}
+      - run: pnpm install
       - run: pnpm run build
       - uses: actions/upload-artifact@v2
         with:
