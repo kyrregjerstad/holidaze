@@ -46,7 +46,7 @@ TODO:
 */
 type Props = {
   venue: Venue;
-  submitFn: (id: string, data: UpdateVenueSchema) => Promise<UpdateVenueReturn>;
+  submitFn: (id: string, data: UpdateVenueSchema) => UpdateVenueReturn;
   onSuccess: () => Promise<void>;
 };
 
