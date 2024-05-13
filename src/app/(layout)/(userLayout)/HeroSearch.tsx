@@ -1,6 +1,8 @@
 'use client';
 
-import { KeyboardEvent, useState } from 'react';
+import type { KeyboardEvent } from 'react';
+
+import { useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -8,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { DatePicker } from '@/components/DatePicker';
 import { buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useBookingStore } from '../../../components/venue/bookingStore';
+import { useBookingStore } from '@/components/venue/bookingStore';
 
 export const HeroSearch = ({ prefilledTerm }: { prefilledTerm?: string }) => {
   const [searchTerm, setSearchTerm] = useState<string>(prefilledTerm || '');

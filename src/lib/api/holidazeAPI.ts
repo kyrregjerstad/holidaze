@@ -1,8 +1,6 @@
 'use server';
 
-import { cookies } from 'next/headers';
-
-import { z } from 'zod';
+import type { z } from 'zod';
 
 import { API_BASE_URL } from '@/lib/constants';
 import { fetcher } from '@/lib/utils/fetcher';
@@ -21,7 +19,7 @@ type Endpoint =
 type HolidazeAPIOptions<T> = {
   endpoint: Endpoint;
   query?: Record<string, string | number | boolean>;
-  data?: any;
+  data?: unknown;
   method?: Method;
   headers?: Headers;
   schema: z.Schema<T>;

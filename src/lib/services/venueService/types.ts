@@ -1,7 +1,9 @@
-import { z } from 'zod';
-
-import { ApiMetaPartial } from '@/lib/schema/apiSchema';
-import { venueSchema, venueSchemaExtended } from '@/lib/schema/venueSchema';
+import type { ApiMetaPartial } from '@/lib/schema/apiSchema';
+import type {
+  venueSchema,
+  venueSchemaExtended,
+} from '@/lib/schema/venueSchema';
+import type { z } from 'zod';
 
 export type VenueOptions = {
   owner?: boolean;

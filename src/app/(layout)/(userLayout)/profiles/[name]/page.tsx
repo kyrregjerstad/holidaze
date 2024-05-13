@@ -1,13 +1,13 @@
+import type { userProfileSchema } from '@/lib/schema/userSchema';
+import type { z } from 'zod';
+
 import React from 'react';
 
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
 
-import { z } from 'zod';
-
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
-import { userProfileSchema } from '@/lib/schema/userSchema';
 import { profileService } from '@/lib/services';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';

@@ -1,16 +1,15 @@
 'use client';
 
+import type { registerUserSchema } from '@/lib/schema/userSchema';
+import type { z } from 'zod';
+
 import Link from 'next/link';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
-import {
-  registerUserSchema,
-  registerUserSchemaExtended,
-} from '@/lib/schema/userSchema';
+import { registerUserSchemaExtended } from '@/lib/schema/userSchema';
 import { authService } from '@/lib/services';
 import { Button } from '@/components/ui/button';
 import {
@@ -156,7 +155,7 @@ export const RegisterForm = ({ onSuccess }: Props) => {
                   {...form.register('venueManager')}
                   className="size-4"
                 />
-                I'm a venue manager
+                I&apos;m a venue manager
               </Label>
               <Button
                 type="submit"

@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import type { registerUserSchema } from '@/lib/schema';
+import type { z } from 'zod';
 
 import { API_BASE_URL } from '@/lib/constants';
 import {
   createApiResponseSchema,
   registerUserResponseSchema,
-  registerUserSchema,
 } from '@/lib/schema';
 import { fetcher } from '@/lib/utils/fetcher';
 

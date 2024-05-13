@@ -1,17 +1,16 @@
-import { z } from 'zod';
-
-import { holidazeAPI } from '@/lib/api/holidazeAPI';
-import {
-  ApiMetaPartial,
-  createApiResponseSchema,
-} from '@/lib/schema/apiSchema';
-import { buildVenueSchema } from './buildVenueSchema';
-import {
+import type { ApiMetaPartial } from '@/lib/schema/apiSchema';
+import type {
   BaseVenue,
   VenueWithBookings,
   VenueWithOwner,
   VenueWithOwnerAndBookings,
 } from './types';
+
+import { z } from 'zod';
+
+import { holidazeAPI } from '@/lib/api/holidazeAPI';
+import { createApiResponseSchema } from '@/lib/schema/apiSchema';
+import { buildVenueSchema } from './buildVenueSchema';
 
 type GetAllVenuesReturn<T> = {
   venues: T[];

@@ -1,6 +1,6 @@
-import { z } from 'zod';
+import type { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
+import type { z } from 'zod';
 
-import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import { Badge } from '@/components/ui/badge';
 
 type Props = {

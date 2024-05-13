@@ -1,11 +1,11 @@
 'use client';
 
+import type { locationSchema } from '@/lib/schema/venueSchema';
+import type { z } from 'zod';
+
 import React, { useEffect, useState } from 'react';
 
 import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
-import { z } from 'zod';
-
-import { locationSchema } from '@/lib/schema/venueSchema';
 
 type Props = {
   location: z.infer<typeof locationSchema>;
@@ -53,7 +53,9 @@ export const LocationMap = ({ location }: Props) => {
       const fullAddress = `${location.address}, ${location.city}, ${location.zip}, ${location.country}`;
       const geocoder = new google.maps.Geocoder();
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       geocoder.geocode({ address: fullAddress }, (results, status) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
         if (status === 'OK' && results && results.length > 0) {
           setMapCenter(results[0].geometry.location.toJSON());
         } else {

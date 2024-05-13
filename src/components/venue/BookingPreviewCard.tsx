@@ -1,7 +1,8 @@
-import { differenceInDays, parseISO } from 'date-fns';
-import { z } from 'zod';
+import type { venueSchemaExtended } from '@/lib/schema/venueSchema';
+import type { z } from 'zod';
 
-import { venueSchemaExtended } from '@/lib/schema/venueSchema';
+import { differenceInDays, parseISO } from 'date-fns';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '../ui/badge';
 

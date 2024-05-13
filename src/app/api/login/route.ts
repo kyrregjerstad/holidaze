@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     console.log('res', res);
     console.log('error', error);
 
-    if (error || !res || !res.data.accessToken) {
+    if (error || !res?.data.accessToken) {
       return Response.json('error', { status: 400 });
     }
 

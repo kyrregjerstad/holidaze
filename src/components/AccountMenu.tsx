@@ -1,8 +1,9 @@
+import type { CookieUser } from '@/lib/utils/cookies';
+
 import Link from 'next/link';
 
 import { CircleUserIcon, FolderOpenIcon, HomeIcon } from 'lucide-react';
 
-import { CookieUser } from '@/lib/utils/cookies';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,

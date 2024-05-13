@@ -53,7 +53,7 @@ export const ImageUploader = ({
     }
 
     setFiles(acceptedFiles);
-    startUpload(acceptedFiles);
+    void startUpload(acceptedFiles);
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({

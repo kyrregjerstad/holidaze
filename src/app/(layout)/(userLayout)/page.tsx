@@ -1,8 +1,8 @@
+import type { Metadata } from 'next';
+
 import { Suspense } from 'react';
 
 import Image from 'next/image';
-
-import { Metadata } from 'next';
 
 import { HERO_IMAGE } from '@/lib/constants';
 import { HeroSearch } from './HeroSearch';

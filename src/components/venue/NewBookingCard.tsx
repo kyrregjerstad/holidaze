@@ -1,10 +1,10 @@
 'use client';
 
+import type { venueSchemaExtended } from '@/lib/schema/venueSchema';
+import type { z } from 'zod';
+
 import { useEffect } from 'react';
 
-import { z } from 'zod';
-
-import { venueSchemaExtended } from '@/lib/schema/venueSchema';
 import { formatUSD } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookingDrawer } from '../BookingDrawer';
@@ -18,10 +18,9 @@ import { useBookingStore } from './bookingStore';
 
 type Props = {
   venue: z.infer<typeof venueSchemaExtended>;
-  user: { name: string } | null;
 };
 
-export const NewBookingCard = ({ venue, user }: Props) => {
+export const NewBookingCard = ({ venue }: Props) => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -45,6 +44,7 @@ export const NewBookingCard = ({ venue, user }: Props) => {
 
   useEffect(() => {
     calculateTotalDays();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startDate, endDate]);
 
   const totalPrice = venue.price * amountOfDays;
@@ -137,7 +137,7 @@ export const NewBookingCard = ({ venue, user }: Props) => {
             </BookingDrawer>
           </div>
           <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-            You won't be charged yet
+            You won&apos;t be charged yet
           </div>
         </div>
       </CardContent>

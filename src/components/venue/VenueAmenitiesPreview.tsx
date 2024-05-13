@@ -1,9 +1,8 @@
-import { ReactNode } from 'react';
+import type { amenityEnum } from '@/lib/schema/venueSchema';
+import type { ReactNode } from 'react';
+import type { z } from 'zod';
 
 import { CarIcon, CroissantIcon, DogIcon, WifiIcon } from 'lucide-react';
-import { z } from 'zod';
-
-import { amenityEnum } from '@/lib/schema/venueSchema';
 
 type Amenity = z.infer<typeof amenityEnum>;
 

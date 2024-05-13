@@ -1,11 +1,8 @@
-import { z } from 'zod';
+import type { loginUserSchema } from '@/lib/schema';
+import type { z } from 'zod';
 
 import { API_BASE_URL } from '@/lib/constants';
-import {
-  createApiResponseSchema,
-  loginUserReturnSchema,
-  loginUserSchema,
-} from '@/lib/schema';
+import { createApiResponseSchema, loginUserReturnSchema } from '@/lib/schema';
 import { fetcher } from '@/lib/utils/fetcher';
 
 export async function createAccessToken(data: z.infer<typeof loginUserSchema>) {

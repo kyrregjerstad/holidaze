@@ -1,3 +1,5 @@
+import type { Venue } from '@/lib/services/venueService/getVenueById';
+
 import { Suspense } from 'react';
 
 import { notFound } from 'next/navigation';
@@ -6,7 +8,6 @@ import { z } from 'zod';
 
 import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import { venueService } from '@/lib/services';
-import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { Debug } from '@/components/Debug';
 import {

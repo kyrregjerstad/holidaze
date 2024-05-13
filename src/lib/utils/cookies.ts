@@ -10,6 +10,7 @@ export function getUserFromCookie() {
   }
 
   const userJson = decodeURIComponent(user);
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const userData = JSON.parse(userJson);
 
   const validation = userCookieSchema.safeParse(userData);

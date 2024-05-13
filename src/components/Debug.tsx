@@ -5,7 +5,7 @@ import React from 'react';
 import { useSearchParams } from 'next/navigation';
 
 type Props = {
-  data: any;
+  data: unknown;
 };
 
 export const Debug = ({ data }: Props) => {

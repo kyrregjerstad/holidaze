@@ -8,7 +8,6 @@ import {
 import { z } from 'zod';
 
 import { venueService } from '@/lib/services';
-import { recursivelyGetAllVenues } from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { SearchBar } from './SearchBar';
 import { SearchResult } from './SearchResult';
 

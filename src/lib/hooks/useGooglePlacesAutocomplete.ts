@@ -48,7 +48,7 @@ export const useGooglePlacesAutocomplete = ({ onPlaceSelect }: Params) => {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
       setInputValue(value);
-      fetchPredictions(value);
+      void fetchPredictions(value);
     },
     [fetchPredictions]
   );

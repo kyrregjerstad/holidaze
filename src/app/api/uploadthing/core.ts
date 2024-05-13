@@ -14,7 +14,7 @@ export const ourFileRouter = {
     // Set permissions and file types for this FileRoute
     .middleware(async ({ req }) => {
       // This code runs on your server before upload
-      const user = await auth(req);
+      const user = auth(req);
 
       // If you throw, the user will not be able to upload
       if (!user.id) throw new UploadThingError('Unauthorized');

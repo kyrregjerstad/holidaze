@@ -1,8 +1,8 @@
+import type { venueSchema } from '@/lib/schema/venueSchema';
+import type { z } from 'zod';
+
 import Link from 'next/link';
 
-import { z } from 'zod';
-
-import { venueSchema } from '@/lib/schema/venueSchema';
 import { formatUSD } from '@/lib/utils';
 import {
   Card,

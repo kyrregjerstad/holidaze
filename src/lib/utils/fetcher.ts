@@ -21,6 +21,7 @@ export async function fetcher<T>({
     const response = await fetch(url, options);
 
     if (!response.ok) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const errorResponse = await response.json();
 
       const parsedError = errorsSchema.safeParse(errorResponse);
@@ -53,6 +54,7 @@ export async function fetcher<T>({
       };
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const data = await response.json();
 
     const result = schema.safeParse(data);

@@ -6,12 +6,6 @@ import { usePathname } from 'next/navigation';
 import { CalendarIcon, HomeIcon, NotepadTextIcon, Undo } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerTrigger,
-} from '@/components/ui/drawer';
 
 export const PathsList = () => {
   const activePath = usePathname();

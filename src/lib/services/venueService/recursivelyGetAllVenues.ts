@@ -2,9 +2,9 @@
 
 import 'server-only';
 
-import { z } from 'zod';
+import type { venueSchema } from '@/lib/schema';
+import type { z } from 'zod';
 
-import { venueSchema } from '../../schema/venueSchema';
 import { getAllVenues } from './getAllVenues';
 
 type SortOptions = 'id' | 'name' | 'price' | 'rating' | 'created' | 'maxGuests';

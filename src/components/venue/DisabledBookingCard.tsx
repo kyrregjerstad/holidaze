@@ -1,9 +1,9 @@
 'use client';
 
+import type { Venue } from '@/lib/services/venueService/getVenueById';
+
 import Link from 'next/link';
 
-import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
-import { formatUSD } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DatePicker } from '../DatePicker';
 import { Button } from '../ui/button';
@@ -48,6 +48,7 @@ export const DisabledBookingCard = ({ venue }: Props) => {
               <DatePicker
                 label="Check in"
                 bookedDates={[]}
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
                 setDate={() => {}}
                 selectedDate={undefined}
                 overlayDate={undefined}
@@ -55,6 +56,7 @@ export const DisabledBookingCard = ({ venue }: Props) => {
               <DatePicker
                 label="Check out"
                 bookedDates={[]}
+                // eslint-disable-next-line @typescript-eslint/no-empty-function
                 setDate={() => {}}
                 selectedDate={undefined}
                 overlayDate={undefined}
@@ -88,7 +90,7 @@ export const DisabledBookingCard = ({ venue }: Props) => {
             <Button className={'w-full'}>Reserve</Button>
           </div>
           <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-            You won't be charged yet
+            You won&apos;t be charged yet
           </div>
         </div>
       </CardContent>

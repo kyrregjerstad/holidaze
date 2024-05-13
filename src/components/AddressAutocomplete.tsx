@@ -1,4 +1,6 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import type { RefObject } from 'react';
+
+import { useEffect, useRef, useState } from 'react';
 
 import { useGooglePlacesAutocomplete } from '@/lib/hooks/useGooglePlacesAutocomplete';
 import { Input } from './ui/input';

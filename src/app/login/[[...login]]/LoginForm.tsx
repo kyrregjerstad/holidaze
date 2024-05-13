@@ -1,11 +1,12 @@
 'use client';
 
+import type { z } from 'zod';
+
 import Link from 'next/link';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { loginUserSchema } from '@/lib/schema/userSchema';
 import { authService } from '@/lib/services';
@@ -111,7 +112,7 @@ export const LoginForm = ({ onSuccess }: Props) => {
           </Form>
         </CardContent>
         <CardFooter className="flex flex-col justify-center text-xs">
-          <p>Don't have an account?</p>
+          <p>Don&apos;t have an account?</p>
           <Link href="/register" className="cursor-pointer hover:underline">
             Register
           </Link>

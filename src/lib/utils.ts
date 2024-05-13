@@ -11,7 +11,6 @@ export function createUrl(
   baseUrl: string,
   params?: Record<string, boolean | string | number>
 ) {
-  console.log('baseUrl', baseUrl);
   const url = new URL(baseUrl);
 
   if (params) {

@@ -11,6 +11,7 @@
     "<TYPES>^(node:)",
     "<TYPES>",
     "<TYPES>^[.]",
+    "",
     "^react$",
     "",
     "^next(/.*)$",

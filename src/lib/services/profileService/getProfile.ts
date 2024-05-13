@@ -1,6 +1,6 @@
 'use server';
 
-import { z } from 'zod';
+import type { z } from 'zod';
 
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
