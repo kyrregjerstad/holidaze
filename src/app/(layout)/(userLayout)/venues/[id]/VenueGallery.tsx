@@ -1,8 +1,10 @@
 'use client';
+
+import { useState } from 'react';
+import Image from 'next/image';
+
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
-import Image from 'next/image';
-import { useState } from 'react';
 
 type Image = {
   url: string;

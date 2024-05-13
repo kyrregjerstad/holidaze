@@ -1,9 +1,11 @@
 'use server';
+
 import { z } from 'zod';
-import { createApiResponseSchema } from '@/lib/schema/apiSchema';
+
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
-import { VenueOptions } from './recursivelyGetAllVenues';
+import { createApiResponseSchema } from '@/lib/schema/apiSchema';
 import { buildVenueSchema } from './buildVenueSchema';
+import { VenueOptions } from './recursivelyGetAllVenues';
 
 export async function getVenuesBySearchTerm(
   searchTerm: string,

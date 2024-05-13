@@ -1,5 +1,7 @@
 'use client';
 
+import { eachDayOfInterval } from 'date-fns';
+
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
@@ -8,7 +10,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { eachDayOfInterval } from 'date-fns';
 
 type Props = {
   bookedDates: Date[];

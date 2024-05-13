@@ -1,15 +1,16 @@
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from '@/components/ui/card';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
 import { OwnerCardBanner } from './OwnerCardBanner';
 
 type Props = {

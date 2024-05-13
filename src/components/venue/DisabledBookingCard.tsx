@@ -1,13 +1,15 @@
 'use client';
+
+import Link from 'next/link';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { formatUSD } from '@/lib/utils';
 import { DatePicker } from '../DatePicker';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
-import Link from 'next/link';
-import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
 
 type Props = {
   venue: Venue;

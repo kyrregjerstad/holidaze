@@ -1,9 +1,10 @@
+import { z } from 'zod';
+
 import {
   bookingSchema,
   ownerSchema,
   venueSchema,
 } from '@/lib/schema/venueSchema';
-import { z } from 'zod';
 
 export function buildVenueSchema(options: {
   owner?: boolean;

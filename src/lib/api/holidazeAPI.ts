@@ -1,9 +1,10 @@
 'use server';
 
-import { fetcher } from '@/lib/utils/fetcher';
-import { API_BASE_URL } from '@/lib/constants';
-import { z } from 'zod';
 import { cookies } from 'next/headers';
+import { z } from 'zod';
+
+import { API_BASE_URL } from '@/lib/constants';
+import { fetcher } from '@/lib/utils/fetcher';
 import { createUrl, getNoroffApiKey } from '../utils';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';

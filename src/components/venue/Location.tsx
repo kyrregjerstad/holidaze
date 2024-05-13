@@ -1,9 +1,10 @@
 'use client';
 
-import { locationSchema } from '@/lib/schema/venueSchema';
-import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import React, { useEffect, useState } from 'react';
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { z } from 'zod';
+
+import { locationSchema } from '@/lib/schema/venueSchema';
 
 type Props = {
   location: z.infer<typeof locationSchema>;

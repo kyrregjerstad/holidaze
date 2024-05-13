@@ -1,4 +1,8 @@
 'use client';
+
+import { ReactNode, useRef, useState } from 'react';
+import Image from 'next/image';
+
 import {
   Drawer,
   DrawerClose,
@@ -8,17 +12,15 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer';
+import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
+import { bookingService } from '@/lib/services';
 import { createBooking } from '@/lib/services/bookingService/createBooking';
 import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { formatUSD } from '@/lib/utils';
-import { ReactNode, useRef, useState } from 'react';
+import { revalidateVenue } from '@/lib/utils/revalidateVenue';
 import { Badge } from './ui/badge';
 import { Button, buttonVariants } from './ui/button';
 import { useToast } from './ui/use-toast';
-import { revalidateVenue } from '@/lib/utils/revalidateVenue';
-import Image from 'next/image';
-import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
-import { bookingService } from '@/lib/services';
 
 type Props = {
   venue: Venue;

@@ -1,11 +1,12 @@
-import { venueService } from '@/lib/services';
-import {
-  UpdateVenueSchema,
-  fetchUpdateVenueById,
-} from '@/lib/services/venueService/recursivelyGetAllVenues';
-import { getUserFromCookie } from '@/lib/utils/cookies';
 import { notFound, redirect } from 'next/navigation';
 import { z } from 'zod';
+
+import { venueService } from '@/lib/services';
+import {
+  fetchUpdateVenueById,
+  UpdateVenueSchema,
+} from '@/lib/services/venueService/recursivelyGetAllVenues';
+import { getUserFromCookie } from '@/lib/utils/cookies';
 import { EditVenueForm } from '../../new/EditVenueForm';
 
 type Props = {

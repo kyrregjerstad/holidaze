@@ -1,15 +1,16 @@
 'use client';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import Link from 'next/link';
-import { KeyboardEvent, useState } from 'react';
-import { DatePicker } from '@/components/DatePicker';
 
+import { KeyboardEvent, useState } from 'react';
+import { RotateCcwIcon, TimerResetIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useBookingStore } from '../../../../components/venue/bookingStore';
+
+import { DatePicker } from '@/components/DatePicker';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { TimerResetIcon, RotateCcwIcon } from 'lucide-react';
+import { useBookingStore } from '../../../../components/venue/bookingStore';
 
 export const SearchBar = ({ prefilledTerm }: { prefilledTerm?: string }) => {
   const [searchTerm, setSearchTerm] = useState<string>(prefilledTerm || '');

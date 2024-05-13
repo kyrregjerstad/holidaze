@@ -1,15 +1,15 @@
-import { recursivelyGetAllVenues } from '@/lib/services/venueService/recursivelyGetAllVenues';
-import { notFound } from 'next/navigation';
-import { z } from 'zod';
-import { SearchBar } from './SearchBar';
-
 import {
+  dehydrate,
   HydrationBoundary,
   QueryClient,
-  dehydrate,
 } from '@tanstack/react-query';
-import { SearchResult } from './SearchResult';
+import { notFound } from 'next/navigation';
+import { z } from 'zod';
+
 import { venueService } from '@/lib/services';
+import { recursivelyGetAllVenues } from '@/lib/services/venueService/recursivelyGetAllVenues';
+import { SearchBar } from './SearchBar';
+import { SearchResult } from './SearchResult';
 
 type Props = {
   searchParams?: {

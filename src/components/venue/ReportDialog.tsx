@@ -1,19 +1,21 @@
 'use client';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import {
-  DialogTrigger,
-  DialogClose,
-  DialogTitle,
-  DialogDescription,
-  DialogHeader,
-  DialogFooter,
-  DialogContent,
-  Dialog,
-} from '@/components/ui/dialog';
-import { RadioGroupItem, RadioGroup } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
+
 import { FlagIcon } from 'lucide-react';
+
+import { Button, buttonVariants } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Separator } from '@/components/ui/separator';
 import { useToast } from '../ui/use-toast';
 
 export const ReportDialog = () => {

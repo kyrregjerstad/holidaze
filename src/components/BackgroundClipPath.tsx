@@ -1,5 +1,6 @@
 'use client';
-import { motion, AnimatePresence } from 'framer-motion';
+
+import { AnimatePresence, motion } from 'framer-motion';
 
 export const BackgroundClipPath = () => {
   return (

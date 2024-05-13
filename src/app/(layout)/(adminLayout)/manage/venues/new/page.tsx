@@ -1,9 +1,10 @@
-import { z } from 'zod';
-import { NewVenueForm } from './NewVenueForm';
-import { fetchCreateVenue } from '@/lib/services/venueService/recursivelyGetAllVenues';
-import { createVenueSchema } from '@/lib/schema/venueSchema';
 import { redirect } from 'next/navigation';
+import { z } from 'zod';
+
+import { createVenueSchema } from '@/lib/schema/venueSchema';
 import { venueService } from '@/lib/services';
+import { fetchCreateVenue } from '@/lib/services/venueService/recursivelyGetAllVenues';
+import { NewVenueForm } from './NewVenueForm';
 
 const CreateNewVenuePage = async () => {
   const submitFn = async (data: z.infer<typeof createVenueSchema>) => {

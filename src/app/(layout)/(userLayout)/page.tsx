@@ -1,10 +1,11 @@
-import { Metadata } from 'next';
-import { VenuesGrid } from './VenuesGrid';
 import { Suspense } from 'react';
-import { HeroSearch } from './HeroSearch';
-import { VenuesGridSkeleton } from './VenuesGridSkeleton';
+import { Metadata } from 'next';
 import Image from 'next/image';
+
 import { HERO_IMAGE } from '@/lib/constants';
+import { HeroSearch } from './HeroSearch';
+import { VenuesGrid } from './VenuesGrid';
+import { VenuesGridSkeleton } from './VenuesGridSkeleton';
 
 export default async function HomePage() {
   return (

@@ -1,4 +1,4 @@
-import { ZodError, ZodIssueCode, z } from 'zod';
+import { z, ZodError, ZodIssueCode } from 'zod';
 
 export const apiMetaSchema = z.object({
   isFirstPage: z.boolean(),

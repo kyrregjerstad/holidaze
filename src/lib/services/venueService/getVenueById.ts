@@ -1,12 +1,14 @@
 'use server';
+
 import { z } from 'zod';
+
+import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
 import {
   bookingSchema,
   ownerSchema,
   venueSchema,
 } from '@/lib/schema/venueSchema';
-import { holidazeAPI } from '@/lib/api/holidazeAPI';
 
 export async function getVenueById(id: string) {
   const { res, error, status } = await holidazeAPI({

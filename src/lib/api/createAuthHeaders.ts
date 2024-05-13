@@ -1,4 +1,5 @@
 'use server';
+
 import { getNoroffApiKey } from '../utils';
 
 export async function createAuthHeaders(accessToken: string) {

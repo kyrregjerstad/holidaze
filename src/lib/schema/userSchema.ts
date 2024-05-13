@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { venueSchema } from './venueSchema';
 
 export const registerUserSchema = z.object({

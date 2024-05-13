@@ -1,7 +1,8 @@
 'use client';
 
-import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 import Image from 'next/image';
+
+import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 
 export const VenueCardImage = ({
   url,

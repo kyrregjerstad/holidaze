@@ -1,3 +1,7 @@
+import { Suspense } from 'react';
+import { notFound } from 'next/navigation';
+import { z } from 'zod';
+
 import { Debug } from '@/components/Debug';
 import {
   Breadcrumb,
@@ -24,9 +28,6 @@ import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import { venueService } from '@/lib/services';
 import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { getUserFromCookie } from '@/lib/utils/cookies';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import { z } from 'zod';
 import { VenueGallery } from './VenueGallery';
 
 type Props = {

@@ -1,5 +1,6 @@
-import { fetcher } from '@/lib/utils/fetcher';
 import { z } from 'zod';
+
+import { fetcher } from '@/lib/utils/fetcher';
 
 export async function login(
   email: string,

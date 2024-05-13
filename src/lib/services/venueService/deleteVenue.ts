@@ -1,7 +1,8 @@
 'use server';
+
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
-import { venueSchema } from '../../schema/venueSchema';
 import { holidazeAPI } from '../../api/holidazeAPI';
+import { venueSchema } from '../../schema/venueSchema';
 
 export async function deleteVenue(id: string) {
   const { res, error, status } = await holidazeAPI({

@@ -1,7 +1,15 @@
 'use client';
 
+import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { APIProvider } from '@vis.gl/react-google-maps';
+import { XIcon } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { ImageUploader } from '@/components/ImageUploader';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -22,6 +30,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/components/ui/use-toast';
 import {
   createVenueSchema,
   createVenueSchemaFlattened,
@@ -32,14 +41,6 @@ import {
   UpdateVenueSchema,
   Venue,
 } from '@/lib/services/venueService/recursivelyGetAllVenues';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { XIcon } from 'lucide-react';
-import Image from 'next/image';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { useToast } from '@/components/ui/use-toast';
-import { useRouter } from 'next/navigation';
 
 /* 
 TODO: 

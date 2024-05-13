@@ -1,5 +1,5 @@
-import { useMapsLibrary } from '@vis.gl/react-google-maps';
 import { useCallback, useEffect, useState } from 'react';
+import { useMapsLibrary } from '@vis.gl/react-google-maps';
 
 type Params = {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;

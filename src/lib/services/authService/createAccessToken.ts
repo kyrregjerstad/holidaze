@@ -1,11 +1,12 @@
 import { z } from 'zod';
-import { fetcher } from '@/lib/utils/fetcher';
+
 import { API_BASE_URL } from '@/lib/constants';
 import {
   createApiResponseSchema,
   loginUserReturnSchema,
   loginUserSchema,
 } from '@/lib/schema';
+import { fetcher } from '@/lib/utils/fetcher';
 
 export async function createAccessToken(data: z.infer<typeof loginUserSchema>) {
   const { res, error } = await fetcher({

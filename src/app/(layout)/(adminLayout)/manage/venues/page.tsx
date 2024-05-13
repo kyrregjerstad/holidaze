@@ -1,9 +1,10 @@
-import { profileService } from '@/lib/services';
-import { getUserFromCookie } from '@/lib/utils/cookies';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
-import { VenuesTable } from './VenuesTable';
+
+import { profileService } from '@/lib/services';
+import { getUserFromCookie } from '@/lib/utils/cookies';
 import { processVenue } from './processVenue';
+import { VenuesTable } from './VenuesTable';
 
 const ManageVenuesPage = async () => {
   const user = getUserFromCookie();

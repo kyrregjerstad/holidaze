@@ -1,8 +1,9 @@
-import { redirect } from 'next/navigation';
-import { RegisterForm } from './RegisterForm';
 import { Header } from '@/app/login/[[...login]]/Header';
+import { redirect } from 'next/navigation';
+
 import { BackgroundClipPath } from '@/components/BackgroundClipPath';
 import { BackgroundImage } from '@/components/BackgroundImage';
+import { RegisterForm } from './RegisterForm';
 
 export default async function Page() {
   const onSuccess = async () => {

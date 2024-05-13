@@ -1,5 +1,6 @@
-import { errorsSchema } from '@/lib/schema/apiSchema';
 import { z } from 'zod';
+
+import { errorsSchema } from '@/lib/schema/apiSchema';
 
 type FetcherReturn<T> = {
   res: T | null;

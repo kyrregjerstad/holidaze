@@ -1,9 +1,10 @@
-import { useUploadThing } from '@/lib/utils/uploadthing';
-import { useDropzone } from '@uploadthing/react';
 import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { useDropzone } from '@uploadthing/react';
 import { generateClientDropzoneAccept } from 'uploadthing/client';
-import { Progress } from './ui/progress';
+
+import { useUploadThing } from '@/lib/utils/uploadthing';
 import { Label } from './ui/label';
+import { Progress } from './ui/progress';
 
 type Props = {
   files: File[];

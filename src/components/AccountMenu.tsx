@@ -1,3 +1,6 @@
+import { CircleUserIcon, FolderOpenIcon, HomeIcon } from 'lucide-react';
+import Link from 'next/link';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -10,8 +13,6 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { CookieUser } from '@/lib/utils/cookies';
 import { LogOutBtn } from './LogOutBtn';
-import { CircleUserIcon, FolderOpenIcon, HomeIcon } from 'lucide-react';
-import Link from 'next/link';
 
 type Props = {
   user: CookieUser;

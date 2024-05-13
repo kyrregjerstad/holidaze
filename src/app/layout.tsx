@@ -1,13 +1,15 @@
 import '@uploadthing/react/styles.css';
+
 import type { Metadata } from 'next';
+import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import { Inter } from 'next/font/google';
-import './globals.css';
+import { extractRouterConfig } from 'uploadthing/server';
 
 import { Toaster } from '@/components/ui/toaster';
-import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
-import { extractRouterConfig } from 'uploadthing/server';
 import QueryClientProvider from './_providers/QueryClientProvider';
 import { ourFileRouter } from './api/uploadthing/core';
+
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 

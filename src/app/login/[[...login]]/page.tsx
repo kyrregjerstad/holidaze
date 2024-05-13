@@ -1,8 +1,9 @@
 import { redirect } from 'next/navigation';
-import { LoginForm } from './LoginForm';
+
 import { BackgroundClipPath } from '@/components/BackgroundClipPath';
 import { BackgroundImage } from '@/components/BackgroundImage';
 import { Header } from './Header';
+import { LoginForm } from './LoginForm';
 
 type Props = {
   searchParams?: {

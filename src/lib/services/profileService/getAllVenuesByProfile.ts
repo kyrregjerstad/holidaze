@@ -1,4 +1,5 @@
 'use server';
+
 import { z } from 'zod';
 
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';

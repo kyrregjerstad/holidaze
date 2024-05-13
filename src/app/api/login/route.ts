@@ -1,8 +1,8 @@
-import { loginUserSchema } from '@/lib/schema/userSchema';
-
-import { createCookie } from '@/lib/utils/createCookie';
-import { authService } from '@/lib/services';
 import { type NextRequest } from 'next/server';
+
+import { loginUserSchema } from '@/lib/schema/userSchema';
+import { authService } from '@/lib/services';
+import { createCookie } from '@/lib/utils/createCookie';
 
 export async function POST(req: NextRequest) {
   try {

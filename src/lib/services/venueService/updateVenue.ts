@@ -1,7 +1,8 @@
 'use server';
+
+import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
 import { venueSchema } from '@/lib/schema/venueSchema';
-import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { UpdateVenueSchema } from './recursivelyGetAllVenues';
 
 export async function updateVenue(id: string, data: UpdateVenueSchema) {

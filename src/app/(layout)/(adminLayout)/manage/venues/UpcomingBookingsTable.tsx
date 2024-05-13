@@ -1,20 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-
 import {
   ColumnDef,
   ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
+  VisibilityState,
 } from '@tanstack/react-table';
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
+import Link from 'next/link';
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
@@ -34,7 +34,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import Link from 'next/link';
 import { TransformedVenue } from './processVenue';
 
 type Props = {

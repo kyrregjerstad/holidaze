@@ -1,5 +1,6 @@
-import { profileService } from '@/lib/services';
 import { cookies } from 'next/headers';
+
+import { profileService } from '@/lib/services';
 import { VenueCard } from '../VenueCard';
 
 export const OtherVenuesByOwner = async ({

@@ -1,8 +1,8 @@
+import { differenceInDays, parseISO } from 'date-fns';
+import { z } from 'zod';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { venueSchemaExtended } from '@/lib/schema/venueSchema';
-import { differenceInDays, parseISO } from 'date-fns';
-
-import { z } from 'zod';
 import { Badge } from '../ui/badge';
 
 type Props = {
@@ -10,9 +10,7 @@ type Props = {
   user: { name: string } | null;
 };
 export const BookingPreviewCard = ({ venue, user }: Props) => {
-  if (!user || !user.name) {
-    return null;
-  }
+  if (!user?.name) return null;
 
   const nextUserBooking = venue.bookings.find(
     (booking) => booking.customer.name === user.name

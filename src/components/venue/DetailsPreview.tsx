@@ -1,6 +1,7 @@
+import { z } from 'zod';
+
 import { Badge } from '@/components/ui/badge';
 import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
-import { z } from 'zod';
 
 type Props = {
   maxGuests: number;

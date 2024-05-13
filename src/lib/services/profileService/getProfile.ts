@@ -1,8 +1,10 @@
 'use server';
+
+import { z } from 'zod';
+
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema, userProfileSchema } from '@/lib/schema';
-import { z } from 'zod';
 
 type FetchProfileByNameReturn = {
   profile: z.infer<typeof userProfileSchema> | null;

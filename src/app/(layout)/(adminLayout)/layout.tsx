@@ -1,7 +1,8 @@
+import { Suspense } from 'react';
+
+import { AdminHeader } from '@/components/AdminHeader';
 import { Header } from '@/components/Header';
 import { AdminSidebar } from './AdminSidebar';
-import { Suspense } from 'react';
-import { AdminHeader } from '@/components/AdminHeader';
 
 export default function AdminLayout({
   children,

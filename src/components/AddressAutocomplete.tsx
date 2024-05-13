@@ -1,5 +1,6 @@
-import { useGooglePlacesAutocomplete } from '@/lib/hooks/useGooglePlacesAutocomplete';
 import { RefObject, useEffect, useRef, useState } from 'react';
+
+import { useGooglePlacesAutocomplete } from '@/lib/hooks/useGooglePlacesAutocomplete';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 
