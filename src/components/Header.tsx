@@ -1,10 +1,12 @@
 import { Suspense } from 'react';
-import { HomeIcon } from 'lucide-react';
+
 import Link from 'next/link';
 
+import { HomeIcon } from 'lucide-react';
+
+import { getUserFromCookie } from '@/lib/utils/cookies';
 import { AccountMenu } from '@/components/AccountMenu';
 import { buttonVariants } from '@/components/ui/button';
-import { getUserFromCookie } from '@/lib/utils/cookies';
 
 export const Header = () => {
   return (

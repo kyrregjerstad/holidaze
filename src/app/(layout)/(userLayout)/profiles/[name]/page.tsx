@@ -1,15 +1,17 @@
 import React from 'react';
+
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
+
 import { z } from 'zod';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent } from '@/components/ui/card';
-import { VenueCard } from '@/components/VenueCard';
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 import { userProfileSchema } from '@/lib/schema/userSchema';
 import { profileService } from '@/lib/services';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent } from '@/components/ui/card';
+import { VenueCard } from '@/components/VenueCard';
 
 type Props = {
   params: {

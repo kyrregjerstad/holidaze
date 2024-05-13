@@ -1,8 +1,8 @@
 import { differenceInDays, parseISO } from 'date-fns';
 import { z } from 'zod';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { venueSchemaExtended } from '@/lib/schema/venueSchema';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '../ui/badge';
 
 type Props = {

@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 
 import { AdminHeader } from '@/components/AdminHeader';
-import { Header } from '@/components/Header';
 import { AdminSidebar } from './AdminSidebar';
 
 export default function AdminLayout({

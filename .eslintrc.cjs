@@ -2,7 +2,7 @@
 const config = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: true,
+    project: ['./tsconfig.json'],
   },
   plugins: ['@typescript-eslint'],
   extends: [
@@ -35,6 +35,8 @@ const config = {
         },
       },
     ],
+    '@typescript-eslint/prefer-nullish-coalescing': 'off',
   },
 };
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 module.exports = config;

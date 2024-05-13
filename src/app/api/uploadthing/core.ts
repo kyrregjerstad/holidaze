@@ -1,4 +1,5 @@
 import type { FileRouter } from 'uploadthing/next';
+
 import { createUploadthing } from 'uploadthing/next';
 import { UploadThingError } from 'uploadthing/server';
 

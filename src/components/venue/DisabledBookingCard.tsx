@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { formatUSD } from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DatePicker } from '../DatePicker';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';

@@ -1,5 +1,5 @@
-import { VenueCard } from '@/components/VenueCard';
 import { venueService } from '@/lib/services';
+import { VenueCard } from '@/components/VenueCard';
 
 export const VenuesGrid = async () => {
   const { venues } = await venueService.getAllVenues();

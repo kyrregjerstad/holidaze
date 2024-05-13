@@ -1,6 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+
+import Link from 'next/link';
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -14,7 +17,6 @@ import {
   VisibilityState,
 } from '@tanstack/react-table';
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
-import Link from 'next/link';
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import {

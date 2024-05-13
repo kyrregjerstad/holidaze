@@ -1,3 +1,5 @@
+import type { VenueWithBookings } from '@/lib/schema/venueSchema';
+
 import {
   compareAsc,
   differenceInDays,
@@ -7,8 +9,6 @@ import {
   isToday,
   parseISO,
 } from 'date-fns';
-
-import { VenueWithBookings } from '@/lib/schema/venueSchema';
 
 type Booking = {
   dateFrom: Date;

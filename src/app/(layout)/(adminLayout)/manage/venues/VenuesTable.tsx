@@ -1,6 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+
+import Link from 'next/link';
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -15,8 +18,8 @@ import {
 } from '@tanstack/react-table';
 import { compareAsc } from 'date-fns';
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
-import Link from 'next/link';
 
+import { cn } from '@/lib/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -37,7 +40,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { cn } from '@/lib/utils';
 import { TransformedVenue } from './processVenue';
 
 type Props = {

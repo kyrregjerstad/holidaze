@@ -1,9 +1,9 @@
-import { redirect } from 'next/navigation';
-import { z } from 'zod';
+import type { createVenueSchema } from '@/lib/schema/venueSchema';
+import type { z } from 'zod';
 
-import { createVenueSchema } from '@/lib/schema/venueSchema';
+import { redirect } from 'next/navigation';
+
 import { venueService } from '@/lib/services';
-import { fetchCreateVenue } from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { NewVenueForm } from './NewVenueForm';
 
 const CreateNewVenuePage = async () => {

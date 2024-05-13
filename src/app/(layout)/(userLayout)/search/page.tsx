@@ -1,9 +1,10 @@
+import { notFound } from 'next/navigation';
+
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-import { notFound } from 'next/navigation';
 import { z } from 'zod';
 
 import { venueService } from '@/lib/services';

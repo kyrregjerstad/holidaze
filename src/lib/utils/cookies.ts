@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+
 import { z } from 'zod';
 
 export function getUserFromCookie() {

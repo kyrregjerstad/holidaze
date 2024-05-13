@@ -1,8 +1,11 @@
 import { Suspense } from 'react';
-import { MobilePathsList } from '@/app/(layout)/(adminLayout)/MobilePathsList';
-import { MenuIcon } from 'lucide-react';
+
 import Link from 'next/link';
 
+import { MobilePathsList } from '@/app/(layout)/(adminLayout)/MobilePathsList';
+import { MenuIcon } from 'lucide-react';
+
+import { getUserFromCookie } from '@/lib/utils/cookies';
 import { AccountMenu } from '@/components/AccountMenu';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
@@ -11,7 +14,6 @@ import {
   DrawerContent,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { getUserFromCookie } from '@/lib/utils/cookies';
 
 export const AdminHeader = () => {
   return (

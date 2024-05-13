@@ -1,14 +1,16 @@
 import { Suspense } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+
 import { z } from 'zod';
 
-import { Debug } from '@/components/Debug';
-import { buttonVariants } from '@/components/ui/button';
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 import { venueService } from '@/lib/services';
 import { getUserFromCookie } from '@/lib/utils/cookies';
+import { Debug } from '@/components/Debug';
+import { buttonVariants } from '@/components/ui/button';
 import { processVenue } from '../processVenue';
 import { UpcomingBookingsTable } from '../UpcomingBookingsTable';
 

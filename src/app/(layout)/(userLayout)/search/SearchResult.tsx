@@ -1,12 +1,13 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { isWithinInterval, parseISO } from 'date-fns';
 import Link from 'next/link';
 
+import { useQuery } from '@tanstack/react-query';
+import { isWithinInterval, parseISO } from 'date-fns';
+
+import { venueService } from '@/lib/services';
 import { buttonVariants } from '@/components/ui/button';
 import { VenueCard } from '@/components/VenueCard';
-import { venueService } from '@/lib/services';
 
 export const SearchResult = ({
   startDate,

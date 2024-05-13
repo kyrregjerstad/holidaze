@@ -1,16 +1,12 @@
 'use client';
 
-import { CalendarIcon, HomeIcon, NotepadTextIcon, Undo } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerTrigger,
-} from '@/components/ui/drawer';
+import { CalendarIcon, HomeIcon, NotepadTextIcon, Undo } from 'lucide-react';
+
 import { cn } from '@/lib/utils';
+import { DrawerClose } from '@/components/ui/drawer';
 
 export const MobilePathsList = () => {
   const activePath = usePathname();

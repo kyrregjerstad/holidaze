@@ -1,11 +1,14 @@
 'use client';
 
+import Link from 'next/link';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { loginUserSchema } from '@/lib/schema/userSchema';
+import { authService } from '@/lib/services';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import {
@@ -17,8 +20,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { loginUserSchema } from '@/lib/schema/userSchema';
-import { authService } from '@/lib/services';
 
 type Props = {
   onSuccess?: () => void;

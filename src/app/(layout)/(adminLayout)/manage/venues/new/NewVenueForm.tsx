@@ -1,13 +1,18 @@
 'use client';
 
+import type { createVenueSchema } from '@/lib/schema/venueSchema';
+import type { CreateVenueReturn } from '@/lib/services/venueService/createVenue';
+import type { z } from 'zod';
 import { useState } from 'react';
+
+import Image from 'next/image';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { XIcon } from 'lucide-react';
-import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
+import { createVenueSchemaFlattened } from '@/lib/schema/venueSchema';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { ImageUploader } from '@/components/ImageUploader';
 import { Button } from '@/components/ui/button';
@@ -29,22 +34,21 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
-import {
-  createVenueSchema,
-  createVenueSchemaFlattened,
-} from '@/lib/schema/venueSchema';
-import { CreateVenueReturn } from '@/lib/services/venueService/recursivelyGetAllVenues';
 
 /* 
 TODO: 
 - accessibility could be improved, with keyboard navigation.
 */
 type Props = {
-  submitFn: (
-    data: z.infer<typeof createVenueSchema>
-  ) => Promise<CreateVenueReturn>;
+  submitFn: (data: z.infer<typeof createVenueSchema>) => CreateVenueReturn;
   onSuccess: () => Promise<void>;
 };
+
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+if (!GOOGLE_MAPS_API_KEY) {
+  throw new Error('GOOGLE_MAPS_API_KEY is not defined');
+}
 
 export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
   const { toast } = useToast();
@@ -112,7 +116,8 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
       title: 'Venue Created',
       description: `Your venue ${data.name} has been created successfully.`,
     });
-    onSuccess();
+
+    await onSuccess();
   };
 
   return (
@@ -284,9 +289,7 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
                 )}
               />
             </div>
-            <APIProvider
-              apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}
-            >
+            <APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
               <AddressAutocomplete
                 onPlaceSelect={(place) => {
                   const address = transformAddress(place?.address_components);

@@ -1,8 +1,9 @@
 import Link from 'next/link';
+
 import { z } from 'zod';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { venueSchemaExtended } from '@/lib/schema/venueSchema';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { buttonVariants } from '../ui/button';
 
 type Props = {

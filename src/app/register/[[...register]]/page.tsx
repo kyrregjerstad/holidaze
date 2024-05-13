@@ -1,5 +1,6 @@
-import { Header } from '@/app/login/[[...login]]/Header';
 import { redirect } from 'next/navigation';
+
+import { Header } from '@/app/login/[[...login]]/Header';
 
 import { BackgroundClipPath } from '@/components/BackgroundClipPath';
 import { BackgroundImage } from '@/components/BackgroundImage';

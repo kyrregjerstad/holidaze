@@ -1,8 +1,10 @@
 'use server';
 
+import type { CreateVenue } from '@/lib/schema/venueSchema';
+
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
-import { CreateVenue, venueSchema } from '@/lib/schema/venueSchema';
+import { venueSchema } from '@/lib/schema/venueSchema';
 
 export async function createVenue(data: CreateVenue) {
   const { res, error, status } = await holidazeAPI({
@@ -14,3 +16,5 @@ export async function createVenue(data: CreateVenue) {
 
   return { venue: res?.data || null, error, status };
 }
+
+export type CreateVenueReturn = ReturnType<typeof createVenue>;

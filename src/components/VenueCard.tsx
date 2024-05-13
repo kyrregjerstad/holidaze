@@ -1,6 +1,9 @@
 import Link from 'next/link';
+
 import { z } from 'zod';
 
+import { venueSchema } from '@/lib/schema/venueSchema';
+import { formatUSD } from '@/lib/utils';
 import {
   Card,
   CardContent,
@@ -8,8 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { venueSchema } from '@/lib/schema/venueSchema';
-import { formatUSD } from '@/lib/utils';
 import { VenueCardImage } from './VenueCardImage';
 
 export const VenueCard = ({

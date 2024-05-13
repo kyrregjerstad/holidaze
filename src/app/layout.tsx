@@ -1,8 +1,10 @@
 import '@uploadthing/react/styles.css';
 
 import type { Metadata } from 'next';
-import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
+
 import { Inter } from 'next/font/google';
+
+import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import { extractRouterConfig } from 'uploadthing/server';
 
 import { Toaster } from '@/components/ui/toaster';

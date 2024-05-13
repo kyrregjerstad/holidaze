@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { authService } from '@/lib/services';
+import { Button } from '@/components/ui/button';
 
 export const LogOutBtn = () => {
   return (

@@ -1,7 +1,13 @@
 import { Suspense } from 'react';
+
 import { notFound } from 'next/navigation';
+
 import { z } from 'zod';
 
+import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
+import { venueService } from '@/lib/services';
+import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
+import { getUserFromCookie } from '@/lib/utils/cookies';
 import { Debug } from '@/components/Debug';
 import {
   Breadcrumb,
@@ -24,10 +30,6 @@ import { RelatedVenues } from '@/components/venue/RelatedVenues';
 import { ReportDialog } from '@/components/venue/ReportDialog';
 import { VenueAmenitiesPreview } from '@/components/venue/VenueAmenitiesPreview';
 import { VenueManagerCard } from '@/components/venue/VenueManagerCard';
-import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
-import { venueService } from '@/lib/services';
-import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
-import { getUserFromCookie } from '@/lib/utils/cookies';
 import { VenueGallery } from './VenueGallery';
 
 type Props = {

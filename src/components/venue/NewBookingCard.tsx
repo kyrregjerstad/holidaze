@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect } from 'react';
+
 import { z } from 'zod';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { venueSchemaExtended } from '@/lib/schema/venueSchema';
 import { formatUSD } from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookingDrawer } from '../BookingDrawer';
 import { DatePicker } from '../DatePicker';
 import { buttonVariants } from '../ui/button';
