@@ -1,9 +1,9 @@
-import { fetchAllVenues } from '@/lib/services/venuesService';
+import { venueService } from '@/lib/services';
 import { VenueCard } from '../VenueCard';
 
 export const RelatedVenues = async ({ venueId }: { venueId: string }) => {
   // fetch one more venue to ensure we have 4 related venues
-  const { venues } = await fetchAllVenues({ limit: 5 });
+  const { venues } = await venueService.getAllVenues({ limit: 5 });
 
   // To ensure we're not showing the current venue in the related venues
   const filteredVenues = venues

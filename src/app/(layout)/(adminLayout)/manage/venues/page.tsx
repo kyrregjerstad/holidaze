@@ -1,10 +1,9 @@
-import { fetchAllVenuesByProfile } from '@/lib/services/profileService';
-
+import { profileService } from '@/lib/services';
+import { getUserFromCookie } from '@/lib/utils/cookies';
+import { cookies } from 'next/headers';
+import { notFound } from 'next/navigation';
 import { VenuesTable } from './VenuesTable';
 import { processVenue } from './processVenue';
-import { getUserFromCookie } from '@/lib/utils/cookies';
-import { notFound } from 'next/navigation';
-import { cookies } from 'next/headers';
 
 const ManageVenuesPage = async () => {
   const user = getUserFromCookie();
@@ -13,7 +12,8 @@ const ManageVenuesPage = async () => {
   if (!user || !user.isVenueManager || !accessToken) {
     notFound();
   }
-  const { venues, error } = await fetchAllVenuesByProfile(
+
+  const { venues, error } = await profileService.getAllVenuesByProfile(
     user.name,
     accessToken
   );

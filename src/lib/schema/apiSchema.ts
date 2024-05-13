@@ -10,10 +10,13 @@ export const apiMetaSchema = z.object({
   totalCount: z.number(),
 });
 
+export const apiMetaPartialSchema = apiMetaSchema.partial();
+export type ApiMetaPartial = z.infer<typeof apiMetaPartialSchema>;
+
 export function createApiResponseSchema<T>(schema: z.Schema<T>) {
   return z.object({
     data: schema,
-    meta: apiMetaSchema.partial(),
+    meta: apiMetaPartialSchema,
   });
 }
 

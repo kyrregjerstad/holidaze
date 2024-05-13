@@ -1,10 +1,14 @@
 'use client';
 import { Button } from '@/components/ui/button';
-import { handleLogout } from '@/lib/services/handleLogout';
+import { authService } from '@/lib/services';
 
 export const LogOutBtn = () => {
   return (
-    <Button variant="outline" className="w-full" onClick={() => handleLogout()}>
+    <Button
+      variant="outline"
+      className="w-full"
+      onClick={() => authService.logout()}
+    >
       Log Out
     </Button>
   );

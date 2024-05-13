@@ -1,6 +1,6 @@
-import { fetchAllVenuesByProfile } from '@/lib/services/profileService';
-import { VenueCard } from '../VenueCard';
+import { profileService } from '@/lib/services';
 import { cookies } from 'next/headers';
+import { VenueCard } from '../VenueCard';
 
 export const OtherVenuesByOwner = async ({
   venueId,
@@ -19,7 +19,10 @@ export const OtherVenuesByOwner = async ({
     );
   }
 
-  const { venues } = await fetchAllVenuesByProfile(ownerName, accessToken);
+  const { venues } = await profileService.getAllVenuesByProfile(
+    ownerName,
+    accessToken
+  );
 
   // To ensure we're not showing the current venue in the related venues
   const filteredVenues = venues

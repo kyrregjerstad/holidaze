@@ -1,9 +1,11 @@
 import { VenueCard } from '@/components/VenueCard';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
+import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 import { userProfileSchema } from '@/lib/schema/userSchema';
-import { fetchProfileByName } from '@/lib/services/profileService';
+import { profileService } from '@/lib/services';
+
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
 import React from 'react';
@@ -15,10 +17,16 @@ type Props = {
   };
 };
 
-const VenueManagerPage = async ({ params: { name } }: Props) => {
+const ProfilePage = async ({ params: { name } }: Props) => {
+  const accessToken = await getAccessTokenCookie();
+  if (!accessToken) redirect(`/login?callbackUrl=profiles/${name}`);
+
   if (!name) notFound();
 
-  const { profile, error, status } = await fetchProfileByName(name);
+  const { profile, error, status } = await profileService.getProfile(
+    name,
+    accessToken
+  );
 
   if (status === 401) redirect(`/login?callbackUrl=profiles/${name}`);
   if (error || !profile) notFound();
@@ -34,7 +42,7 @@ const VenueManagerPage = async ({ params: { name } }: Props) => {
   );
 };
 
-export default VenueManagerPage;
+export default ProfilePage;
 
 const UserPage = ({
   profile,

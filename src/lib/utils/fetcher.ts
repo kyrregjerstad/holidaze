@@ -1,64 +1,23 @@
 import { errorsSchema } from '@/lib/schema/apiSchema';
 import { z } from 'zod';
 
-type UseFetchReturn<T> = {
+type FetcherReturn<T> = {
   res: T | null;
   error: z.ZodError<T> | null;
   status: number;
 };
 
-export async function useFetch<T>({
-  url,
-  schema,
-  options,
-  auth,
-}: {
-  url: string;
-  schema: z.Schema<T>;
-  options?: Omit<RequestInit, 'body'> & { method?: 'GET' | 'DELETE' };
-  auth?: { accessToken: string; apiKey?: string };
-}): Promise<UseFetchReturn<T>>;
-
-export async function useFetch<T>({
-  url,
-  schema,
-  options,
-  auth,
-}: {
-  url: string;
-  schema: z.Schema<T>;
-  options: RequestInit & { method: 'POST' | 'PUT' | 'PATCH' };
-  auth?: { accessToken: string; apiKey?: string };
-}): Promise<UseFetchReturn<T>>;
-
-export async function useFetch<T>({
+export async function fetcher<T>({
   url,
   schema,
   options = {},
-  auth,
 }: {
   url: string;
   schema: z.Schema<T>;
   options?: RequestInit;
-  auth?: { accessToken: string; apiKey?: string };
-}): Promise<UseFetchReturn<T>> {
+}): Promise<FetcherReturn<T>> {
   try {
-    const headers = new Headers(options.headers || {});
-    headers.set('Content-Type', 'application/json');
-
-    if (auth?.accessToken) {
-      headers.set('Authorization', `Bearer ${auth.accessToken}`);
-    }
-    if (auth?.apiKey) {
-      headers.set('X-Noroff-API-Key', auth.apiKey);
-    }
-
-    const fetchOptions: RequestInit = {
-      ...options,
-      headers,
-    };
-
-    const response = await fetch(url, fetchOptions);
+    const response = await fetch(url, options);
 
     if (!response.ok) {
       const errorResponse = await response.json();
@@ -105,7 +64,12 @@ export async function useFetch<T>({
     return { res: result.data, status: 200, error: null };
   } catch (error) {
     console.error(error);
+
     if (error instanceof z.ZodError) {
+      console.error(
+        'PATHS: ',
+        error.errors.map((err) => err.path)
+      );
       return { res: null, status: 500, error };
     }
 

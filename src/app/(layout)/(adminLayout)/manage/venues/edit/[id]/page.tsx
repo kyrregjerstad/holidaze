@@ -1,12 +1,10 @@
+import { venueService } from '@/lib/services';
 import {
   UpdateVenueSchema,
-  Venue,
   fetchUpdateVenueById,
-  fetchVenueById,
-} from '@/lib/services/venuesService';
+} from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { notFound, redirect } from 'next/navigation';
-import React from 'react';
 import { z } from 'zod';
 import { EditVenueForm } from '../../new/EditVenueForm';
 
@@ -21,7 +19,7 @@ const EditVenuePage = async ({ params }: Props) => {
     return notFound();
   }
 
-  const { venue, error } = await fetchVenueById(result.data.id);
+  const { venue, error } = await venueService.getVenueById(result.data.id);
 
   if (!venue || error) {
     return notFound();
@@ -35,7 +33,7 @@ const EditVenuePage = async ({ params }: Props) => {
 
   const updateVenue = async (id: string, data: UpdateVenueSchema) => {
     'use server';
-    return await fetchUpdateVenueById(id, data);
+    return await venueService.updateVenue(id, data);
   };
 
   const onSuccess = async () => {

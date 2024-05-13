@@ -26,7 +26,7 @@ import {
   createVenueSchema,
   createVenueSchemaFlattened,
 } from '@/lib/schema/venueSchema';
-import { CreateVenueReturn } from '@/lib/services/venuesService';
+import { CreateVenueReturn } from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { XIcon } from 'lucide-react';
 import Image from 'next/image';

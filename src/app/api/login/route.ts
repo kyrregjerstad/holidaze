@@ -1,6 +1,7 @@
 import { loginUserSchema } from '@/lib/schema/userSchema';
-import { fetchLoginUser } from '@/lib/services/authService';
+
 import { createCookie } from '@/lib/utils/createCookie';
+import { authService } from '@/lib/services';
 import { type NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -11,7 +12,14 @@ export async function POST(req: NextRequest) {
       return Response.json(validation.error, { status: 400 });
     }
 
-    const { res, error } = await fetchLoginUser({ ...validation.data });
+    console.log('validation.data', validation.data);
+
+    const { res, error } = await authService.createAccessToken({
+      ...validation.data,
+    });
+
+    console.log('res', res);
+    console.log('error', error);
 
     if (error || !res || !res.data.accessToken) {
       return Response.json('error', { status: 400 });

@@ -7,7 +7,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 import Link from 'next/link';
-import { Venue } from '@/lib/services/venuesService';
+import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
 
 type Props = {
   venue: Venue;

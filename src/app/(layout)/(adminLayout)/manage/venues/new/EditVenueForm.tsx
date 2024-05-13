@@ -31,7 +31,7 @@ import {
   UpdateVenueReturn,
   UpdateVenueSchema,
   Venue,
-} from '@/lib/services/venuesService';
+} from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { XIcon } from 'lucide-react';
 import Image from 'next/image';

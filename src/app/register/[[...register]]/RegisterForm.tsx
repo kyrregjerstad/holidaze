@@ -20,7 +20,8 @@ import {
   registerUserSchema,
   registerUserSchemaExtended,
 } from '@/lib/schema/userSchema';
-import { fetchRegisterUser, handleLoginApi } from '@/lib/services/authService';
+import { authService } from '@/lib/services';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -45,7 +46,7 @@ export const RegisterForm = ({ onSuccess }: Props) => {
   const { toast } = useToast();
 
   const onSubmit = async (data: z.infer<typeof registerUserSchema>) => {
-    const { res, error: registerError } = await fetchRegisterUser(data);
+    const { res, error: registerError } = await authService.register(data);
 
     if (registerError) {
       console.error('API RESPONSE: ', registerError);
@@ -60,7 +61,7 @@ export const RegisterForm = ({ onSuccess }: Props) => {
       return;
     }
 
-    const { user, error: loginError } = await handleLoginApi(
+    const { user, error: loginError } = await authService.login(
       data.email,
       data.password
     );

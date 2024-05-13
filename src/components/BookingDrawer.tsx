@@ -8,8 +8,8 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer';
-import { fetchCreateBooking } from '@/lib/services/bookingService';
-import { Venue } from '@/lib/services/venuesService';
+import { createBooking } from '@/lib/services/bookingService/createBooking';
+import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { formatUSD } from '@/lib/utils';
 import { ReactNode, useRef, useState } from 'react';
 import { Badge } from './ui/badge';
@@ -18,6 +18,7 @@ import { useToast } from './ui/use-toast';
 import { revalidateVenue } from '@/lib/utils/revalidateVenue';
 import Image from 'next/image';
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
+import { bookingService } from '@/lib/services';
 
 type Props = {
   venue: Venue;
@@ -50,7 +51,7 @@ export const BookingDrawer = ({
     }
 
     setIsSubmitting(true);
-    const res = await fetchCreateBooking({
+    const res = await bookingService.createBooking({
       dateFrom: startDate.toISOString(),
       dateTo: endDate.toISOString(),
       guests,

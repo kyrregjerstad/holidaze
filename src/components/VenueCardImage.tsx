@@ -20,8 +20,8 @@ export const VenueCardImage = ({
       height="192"
       src={url || VENUE_FALLBACK_IMAGE}
       onError={(e) => {
-        e.currentTarget.onerror = null;
-        e.currentTarget.src = VENUE_FALLBACK_IMAGE.src;
+        // e.currentTarget.onerror = null;
+        // e.currentTarget.src = VENUE_FALLBACK_IMAGE.src;
       }}
     />
   );

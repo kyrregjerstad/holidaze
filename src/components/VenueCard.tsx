@@ -42,7 +42,9 @@ export const VenueCard = ({
         </CardContent>
         <CardFooter className="p-4 pt-0">
           <div className="flex flex-col items-center justify-between">
-            <span>{formatUSD(venue.price)} per night</span>
+            <span className="max-w-[150px] truncate">
+              {formatUSD(venue.price)} per night
+            </span>
           </div>
           <div></div>
         </CardFooter>

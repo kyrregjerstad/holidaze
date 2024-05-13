@@ -12,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
 
 import { loginUserSchema } from '@/lib/schema/userSchema';
-import { handleLoginApi } from '@/lib/services/authService';
+import { authService } from '@/lib/services';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -38,7 +38,7 @@ export const LoginForm = ({ onSuccess }: Props) => {
     email,
     password,
   }: z.infer<typeof loginUserSchema>) => {
-    const { user, error } = await handleLoginApi(email, password);
+    const { user, error } = await authService.login(email, password);
 
     if (error) {
       form.setError('root', { message: error });

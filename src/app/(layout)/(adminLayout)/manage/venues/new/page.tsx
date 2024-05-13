@@ -1,13 +1,15 @@
 import { z } from 'zod';
 import { NewVenueForm } from './NewVenueForm';
-import { fetchCreateVenue } from '@/lib/services/venuesService';
+import { fetchCreateVenue } from '@/lib/services/venueService/recursivelyGetAllVenues';
 import { createVenueSchema } from '@/lib/schema/venueSchema';
 import { redirect } from 'next/navigation';
+import { venueService } from '@/lib/services';
 
 const CreateNewVenuePage = async () => {
   const submitFn = async (data: z.infer<typeof createVenueSchema>) => {
     'use server';
-    return fetchCreateVenue(data);
+
+    return venueService.createVenue(data);
   };
 
   const onSuccess = async () => {

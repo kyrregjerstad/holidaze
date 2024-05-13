@@ -1,21 +1,15 @@
-import { VenueGallery } from '@/app/(layout)/(userLayout)/venues/[id]/VenueGallery';
 import { Debug } from '@/components/Debug';
-import { Calendar } from '@/components/ui/calendar';
-import { DetailsPreview } from '@/components/venue/DetailsPreview';
-import { LocationMap } from '@/components/venue/Location';
-import { VenueAmenitiesPreview } from '@/components/venue/VenueAmenitiesPreview';
-import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
-import { Venue, fetchVenueById } from '@/lib/services/venuesService';
+import { buttonVariants } from '@/components/ui/button';
+import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
+import { venueService } from '@/lib/services';
 import { getUserFromCookie } from '@/lib/utils/cookies';
+import Image from 'next/image';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { z } from 'zod';
 import { UpcomingBookingsTable } from '../UpcomingBookingsTable';
 import { processVenue } from '../processVenue';
-import Link from 'next/link';
-import { buttonVariants } from '@/components/ui/button';
-import Image from 'next/image';
-import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 
 type Props = {
   params: { id: string };
@@ -25,7 +19,7 @@ const VenuePage = async ({ params }: Props) => {
   const result = paramsSchema.safeParse(params);
   if (!result.success) return notFound();
 
-  const { venue } = await fetchVenueById(result.data.id);
+  const { venue } = await venueService.getVenueById(result.data.id);
   if (!venue) return notFound();
 
   const user = getUserFromCookie();

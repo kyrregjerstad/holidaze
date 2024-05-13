@@ -1,3 +1,4 @@
+import { Debug } from '@/components/Debug';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -6,57 +7,37 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { Debug } from '@/components/Debug';
-import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
-import { Venue, fetchVenueById } from '@/lib/services/venuesService';
-import { notFound } from 'next/navigation';
-import { z } from 'zod';
+import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { BookingPreviewCard } from '@/components/venue/BookingPreviewCard';
 import { DetailsPreview } from '@/components/venue/DetailsPreview';
+import { DisabledBookingCard } from '@/components/venue/DisabledBookingCard';
 import { LocationMap } from '@/components/venue/Location';
 import { NewBookingCard } from '@/components/venue/NewBookingCard';
+import { OtherVenuesByOwner } from '@/components/venue/OtherVenuesByOwner';
 import { OwnerCard } from '@/components/venue/OwnerCard';
+import { RelatedVenues } from '@/components/venue/RelatedVenues';
 import { ReportDialog } from '@/components/venue/ReportDialog';
 import { VenueAmenitiesPreview } from '@/components/venue/VenueAmenitiesPreview';
-import { VenueGallery } from './VenueGallery';
-import { BookingPreviewCard } from '@/components/venue/BookingPreviewCard';
-import { RelatedVenues } from '@/components/venue/RelatedVenues';
-import { Suspense } from 'react';
-import { getUserFromCookie } from '@/lib/utils/cookies';
-import { DisabledBookingCard } from '@/components/venue/DisabledBookingCard';
 import { VenueManagerCard } from '@/components/venue/VenueManagerCard';
-import { Skeleton } from '@/components/ui/skeleton';
-import { OtherVenuesByOwner } from '@/components/venue/OtherVenuesByOwner';
-import { Separator } from '@/components/ui/separator';
+import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
+import { venueService } from '@/lib/services';
+import { Venue } from '@/lib/services/venueService/recursivelyGetAllVenues';
+import { getUserFromCookie } from '@/lib/utils/cookies';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import { z } from 'zod';
+import { VenueGallery } from './VenueGallery';
 
 type Props = {
   params: { id: string };
-};
-
-const InfoCards = ({ venue }: { venue: Venue }) => {
-  const user = getUserFromCookie();
-
-  if (!user) {
-    return <DisabledBookingCard venue={venue} />;
-  }
-
-  if (user.name === venue.owner.name) {
-    return <VenueManagerCard venue={venue} user={user} />;
-  }
-
-  return (
-    <div className="flex flex-col justify-center gap-4">
-      <BookingPreviewCard venue={venue} user={user} />
-      <NewBookingCard venue={venue} user={user} />
-      <ReportDialog />
-    </div>
-  );
 };
 
 const VenuePage = async ({ params }: Props) => {
   const result = paramsSchema.safeParse(params);
   if (!result.success) return notFound();
 
-  const { venue } = await fetchVenueById(result.data.id);
+  const { venue } = await venueService.getVenueById(result.data.id);
   if (!venue) return notFound();
 
   const amenities = amenitiesKeysSchema.parse(
@@ -157,5 +138,25 @@ const OtherVenuesSkeleton = () => {
         ))}
       </div>
     </section>
+  );
+};
+
+const InfoCards = ({ venue }: { venue: Venue }) => {
+  const user = getUserFromCookie();
+
+  if (!user) {
+    return <DisabledBookingCard venue={venue} />;
+  }
+
+  if (user.name === venue.owner.name) {
+    return <VenueManagerCard venue={venue} user={user} />;
+  }
+
+  return (
+    <div className="flex flex-col justify-center gap-4">
+      <BookingPreviewCard venue={venue} user={user} />
+      <NewBookingCard venue={venue} user={user} />
+      <ReportDialog />
+    </div>
   );
 };
