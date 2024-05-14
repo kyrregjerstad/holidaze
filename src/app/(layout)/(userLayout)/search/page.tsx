@@ -1,10 +1,5 @@
 import { notFound } from 'next/navigation';
 
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from '@tanstack/react-query';
 import { z } from 'zod';
 
 import { venueService } from '@/lib/services';
@@ -25,23 +20,24 @@ const SearchPage = async ({ searchParams }: Props) => {
 
   const { q, startDate, endDate } = result.data;
 
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: ['venues'],
-    queryFn: () => venueService.recursivelyGetAllVenues(),
+  const { venues } = await venueService.search({
+    location: q,
+    minGuests: 1,
+    availability: {
+      dateFrom: startDate,
+      dateTo: endDate,
+    },
   });
 
-  // const { venues, error } = await fetchVenuesBySearchTerm(q);
+  console.log(venues);
 
   return (
     <section className="container">
       <div className="py-8">
         <SearchBar prefilledTerm={q} />
       </div>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <SearchResult startDate={startDate} endDate={endDate} />
-      </HydrationBoundary>
+
+      <SearchResult venues={venues} />
     </section>
   );
 };
