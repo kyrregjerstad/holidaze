@@ -5,11 +5,7 @@ import { eachDayOfInterval } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 type Props = {
   bookedDates: Date[];
@@ -37,11 +33,7 @@ export const DatePicker = ({
       <PopoverTrigger asChild>
         <div className="flex flex-1 flex-col">
           {label && <Label className="text-sm">{label}</Label>}
-          <Button
-            className="h-10 w-full flex-col items-start"
-            variant="outline"
-            type="button"
-          >
+          <Button className="h-10 w-full flex-col items-start" variant="outline" type="button">
             <span className="font-normal">
               {selectedDate ? (
                 selectedDate?.toLocaleDateString('en-UK')

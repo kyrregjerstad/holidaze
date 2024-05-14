@@ -25,32 +25,19 @@ const ProfilePage = async ({ params: { name } }: Props) => {
 
   if (!name) notFound();
 
-  const { profile, error, status } = await profileService.getProfile(
-    name,
-    accessToken
-  );
+  const { profile, error, status } = await profileService.getProfile(name, accessToken);
 
   if (status === 401) redirect(`/login?callbackUrl=profiles/${name}`);
   if (error || !profile) notFound();
 
   return (
-    <>
-      {profile.venueManager ? (
-        <ManagerPage profile={profile} />
-      ) : (
-        <UserPage profile={profile} />
-      )}
-    </>
+    <>{profile.venueManager ? <ManagerPage profile={profile} /> : <UserPage profile={profile} />}</>
   );
 };
 
 export default ProfilePage;
 
-const UserPage = ({
-  profile,
-}: {
-  profile: z.infer<typeof userProfileSchema>;
-}) => {
+const UserPage = ({ profile }: { profile: z.infer<typeof userProfileSchema> }) => {
   return (
     <div className="flex w-full max-w-7xl flex-col items-center">
       <div className="w-full">
@@ -83,11 +70,7 @@ const UserPage = ({
   );
 };
 
-const ManagerPage = ({
-  profile,
-}: {
-  profile: z.infer<typeof userProfileSchema>;
-}) => {
+const ManagerPage = ({ profile }: { profile: z.infer<typeof userProfileSchema> }) => {
   return (
     <div className="flex w-full max-w-7xl flex-col items-center">
       <div className="w-full">
@@ -115,9 +98,7 @@ const ManagerPage = ({
                 {profile.venues.length} venue
                 {profile.venues.length > 1 ? 's' : ''}
               </p>
-              <p className="text-center text-gray-500 dark:text-gray-400">
-                {profile.bio}
-              </p>
+              <p className="text-center text-gray-500 dark:text-gray-400">{profile.bio}</p>
             </div>
           </div>
           <div>
@@ -134,10 +115,7 @@ const ManagerPage = ({
               <Card>
                 <CardContent>
                   <h3 className="text-xl font-semibold">No venues found</h3>
-                  <p>
-                    {profile.name} has not created any venues yet. Check back
-                    later.
-                  </p>
+                  <p>{profile.name} has not created any venues yet. Check back later.</p>
                 </CardContent>
               </Card>
             )}

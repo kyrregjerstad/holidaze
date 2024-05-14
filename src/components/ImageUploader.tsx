@@ -14,21 +14,13 @@ type Props = {
   setUploadedImages: Dispatch<SetStateAction<string[]>>;
 };
 
-export const ImageUploader = ({
-  files,
-  setFiles,
-  uploadedImages,
-  setUploadedImages,
-}: Props) => {
+export const ImageUploader = ({ files, setFiles, uploadedImages, setUploadedImages }: Props) => {
   const [progress, setProgress] = useState(0);
 
   const { startUpload, permittedFileInfo } = useUploadThing('imageUploader', {
     onClientUploadComplete: (res) => {
       console.log('client upload complete');
-      setUploadedImages([
-        ...uploadedImages,
-        ...res.map((r) => r.serverData.url),
-      ]);
+      setUploadedImages([...uploadedImages, ...res.map((r) => r.serverData.url)]);
     },
     onUploadError: () => {
       console.log('upload error');
@@ -43,9 +35,7 @@ export const ImageUploader = ({
   });
 
   const maxFiles = permittedFileInfo?.config.image?.maxFileCount || 8;
-  const fileTypes = permittedFileInfo?.config
-    ? Object.keys(permittedFileInfo?.config)
-    : [];
+  const fileTypes = permittedFileInfo?.config ? Object.keys(permittedFileInfo?.config) : [];
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (uploadedImages.length + acceptedFiles.length > maxFiles) {

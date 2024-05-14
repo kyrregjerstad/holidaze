@@ -34,9 +34,7 @@ export const ReportDialog = () => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Report this listing</DialogTitle>
-          <DialogDescription>
-            This won’t be shared with the Host.
-          </DialogDescription>
+          <DialogDescription>This won’t be shared with the Host.</DialogDescription>
           <div className="py-6">
             <form>
               <RadioGroup>
@@ -45,11 +43,7 @@ export const ReportDialog = () => {
                   htmlFor="inaccurate"
                 >
                   It’s inaccurate or incorrect
-                  <RadioGroupItem
-                    className="ml-auto"
-                    id="inaccurate"
-                    value="inaccurate"
-                  />
+                  <RadioGroupItem className="ml-auto" id="inaccurate" value="inaccurate" />
                 </Label>
                 <Separator className="my-4" />
                 <Label
@@ -57,11 +51,7 @@ export const ReportDialog = () => {
                   htmlFor="not_a_place"
                 >
                   It’s not a place to stay
-                  <RadioGroupItem
-                    className="ml-auto"
-                    id="not_a_place"
-                    value="not_a_place"
-                  />
+                  <RadioGroupItem className="ml-auto" id="not_a_place" value="not_a_place" />
                 </Label>
                 <Separator className="my-4" />
                 <Label
@@ -77,11 +67,7 @@ export const ReportDialog = () => {
                   htmlFor="offensive"
                 >
                   It’s offensive
-                  <RadioGroupItem
-                    className="ml-auto"
-                    id="offensive"
-                    value="offensive"
-                  />
+                  <RadioGroupItem className="ml-auto" id="offensive" value="offensive" />
                 </Label>
                 <Separator className="my-4" />
                 <Label
@@ -89,11 +75,7 @@ export const ReportDialog = () => {
                   htmlFor="something_else"
                 >
                   It’s something else
-                  <RadioGroupItem
-                    className="ml-auto"
-                    id="something_else"
-                    value="something_else"
-                  />
+                  <RadioGroupItem className="ml-auto" id="something_else" value="something_else" />
                 </Label>
               </RadioGroup>
             </form>

@@ -11,9 +11,7 @@ interface GetVenueByIdReturn<T> extends ApiResponseBase<T> {
   venue: T | null;
 }
 
-export async function getVenueById(
-  id: string
-): Promise<GetVenueByIdReturn<VenueFull>> {
+export async function getVenueById(id: string): Promise<GetVenueByIdReturn<VenueFull>> {
   const { res, error, status } = await holidazeAPI({
     endpoint: `/venues/${id}`,
     query: {

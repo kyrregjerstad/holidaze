@@ -11,9 +11,7 @@ interface CreateVenueReturn<T> extends ApiResponseBase<T> {
   venue: T | null;
 }
 
-export async function createVenue(
-  data: CreateVenue
-): Promise<CreateVenueReturn<CreateVenue>> {
+export async function createVenue(data: CreateVenue): Promise<CreateVenueReturn<CreateVenue>> {
   const { res, error, status } = await holidazeAPI({
     endpoint: '/venues',
     method: 'POST',

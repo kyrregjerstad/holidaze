@@ -40,9 +40,8 @@ export const LocationMap = ({ location }: Props) => {
 
   const [mapCenter, setMapCenter] = useState<Coordinates | null>(null);
 
-  const isValidCoordinate = (
-    coord: number | null | undefined
-  ): coord is number => coord !== null && coord !== undefined && coord !== 0;
+  const isValidCoordinate = (coord: number | null | undefined): coord is number =>
+    coord !== null && coord !== undefined && coord !== 0;
 
   useEffect(() => {
     if (!isLoaded) return;

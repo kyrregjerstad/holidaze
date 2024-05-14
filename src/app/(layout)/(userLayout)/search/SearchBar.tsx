@@ -19,9 +19,7 @@ export const SearchBar = ({ prefilledTerm }: { prefilledTerm?: string }) => {
   const [searchTerm, setSearchTerm] = useState<string>(prefilledTerm || '');
   const router = useRouter();
 
-  const { startDate, endDate, setStartDate, setEndDate } = useBookingStore(
-    (state) => state
-  );
+  const { startDate, endDate, setStartDate, setEndDate } = useBookingStore((state) => state);
 
   const query = new URLSearchParams();
 
@@ -109,5 +107,4 @@ export const SearchBar = ({ prefilledTerm }: { prefilledTerm?: string }) => {
   );
 };
 
-const formatDate = (date: Date | undefined) =>
-  date?.toISOString().split('T')[0] || '';
+const formatDate = (date: Date | undefined) => date?.toISOString().split('T')[0] || '';

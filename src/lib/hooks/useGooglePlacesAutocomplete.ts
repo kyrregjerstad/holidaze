@@ -8,18 +8,14 @@ type Params = {
 
 export const useGooglePlacesAutocomplete = ({ onPlaceSelect }: Params) => {
   const places = useMapsLibrary('places');
-  const [sessionToken, setSessionToken] =
-    useState<google.maps.places.AutocompleteSessionToken>();
+  const [sessionToken, setSessionToken] = useState<google.maps.places.AutocompleteSessionToken>();
 
   const [autocompleteService, setAutocompleteService] =
     useState<google.maps.places.AutocompleteService | null>(null);
 
-  const [placesService, setPlacesService] =
-    useState<google.maps.places.PlacesService | null>(null);
+  const [placesService, setPlacesService] = useState<google.maps.places.PlacesService | null>(null);
 
-  const [predictions, setPredictions] = useState<
-    google.maps.places.AutocompletePrediction[]
-  >([]);
+  const [predictions, setPredictions] = useState<google.maps.places.AutocompletePrediction[]>([]);
 
   const [inputValue, setInputValue] = useState('');
 
@@ -63,9 +59,7 @@ export const useGooglePlacesAutocomplete = ({ onPlaceSelect }: Params) => {
         sessionToken,
       };
 
-      const detailsRequestCallback = (
-        placeDetails: google.maps.places.PlaceResult | null
-      ) => {
+      const detailsRequestCallback = (placeDetails: google.maps.places.PlaceResult | null) => {
         onPlaceSelect(placeDetails);
         setPredictions([]);
         setInputValue(placeDetails?.formatted_address ?? '');

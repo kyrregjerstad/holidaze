@@ -6,9 +6,7 @@ export const RelatedVenues = async ({ venueId }: { venueId: string }) => {
   const { venues } = await venueService.getAllVenues({ limit: 5 });
 
   // To ensure we're not showing the current venue in the related venues
-  const filteredVenues = venues
-    .filter((venue) => venue.id !== venueId)
-    .slice(0, 4);
+  const filteredVenues = venues.filter((venue) => venue.id !== venueId).slice(0, 4);
 
   return (
     <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">

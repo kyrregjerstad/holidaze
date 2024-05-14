@@ -20,15 +20,10 @@ export const OtherVenuesByOwner = async ({
     );
   }
 
-  const { venues } = await profileService.getAllVenuesByProfile(
-    ownerName,
-    accessToken
-  );
+  const { venues } = await profileService.getAllVenuesByProfile(ownerName, accessToken);
 
   // To ensure we're not showing the current venue in the related venues
-  const filteredVenues = venues
-    .filter((venue) => venue.id !== venueId)
-    .slice(0, 8); // Limit to 8 venues
+  const filteredVenues = venues.filter((venue) => venue.id !== venueId).slice(0, 8); // Limit to 8 venues
 
   return (
     <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">

@@ -21,9 +21,7 @@ export function VenueAmenitiesPreview({ amenities }: Props) {
     <ul className="grid gap-6 lg:grid-cols-2">
       {amenities.map((amenity) => (
         <li key={amenity} className="flex items-center gap-2">
-          <span className="rounded-full bg-accent p-2">
-            {amenityIconMap[amenity]}
-          </span>
+          <span className="rounded-full bg-accent p-2">{amenityIconMap[amenity]}</span>
           <span>{amenity}</span>
         </li>
       ))}

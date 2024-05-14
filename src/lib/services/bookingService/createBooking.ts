@@ -5,11 +5,7 @@ import type { z } from 'zod';
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
-import {
-  bookingReturnSchema,
-  createApiError,
-  createApiResponseSchema,
-} from '@/lib/schema';
+import { bookingReturnSchema, createApiError, createApiResponseSchema } from '@/lib/schema';
 
 type BookVenue = {
   dateFrom: string;
@@ -24,9 +20,7 @@ type CreateBookingReturn = {
   status: number;
 };
 
-export async function createBooking(
-  data: BookVenue
-): Promise<CreateBookingReturn> {
+export async function createBooking(data: BookVenue): Promise<CreateBookingReturn> {
   const accessToken = await getAccessTokenCookie();
 
   if (!accessToken) {

@@ -31,16 +31,10 @@ const HeaderContent = () => {
         <AccountMenu user={user} />
       ) : (
         <div className="space-x-2">
-          <Link
-            href="/login"
-            className={buttonVariants({ variant: 'outline', size: 'sm' })}
-          >
+          <Link href="/login" className={buttonVariants({ variant: 'outline', size: 'sm' })}>
             Log in
           </Link>
-          <Link
-            href="/register"
-            className={buttonVariants({ variant: 'default', size: 'sm' })}
-          >
+          <Link href="/register" className={buttonVariants({ variant: 'default', size: 'sm' })}>
             Register
           </Link>
         </div>

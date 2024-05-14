@@ -36,9 +36,7 @@ export async function POST(req: NextRequest) {
       value: JSON.stringify({
         name: res.data.name,
         email: res.data.email,
-        avatarUrl: res.data.avatar?.url
-          ? encodeURIComponent(res.data.avatar.url)
-          : null,
+        avatarUrl: res.data.avatar?.url ? encodeURIComponent(res.data.avatar.url) : null,
         isVenueManager: res.data.venueManager || false,
       }),
       days: 7,

@@ -20,9 +20,7 @@ export const DisabledBookingCard = ({ venue }: Props) => {
       <CardHeader>
         <CardTitle>
           ${venue.price}
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            /night
-          </span>
+          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">/night</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="relative grid gap-6">
@@ -33,10 +31,7 @@ export const DisabledBookingCard = ({ venue }: Props) => {
               log in
             </Link>{' '}
             or{' '}
-            <Link
-              href={`/register?ref=/venues/${venue.id}`}
-              className="underline"
-            >
+            <Link href={`/register?ref=/venues/${venue.id}`} className="underline">
               register
             </Link>{' '}
             to book this venue

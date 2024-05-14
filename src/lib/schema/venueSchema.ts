@@ -100,10 +100,7 @@ export const createVenueSchemaBase = z.object({
     .number()
     .min(1, 'Price must be more than $1')
     .max(10000, 'Price must be less than $10,000'),
-  maxGuests: z.coerce
-    .number()
-    .min(1, 'Minimum 1 guest')
-    .max(100, 'Max 100 guests'),
+  maxGuests: z.coerce.number().min(1, 'Minimum 1 guest').max(100, 'Max 100 guests'),
 });
 
 export const createVenueSchemaFlattened = createVenueSchemaBase

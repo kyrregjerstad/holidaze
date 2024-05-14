@@ -41,9 +41,7 @@ const EditVenuePage = async ({ params }: Props) => {
     redirect(`/manage/venues/${venue.id}`);
   };
 
-  return (
-    <EditVenueForm venue={venue} submitFn={updateVenue} onSuccess={onSuccess} />
-  );
+  return <EditVenueForm venue={venue} submitFn={updateVenue} onSuccess={onSuccess} />;
 };
 
 export default EditVenuePage;

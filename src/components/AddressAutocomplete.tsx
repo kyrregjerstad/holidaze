@@ -35,10 +35,7 @@ export const AddressAutocomplete = ({ onPlaceSelect }: Props) => {
       />
 
       {predictions.length > 0 && isFocused && (
-        <PredictionList
-          predictions={predictions}
-          handleSuggestionClick={handleSuggestionClick}
-        />
+        <PredictionList predictions={predictions} handleSuggestionClick={handleSuggestionClick} />
       )}
     </div>
   );

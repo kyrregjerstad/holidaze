@@ -17,19 +17,8 @@ import { createVenueSchemaFlattened } from '@/lib/schema/venueSchema';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { ImageUploader } from '@/components/ImageUploader';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from '@/components/ui/card';
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -128,9 +117,7 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
           <CardHeader />
           <CardContent className="space-y-8">
             {form.formState.errors.root && (
-              <p className="text-center text-red-600">
-                {form.formState.errors.root.message}
-              </p>
+              <p className="text-center text-red-600">{form.formState.errors.root.message}</p>
             )}
             {images.length < 8 && (
               <ImageUploader
@@ -175,10 +162,7 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Title</FormLabel>
-                  <Input
-                    placeholder="Enter a title for your venue"
-                    {...field}
-                  />
+                  <Input placeholder="Enter a title for your venue" {...field} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -233,11 +217,7 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch
-                        id="wifi"
-                        {...field}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Switch id="wifi" {...field} onCheckedChange={field.onChange} />
                       <Label htmlFor="wifi">Wifi</Label>
                     </div>
                   </FormItem>
@@ -248,11 +228,7 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch
-                        id="parking"
-                        {...field}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Switch id="parking" {...field} onCheckedChange={field.onChange} />
                       <Label htmlFor="parking">Parking</Label>
                     </div>
                   </FormItem>
@@ -263,11 +239,7 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch
-                        id="breakfast"
-                        {...field}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Switch id="breakfast" {...field} onCheckedChange={field.onChange} />
                       <Label htmlFor="breakfast">Breakfast</Label>
                     </div>
                   </FormItem>
@@ -279,11 +251,7 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch
-                        id="pets"
-                        {...field}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Switch id="pets" {...field} onCheckedChange={field.onChange} />
                       <Label htmlFor="pets">Pets Allowed</Label>
                     </div>
                   </FormItem>
@@ -337,22 +305,12 @@ function transformAddress(
     };
   }
 
-  const streetNumber = googleMapsAddress.find((address) =>
-    address.types.includes('street_number')
-  );
-  const route = googleMapsAddress.find((address) =>
-    address.types.includes('route')
-  );
+  const streetNumber = googleMapsAddress.find((address) => address.types.includes('street_number'));
+  const route = googleMapsAddress.find((address) => address.types.includes('route'));
 
-  const city = googleMapsAddress.find((address) =>
-    address.types.includes('locality')
-  );
-  const zip = googleMapsAddress.find((address) =>
-    address.types.includes('postal_code')
-  );
-  const country = googleMapsAddress.find((address) =>
-    address.types.includes('country')
-  );
+  const city = googleMapsAddress.find((address) => address.types.includes('locality'));
+  const zip = googleMapsAddress.find((address) => address.types.includes('postal_code'));
+  const country = googleMapsAddress.find((address) => address.types.includes('country'));
 
   const address = `${route?.long_name ?? ''} ${streetNumber?.long_name ?? ''}`;
 

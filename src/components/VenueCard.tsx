@@ -3,13 +3,7 @@ import type { VenueBase } from '@/lib/types';
 import Link from 'next/link';
 
 import { formatUSD } from '@/lib/utils';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { VenueCardImage } from './VenueCardImage';
 
 export const VenueCard = ({ venue }: { venue: VenueBase }) => {
@@ -26,9 +20,7 @@ export const VenueCard = ({ venue }: { venue: VenueBase }) => {
           </div>
         </CardHeader>
         <CardContent className="truncate px-4 py-2">
-          <CardTitle className="truncate group-hover:underline">
-            {venue.name}
-          </CardTitle>
+          <CardTitle className="truncate group-hover:underline">{venue.name}</CardTitle>
           {venue.location.city && venue.location.country ? (
             <span className="text-sm">
               {venue.location.city}, {venue.location.country}
@@ -39,9 +31,7 @@ export const VenueCard = ({ venue }: { venue: VenueBase }) => {
         </CardContent>
         <CardFooter className="p-4 pt-0">
           <div className="flex flex-col items-center justify-between">
-            <span className="max-w-[150px] truncate">
-              {formatUSD(venue.price)} per night
-            </span>
+            <span className="max-w-[150px] truncate">{formatUSD(venue.price)} per night</span>
           </div>
           <div></div>
         </CardFooter>

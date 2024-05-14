@@ -12,19 +12,8 @@ import { useForm } from 'react-hook-form';
 import { registerUserSchemaExtended } from '@/lib/schema/userSchema';
 import { authService } from '@/lib/services';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from '@/components/ui/card';
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
@@ -54,18 +43,13 @@ export const RegisterForm = ({ onSuccess }: Props) => {
 
       form.setError('root', {
         type: 'manual',
-        message:
-          registerError.errors.map((e) => e.message).join(', ') ||
-          'Unknown error',
+        message: registerError.errors.map((e) => e.message).join(', ') || 'Unknown error',
       });
 
       return;
     }
 
-    const { user, error: loginError } = await authService.login(
-      data.email,
-      data.password
-    );
+    const { user, error: loginError } = await authService.login(data.email, data.password);
 
     if (loginError) {
       form.setError('root', { message: loginError });
@@ -100,9 +84,7 @@ export const RegisterForm = ({ onSuccess }: Props) => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {form.formState.errors.root && (
-                <p className="text-center text-red-600">
-                  {form.formState.errors.root.message}
-                </p>
+                <p className="text-center text-red-600">{form.formState.errors.root.message}</p>
               )}
 
               <FormField
@@ -140,32 +122,18 @@ export const RegisterForm = ({ onSuccess }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Repeat Password</FormLabel>
-                    <Input
-                      placeholder="repeat password"
-                      type="password"
-                      {...field}
-                    />
+                    <Input placeholder="repeat password" type="password" {...field} />
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <Label className="flex items-center gap-2">
-                <Input
-                  type="checkbox"
-                  {...form.register('venueManager')}
-                  className="size-4"
-                />
+                <Input type="checkbox" {...form.register('venueManager')} className="size-4" />
                 I&apos;m a venue manager
               </Label>
-              <Button
-                type="submit"
-                disabled={form.formState.isSubmitting}
-                className="group w-full"
-              >
+              <Button type="submit" disabled={form.formState.isSubmitting} className="group w-full">
                 Register
-                <span className="translate-x-1 transition-transform group-hover:scale-125">
-                  ☀️
-                </span>
+                <span className="translate-x-1 transition-transform group-hover:scale-125">☀️</span>
               </Button>
             </form>
           </Form>

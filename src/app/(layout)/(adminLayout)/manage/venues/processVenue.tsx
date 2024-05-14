@@ -49,9 +49,7 @@ const getStatus = (
     case isToday(bookings[0].dateFrom) ||
       (isPast(bookings[0].dateFrom) && isFuture(bookings[0].dateTo)):
       return 'Now';
-    case isPast(bookings[0].dateTo) ||
-      isPast(bookings[0].dateFrom) ||
-      !bookings[0]:
+    case isPast(bookings[0].dateTo) || isPast(bookings[0].dateFrom) || !bookings[0]:
       return 'No bookings';
     default:
       return 'Unknown';

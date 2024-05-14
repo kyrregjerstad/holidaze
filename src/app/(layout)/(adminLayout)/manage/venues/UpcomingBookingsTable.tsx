@@ -88,9 +88,7 @@ export const UpcomingBookingsTable = ({ bookings }: Props) => {
                       key={column.id}
                       className="capitalize"
                       checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
+                      onCheckedChange={(value) => column.toggleVisibility(!!value)}
                     >
                       {column.id}
                     </DropdownMenuCheckboxItem>
@@ -109,10 +107,7 @@ export const UpcomingBookingsTable = ({ bookings }: Props) => {
                   <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                      : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -121,26 +116,17 @@ export const UpcomingBookingsTable = ({ bookings }: Props) => {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No upcoming bookings.
                 </TableCell>
               </TableRow>
@@ -171,10 +157,7 @@ export const columns: ColumnDef<TransformedVenue['bookings'][number]>[] = [
     cell: ({ row }) => {
       const name: string = row.getValue('name');
       return (
-        <Link
-          href={`/profiles/${name}`}
-          className="px-4 lowercase hover:underline"
-        >
+        <Link href={`/profiles/${name}`} className="px-4 lowercase hover:underline">
           {name}
         </Link>
       );
@@ -195,9 +178,7 @@ export const columns: ColumnDef<TransformedVenue['bookings'][number]>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="px-4 lowercase">{row.getValue('guests')}</div>
-    ),
+    cell: ({ row }) => <div className="px-4 lowercase">{row.getValue('guests')}</div>,
   },
   {
     id: 'totalDays',
@@ -214,9 +195,7 @@ export const columns: ColumnDef<TransformedVenue['bookings'][number]>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="px-4 lowercase">{row.getValue('totalDays')}</div>
-    ),
+    cell: ({ row }) => <div className="px-4 lowercase">{row.getValue('totalDays')}</div>,
   },
 
   {
@@ -253,10 +232,7 @@ export const columns: ColumnDef<TransformedVenue['bookings'][number]>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem asChild>
-              <Link
-                href={`/profiles/${row.original.customer.name}`}
-                className="cursor-pointer"
-              >
+              <Link href={`/profiles/${row.original.customer.name}`} className="cursor-pointer">
                 View User
               </Link>
             </DropdownMenuItem>

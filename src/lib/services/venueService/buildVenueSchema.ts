@@ -1,22 +1,10 @@
-import type {
-  VenueBase,
-  VenueFull,
-  VenueWithBookings,
-  VenueWithOwner,
-} from '@/lib/types';
+import type { VenueBase, VenueFull, VenueWithBookings, VenueWithOwner } from '@/lib/types';
 
 import { z } from 'zod';
 
-import {
-  bookingSchema,
-  ownerSchema,
-  venueBaseSchema,
-} from '@/lib/schema/venueSchema';
+import { bookingSchema, ownerSchema, venueBaseSchema } from '@/lib/schema/venueSchema';
 
-export function buildVenueSchema(options: {
-  owner: true;
-  bookings: true;
-}): z.ZodSchema<VenueFull>;
+export function buildVenueSchema(options: { owner: true; bookings: true }): z.ZodSchema<VenueFull>;
 export function buildVenueSchema(options: {
   owner: true;
   bookings: false;

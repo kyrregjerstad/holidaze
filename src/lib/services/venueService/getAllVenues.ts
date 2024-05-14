@@ -1,10 +1,5 @@
 import type { ApiResponseBase } from '@/lib/api/types';
-import type {
-  VenueBase,
-  VenueFull,
-  VenueWithBookings,
-  VenueWithOwner,
-} from '@/lib/types';
+import type { VenueBase, VenueFull, VenueWithBookings, VenueWithOwner } from '@/lib/types';
 
 import { z } from 'zod';
 
@@ -39,9 +34,7 @@ export function getAllVenues(options?: {
   bookings?: boolean;
   limit?: number;
   page?: number;
-}): Promise<
-  GetAllVenuesReturn<VenueBase | VenueWithBookings | VenueWithOwner | VenueFull>
->;
+}): Promise<GetAllVenuesReturn<VenueBase | VenueWithBookings | VenueWithOwner | VenueFull>>;
 
 export async function getAllVenues(
   options: {
@@ -50,9 +43,7 @@ export async function getAllVenues(
     limit?: number;
     page?: number;
   } = {}
-): Promise<
-  GetAllVenuesReturn<VenueBase | VenueWithBookings | VenueWithOwner | VenueFull>
-> {
+): Promise<GetAllVenuesReturn<VenueBase | VenueWithBookings | VenueWithOwner | VenueFull>> {
   const schema = buildVenueSchema({
     owner: options.owner ?? false,
     bookings: options.bookings ?? false,
@@ -69,8 +60,7 @@ export async function getAllVenues(
     schema: createApiResponseSchema(z.array(schema)),
   });
 
-  if (!res || res.data.length === 0)
-    return { venues: [], meta: null, error, status };
+  if (!res || res.data.length === 0) return { venues: [], meta: null, error, status };
 
   return { venues: res.data, meta: res.meta, error, status };
 }

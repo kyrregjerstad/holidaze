@@ -49,19 +49,12 @@ export const useBookingStore = create<FormState>((set, get) => ({
   },
 }));
 
-function checkAvailability(
-  startDate?: Date,
-  endDate?: Date,
-  bookedDates: Date[] = []
-): boolean {
+function checkAvailability(startDate?: Date, endDate?: Date, bookedDates: Date[] = []): boolean {
   return !(
     startDate &&
     endDate &&
     bookedDates.some((date) =>
-      areIntervalsOverlapping(
-        { start: startDate, end: endDate },
-        { start: date, end: date }
-      )
+      areIntervalsOverlapping({ start: startDate, end: endDate }, { start: date, end: date })
     )
   );
 }

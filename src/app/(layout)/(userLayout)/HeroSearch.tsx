@@ -16,9 +16,7 @@ export const HeroSearch = ({ prefilledTerm }: { prefilledTerm?: string }) => {
   const [searchTerm, setSearchTerm] = useState<string>(prefilledTerm || '');
   const router = useRouter();
 
-  const { startDate, endDate, setStartDate, setEndDate } = useBookingStore(
-    (state) => state
-  );
+  const { startDate, endDate, setStartDate, setEndDate } = useBookingStore((state) => state);
 
   const query = new URLSearchParams();
   query.set('q', searchTerm);
@@ -68,5 +66,4 @@ export const HeroSearch = ({ prefilledTerm }: { prefilledTerm?: string }) => {
   );
 };
 
-const formatDate = (date: Date | undefined) =>
-  date?.toISOString().split('T')[0] || '';
+const formatDate = (date: Date | undefined) => date?.toISOString().split('T')[0] || '';

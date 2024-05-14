@@ -18,27 +18,19 @@ const schema = z.array(buildVenueSchema({ owner: true, bookings: true }));
 export async function getVenuesBySearchTerm(
   searchTerm: string,
   options: { owner: true; bookings: true }
-): Promise<
-  GetVenuesBySearchTermReturn<z.infer<ReturnType<typeof buildVenueSchema>>>
->;
+): Promise<GetVenuesBySearchTermReturn<z.infer<ReturnType<typeof buildVenueSchema>>>>;
 export async function getVenuesBySearchTerm(
   searchTerm: string,
   options: { owner: true; bookings?: false }
-): Promise<
-  GetVenuesBySearchTermReturn<z.infer<ReturnType<typeof buildVenueSchema>>>
->;
+): Promise<GetVenuesBySearchTermReturn<z.infer<ReturnType<typeof buildVenueSchema>>>>;
 export async function getVenuesBySearchTerm(
   searchTerm: string,
   options: { owner?: false; bookings: true }
-): Promise<
-  GetVenuesBySearchTermReturn<z.infer<ReturnType<typeof buildVenueSchema>>>
->;
+): Promise<GetVenuesBySearchTermReturn<z.infer<ReturnType<typeof buildVenueSchema>>>>;
 export async function getVenuesBySearchTerm(
   searchTerm: string,
   options?: { owner?: false; bookings?: false }
-): Promise<
-  GetVenuesBySearchTermReturn<z.infer<ReturnType<typeof buildVenueSchema>>>
->;
+): Promise<GetVenuesBySearchTermReturn<z.infer<ReturnType<typeof buildVenueSchema>>>>;
 
 export async function getVenuesBySearchTerm(
   searchTerm: string,

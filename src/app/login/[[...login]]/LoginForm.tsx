@@ -12,13 +12,7 @@ import { loginUserSchema } from '@/lib/schema/userSchema';
 import { authService } from '@/lib/services';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -37,10 +31,7 @@ export const LoginForm = ({ onSuccess }: Props) => {
 
   const { toast } = useToast();
 
-  const onSubmit = async ({
-    email,
-    password,
-  }: z.infer<typeof loginUserSchema>) => {
+  const onSubmit = async ({ email, password }: z.infer<typeof loginUserSchema>) => {
     const { user, error } = await authService.login(email, password);
 
     if (error) {
@@ -67,15 +58,9 @@ export const LoginForm = ({ onSuccess }: Props) => {
         <div className="py-2"></div>
         <CardContent>
           <Form {...form}>
-            <form
-              className="space-y-2"
-              onSubmit={form.handleSubmit(onSubmit)}
-              method="POST"
-            >
+            <form className="space-y-2" onSubmit={form.handleSubmit(onSubmit)} method="POST">
               {form.formState.errors.root && (
-                <p className="text-center text-red-600">
-                  {form.formState.errors.root.message}
-                </p>
+                <p className="text-center text-red-600">{form.formState.errors.root.message}</p>
               )}
               <FormField
                 name="email"
@@ -98,15 +83,9 @@ export const LoginForm = ({ onSuccess }: Props) => {
                 )}
               />
               <div className="py-2"></div>
-              <Button
-                type="submit"
-                disabled={form.formState.isSubmitting}
-                className="group w-full"
-              >
+              <Button type="submit" disabled={form.formState.isSubmitting} className="group w-full">
                 Log in
-                <span className="translate-x-1 transition-transform group-hover:scale-125">
-                  ☀️
-                </span>
+                <span className="translate-x-1 transition-transform group-hover:scale-125">☀️</span>
               </Button>
             </form>
           </Form>

@@ -59,9 +59,7 @@ export const NewBookingCard = ({ venue }: Props) => {
       <CardHeader>
         <CardTitle>
           ${venue.price}
-          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-            /night
-          </span>
+          <span className="text-sm font-normal text-gray-500 dark:text-gray-400">/night</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="grid gap-6">

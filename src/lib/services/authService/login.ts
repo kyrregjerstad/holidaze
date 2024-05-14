@@ -2,10 +2,7 @@ import { z } from 'zod';
 
 import { fetcher } from '@/lib/utils/fetcher';
 
-export async function login(
-  email: string,
-  password: string
-): Promise<LoginReturn> {
+export async function login(email: string, password: string): Promise<LoginReturn> {
   try {
     const { res, error } = await fetcher({
       url: '/api/login', // this is a local API for handling login

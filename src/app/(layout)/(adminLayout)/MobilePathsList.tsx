@@ -24,10 +24,7 @@ export const MobilePathsList = () => {
         <li key={path} className="flex items-center gap-2">
           <Icon strokeWidth={activePath === path ? 2.2 : 1.8} />
           <DrawerClose asChild>
-            <Link
-              href={path}
-              className={cn(activePath === path ? 'font-bold' : '')}
-            >
+            <Link href={path} className={cn(activePath === path ? 'font-bold' : '')}>
               {label}
             </Link>
           </DrawerClose>

@@ -7,10 +7,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function createUrl(
-  baseUrl: string,
-  params?: Record<string, boolean | string | number>
-) {
+export function createUrl(baseUrl: string, params?: Record<string, boolean | string | number>) {
   const url = new URL(baseUrl);
 
   if (params) {
@@ -37,9 +34,7 @@ export function getNoroffApiKey() {
   const apiKey = process.env.NOROFF_API_KEY;
 
   if (!apiKey) {
-    throw new Error(
-      'Missing NOROFF_API key, did you forget to add it to your .env file?'
-    );
+    throw new Error('Missing NOROFF_API key, did you forget to add it to your .env file?');
   }
 
   return apiKey;

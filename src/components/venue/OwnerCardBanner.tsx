@@ -4,13 +4,7 @@ import Image from 'next/image';
 
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 
-export const OwnerCardBanner = ({
-  url,
-  alt,
-}: {
-  url: string | null;
-  alt: string | null;
-}) => {
+export const OwnerCardBanner = ({ url, alt }: { url: string | null; alt: string | null }) => {
   return (
     <Image
       src={url || VENUE_FALLBACK_IMAGE}

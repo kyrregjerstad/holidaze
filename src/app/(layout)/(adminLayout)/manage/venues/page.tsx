@@ -14,10 +14,7 @@ const ManageVenuesPage = async () => {
     notFound();
   }
 
-  const { venues, error } = await profileService.getAllVenuesByProfile(
-    user.name,
-    accessToken
-  );
+  const { venues, error } = await profileService.getAllVenuesByProfile(user.name, accessToken);
 
   if (error) {
     console.error(error);

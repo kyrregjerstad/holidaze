@@ -13,9 +13,7 @@ type Props = {
 export const BookingPreviewCard = ({ venue, user }: Props) => {
   if (!user?.name) return null;
 
-  const nextUserBooking = venue.bookings.find(
-    (booking) => booking.customer.name === user.name
-  );
+  const nextUserBooking = venue.bookings.find((booking) => booking.customer.name === user.name);
 
   if (!nextUserBooking) {
     return null;
@@ -30,9 +28,7 @@ export const BookingPreviewCard = ({ venue, user }: Props) => {
     <Card>
       <CardHeader className="">
         <CardTitle>
-          <span className="block text-lg font-normal">
-            Your upcoming booking at
-          </span>
+          <span className="block text-lg font-normal">Your upcoming booking at</span>
           <span>{venue.name}</span>
         </CardTitle>
       </CardHeader>

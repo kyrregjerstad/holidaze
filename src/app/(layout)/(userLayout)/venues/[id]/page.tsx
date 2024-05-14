@@ -66,9 +66,7 @@ const VenuePage = async ({ params }: Props) => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className="max-w-xs truncate">
-              {venue.name}
-            </BreadcrumbPage>
+            <BreadcrumbPage className="max-w-xs truncate">{venue.name}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -108,9 +106,7 @@ const VenuePage = async ({ params }: Props) => {
       <LocationMap location={venue.location} />
       <Separator className="my-12" />
       <section className="">
-        <h3 className="pb-4 text-xl font-bold">
-          Other venues by {venue.owner.name}:{' '}
-        </h3>
+        <h3 className="pb-4 text-xl font-bold">Other venues by {venue.owner.name}: </h3>
         <Suspense fallback={<OtherVenuesSkeleton />}>
           <OtherVenuesByOwner venueId={venue.id} ownerName={venue.owner.name} />
         </Suspense>

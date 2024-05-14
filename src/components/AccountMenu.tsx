@@ -31,39 +31,27 @@ export const AccountMenu = ({ user }: Props) => {
           <AvatarFallback>{user.name[0]}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="end"
-        className="flex max-w-[200px] flex-col gap-1 p-4 sm:p-2"
-      >
+      <DropdownMenuContent align="end" className="flex max-w-[200px] flex-col gap-1 p-4 sm:p-2">
         <DropdownMenuLabel className="flex max-w-64 flex-col items-end justify-end text-pretty break-all">
           {greeting}
           <div>{user.name}</div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator className="mb-2" />
         <DropdownMenuItem asChild>
-          <Link
-            href={`/profiles/${user.name}`}
-            className="flex cursor-pointer justify-end gap-1"
-          >
+          <Link href={`/profiles/${user.name}`} className="flex cursor-pointer justify-end gap-1">
             Profile
             <CircleUserIcon size={18} />
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link
-            href="/manage/bookings"
-            className="flex cursor-pointer justify-end gap-1"
-          >
+          <Link href="/manage/bookings" className="flex cursor-pointer justify-end gap-1">
             My Bookings
             <FolderOpenIcon size={18} />
           </Link>
         </DropdownMenuItem>
         {user.isVenueManager && (
           <DropdownMenuItem asChild>
-            <Link
-              href="/manage/venues"
-              className="flex cursor-pointer justify-end gap-1"
-            >
+            <Link href="/manage/venues" className="flex cursor-pointer justify-end gap-1">
               My Venues
               <HomeIcon size={18} />
             </Link>
