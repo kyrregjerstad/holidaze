@@ -1,33 +1,27 @@
 'use server';
 
-import { z } from 'zod';
+import type { ApiResponseBase } from '@/lib/api/types';
+import type { VenueFull } from '@/lib/types';
 
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
-import {
-  bookingSchema,
-  ownerSchema,
-  venueSchema,
-} from '@/lib/schema/venueSchema';
+import { venueSchemaFull } from '@/lib/schema/venueSchema';
 
-export async function getVenueById(id: string) {
+interface GetVenueByIdReturn<T> extends ApiResponseBase<T> {
+  venue: T | null;
+}
+
+export async function getVenueById(
+  id: string
+): Promise<GetVenueByIdReturn<VenueFull>> {
   const { res, error, status } = await holidazeAPI({
     endpoint: `/venues/${id}`,
     query: {
       _owner: true,
       _bookings: true,
     },
-    schema: createApiResponseSchema(
-      venueSchema.extend({
-        bookings: z.array(bookingSchema),
-        owner: ownerSchema,
-      })
-    ),
+    schema: createApiResponseSchema(venueSchemaFull),
   });
 
-  return { venue: res?.data || null, error, status };
+  return { venue: res?.data ?? null, error, meta: res?.meta ?? null, status };
 }
-
-export type Venue = NonNullable<
-  Awaited<ReturnType<typeof getVenueById>>['venue']
->;

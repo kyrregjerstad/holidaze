@@ -1,24 +1,28 @@
 'use client';
 
+import type {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+} from '@tanstack/react-table';
+import type { TransformedVenue } from './processVenue';
+
 import { useState } from 'react';
 
 import Link from 'next/link';
 
 import {
-  ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
-  VisibilityState,
 } from '@tanstack/react-table';
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
 
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -26,7 +30,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import {
   Table,
@@ -36,7 +39,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { TransformedVenue } from './processVenue';
 
 type Props = {
   bookings: TransformedVenue['bookings'];
@@ -167,7 +169,7 @@ export const columns: ColumnDef<TransformedVenue['bookings'][number]>[] = [
       );
     },
     cell: ({ row }) => {
-      const name = row.getValue('name') as string;
+      const name: string = row.getValue('name');
       return (
         <Link
           href={`/profiles/${name}`}
@@ -222,7 +224,7 @@ export const columns: ColumnDef<TransformedVenue['bookings'][number]>[] = [
     accessorKey: 'dateFrom',
     header: () => <div className="text-right">From</div>,
     cell: ({ row }) => {
-      const dateFrom = row.getValue('dateFrom') as Date;
+      const dateFrom: Date = row.getValue('dateFrom');
       return <div className="text-right">{dateFrom.toDateString()}</div>;
     },
   },
@@ -231,7 +233,7 @@ export const columns: ColumnDef<TransformedVenue['bookings'][number]>[] = [
     accessorKey: 'dateTo',
     header: () => <div className="text-right">To</div>,
     cell: ({ row }) => {
-      const dateTo = row.getValue('dateTo') as Date;
+      const dateTo: Date = row.getValue('dateTo');
       return <div className="text-right">{dateTo.toDateString()}</div>;
     },
   },

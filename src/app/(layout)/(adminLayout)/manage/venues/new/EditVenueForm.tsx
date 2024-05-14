@@ -1,10 +1,10 @@
 'use client';
 
-import type { Venue } from '@/lib/services/venueService/getVenueById';
 import type {
   UpdateVenueReturn,
   UpdateVenueSchema,
 } from '@/lib/services/venueService/updateVenue';
+import type { VenueFull } from '@/lib/types';
 import type { z } from 'zod';
 
 import { useState } from 'react';
@@ -45,7 +45,7 @@ TODO:
 - accessibility could be improved, with keyboard navigation.
 */
 type Props = {
-  venue: Venue;
+  venue: VenueFull;
   submitFn: (id: string, data: UpdateVenueSchema) => UpdateVenueReturn;
   onSuccess: () => Promise<void>;
 };

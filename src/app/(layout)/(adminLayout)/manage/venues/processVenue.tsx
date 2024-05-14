@@ -1,4 +1,4 @@
-import type { VenueWithBookings } from '@/lib/schema/venueSchema';
+import type { VenueFull, VenueWithBookings } from '@/lib/types';
 
 import {
   compareAsc,
@@ -17,7 +17,7 @@ type Booking = {
 
 export type TransformedVenue = ReturnType<typeof processVenue>;
 
-export const processVenue = (venue: VenueWithBookings) => {
+export const processVenue = (venue: VenueFull) => {
   const sortedAndFilteredBookings = parseBookingDates(venue)
     .bookings.filter(removePastDates)
     .sort(sortDatesAsc)

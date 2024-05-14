@@ -1,6 +1,6 @@
 'use client';
 
-import type { Venue } from '@/lib/services/venueService/getVenueById';
+import type { VenueFull } from '@/lib/types';
 
 import Link from 'next/link';
 
@@ -12,7 +12,7 @@ import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
 
 type Props = {
-  venue: Venue;
+  venue: VenueFull;
 };
 export const DisabledBookingCard = ({ venue }: Props) => {
   return (

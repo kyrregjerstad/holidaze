@@ -1,5 +1,4 @@
-import type { venueSchema } from '@/lib/schema/venueSchema';
-import type { z } from 'zod';
+import type { VenueBase } from '@/lib/types';
 
 import Link from 'next/link';
 
@@ -13,11 +12,7 @@ import {
 } from '@/components/ui/card';
 import { VenueCardImage } from './VenueCardImage';
 
-export const VenueCard = ({
-  venue,
-}: {
-  venue: z.infer<typeof venueSchema>;
-}) => {
+export const VenueCard = ({ venue }: { venue: VenueBase }) => {
   return (
     <Card className="overflow-hidden">
       <Link href={`/venues/${venue.id}`} className="group cursor-pointer">

@@ -2,7 +2,7 @@
 
 import 'server-only';
 
-import type { venueSchema } from '@/lib/schema';
+import type { venueBaseSchema } from '@/lib/schema';
 import type { z } from 'zod';
 
 import { getAllVenues } from './getAllVenues';
@@ -18,7 +18,7 @@ type QueryParams = {
   sortOrder?: 'asc' | 'desc';
 };
 
-type BaseVenue = z.infer<typeof venueSchema>;
+type BaseVenue = z.infer<typeof venueBaseSchema>;
 
 export async function recursivelyGetAllVenues(
   venues: BaseVenue[] = [],

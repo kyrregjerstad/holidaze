@@ -17,8 +17,6 @@ export const amenitiesSchema = z.object({
   pets: z.boolean(),
 });
 
-export type Amenities = z.infer<typeof amenitiesSchema>;
-
 export const amenityEnum = z.enum(['wifi', 'parking', 'breakfast', 'pets']);
 
 export const amenitiesKeysSchema = z.array(amenityEnum);
@@ -28,7 +26,7 @@ const mediaSchema = z.object({
   alt: z.string(),
 });
 
-export const venueSchema = z.object({
+export const venueBaseSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
@@ -66,16 +64,18 @@ export const ownerSchema = z.object({
   banner: mediaSchema.nullable(),
 });
 
-export const venueSchemaExtended = venueSchema.extend({
+export const venueSchemaFull = venueBaseSchema.extend({
   owner: ownerSchema,
   bookings: z.array(bookingSchema),
 });
 
-export const venueSchemaWithBookings = venueSchema.extend({
+export const venueSchemaWithBookings = venueBaseSchema.extend({
   bookings: z.array(bookingSchema),
 });
 
-export type VenueWithBookings = z.infer<typeof venueSchemaWithBookings>;
+export const venueSchemaWithOwner = venueBaseSchema.extend({
+  owner: ownerSchema,
+});
 
 export const createVenueSchema = z.object({
   name: z.string(),
@@ -86,8 +86,6 @@ export const createVenueSchema = z.object({
   location: locationSchema,
   media: z.array(mediaSchema),
 });
-
-export type CreateVenue = z.infer<typeof createVenueSchema>;
 
 export const createVenueSchemaBase = z.object({
   name: z

@@ -25,11 +25,11 @@ type HolidazeAPIOptions<T> = {
   schema: z.Schema<T>;
 };
 
-type HolidazeAPIReturn<T> = {
+interface HolidazeAPIReturn<T> {
   res: T | null;
   error: z.ZodError<T> | null;
   status: number;
-};
+}
 
 export async function holidazeAPI<T>({
   endpoint,

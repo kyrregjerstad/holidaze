@@ -1,20 +1,24 @@
 'use client';
 
+import type {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+} from '@tanstack/react-table';
+import type { TransformedVenue } from './processVenue';
+
 import { useState } from 'react';
 
 import Link from 'next/link';
 
 import {
-  ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
   useReactTable,
-  VisibilityState,
 } from '@tanstack/react-table';
 import { compareAsc } from 'date-fns';
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
@@ -40,7 +44,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { TransformedVenue } from './processVenue';
 
 type Props = {
   venues: TransformedVenue[];
@@ -267,7 +270,7 @@ export const columns: ColumnDef<TransformedVenue>[] = [
       );
     },
     cell: ({ row }) => {
-      const status = row.getValue('status') as string;
+      const status: string = row.getValue('status');
       return (
         <div
           className={cn(

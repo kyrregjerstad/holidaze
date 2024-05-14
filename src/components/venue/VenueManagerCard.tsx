@@ -1,5 +1,4 @@
-import type { venueSchemaExtended } from '@/lib/schema/venueSchema';
-import type { z } from 'zod';
+import type { VenueFull } from '@/lib/types';
 
 import Link from 'next/link';
 
@@ -7,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { buttonVariants } from '../ui/button';
 
 type Props = {
-  venue: z.infer<typeof venueSchemaExtended>;
+  venue: VenueFull;
 };
 export const VenueManagerCard = ({ venue }: Props) => {
   return (

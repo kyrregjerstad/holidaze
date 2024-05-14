@@ -5,9 +5,9 @@ import type { z } from 'zod';
 
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
-import { venueSchema } from '@/lib/schema/venueSchema';
+import { venueBaseSchema } from '@/lib/schema/venueSchema';
 
-export type UpdateVenueSchema = DeepPartial<z.infer<typeof venueSchema>>;
+export type UpdateVenueSchema = DeepPartial<z.infer<typeof venueBaseSchema>>;
 export type UpdateVenueReturn = ReturnType<typeof updateVenue>;
 
 export async function updateVenue(id: string, data: UpdateVenueSchema) {
@@ -15,7 +15,7 @@ export async function updateVenue(id: string, data: UpdateVenueSchema) {
     endpoint: `/venues/${id}`,
     method: 'PUT',
     data,
-    schema: createApiResponseSchema(venueSchema),
+    schema: createApiResponseSchema(venueBaseSchema),
   });
 
   return { venue: res?.data ?? null, error, status };

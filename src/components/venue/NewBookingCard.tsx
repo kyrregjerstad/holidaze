@@ -1,6 +1,6 @@
 'use client';
 
-import type { venueSchemaExtended } from '@/lib/schema/venueSchema';
+import type { venueSchemaFull } from '@/lib/schema/venueSchema';
 import type { z } from 'zod';
 
 import { useEffect } from 'react';
@@ -17,7 +17,7 @@ import { Separator } from '../ui/separator';
 import { useBookingStore } from './bookingStore';
 
 type Props = {
-  venue: z.infer<typeof venueSchemaExtended>;
+  venue: z.infer<typeof venueSchemaFull>;
 };
 
 export const NewBookingCard = ({ venue }: Props) => {

@@ -1,6 +1,6 @@
 'use client';
 
-import type { Venue } from '@/lib/services/venueService/getVenueById';
+import type { VenueFull } from '@/lib/types';
 import type { ReactNode } from 'react';
 
 import { useRef, useState } from 'react';
@@ -25,7 +25,7 @@ import { Button, buttonVariants } from './ui/button';
 import { useToast } from './ui/use-toast';
 
 type Props = {
-  venue: Venue;
+  venue: VenueFull;
   guests: number;
   startDate: Date | undefined;
   endDate: Date | undefined;

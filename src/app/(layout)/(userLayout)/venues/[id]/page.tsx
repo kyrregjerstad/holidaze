@@ -1,4 +1,4 @@
-import type { Venue } from '@/lib/services/venueService/getVenueById';
+import type { VenueFull } from '@/lib/types';
 
 import { Suspense } from 'react';
 
@@ -145,7 +145,7 @@ const OtherVenuesSkeleton = () => {
   );
 };
 
-const InfoCards = ({ venue }: { venue: Venue }) => {
+const InfoCards = ({ venue }: { venue: VenueFull }) => {
   const user = getUserFromCookie();
 
   if (!user) {
@@ -153,13 +153,13 @@ const InfoCards = ({ venue }: { venue: Venue }) => {
   }
 
   if (user.name === venue.owner.name) {
-    return <VenueManagerCard venue={venue} user={user} />;
+    return <VenueManagerCard venue={venue} />;
   }
 
   return (
     <div className="flex flex-col justify-center gap-4">
       <BookingPreviewCard venue={venue} user={user} />
-      <NewBookingCard venue={venue} user={user} />
+      <NewBookingCard venue={venue} />
       <ReportDialog />
     </div>
   );

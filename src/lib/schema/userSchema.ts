@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { venueSchema } from './venueSchema';
+import { venueBaseSchema } from './venueSchema';
 
 export const registerUserSchema = z.object({
   name: z
@@ -91,6 +91,6 @@ export const userProfileSchema = z.object({
     venues: z.number(),
     bookings: z.number(),
   }),
-  venues: venueSchema.array(),
+  venues: venueBaseSchema.array(),
   bookings: z.array(z.any()), // TODO: Add booking schema
 });

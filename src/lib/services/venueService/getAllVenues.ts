@@ -1,10 +1,10 @@
-import type { ApiMetaPartial } from '@/lib/schema/apiSchema';
+import type { ApiResponseBase } from '@/lib/api/types';
 import type {
-  BaseVenue,
+  VenueBase,
+  VenueFull,
   VenueWithBookings,
   VenueWithOwner,
-  VenueWithOwnerAndBookings,
-} from './types';
+} from '@/lib/types';
 
 import { z } from 'zod';
 
@@ -12,19 +12,16 @@ import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
 import { buildVenueSchema } from './buildVenueSchema';
 
-type GetAllVenuesReturn<T> = {
+interface GetAllVenuesReturn<T> extends ApiResponseBase<T> {
   venues: T[];
-  meta: ApiMetaPartial | null;
-  error: z.ZodError<T> | null;
-  status: number;
-};
+}
 
 export function getAllVenues(options: {
   owner: true;
   bookings: true;
   limit?: number;
   page?: number;
-}): Promise<GetAllVenuesReturn<VenueWithOwnerAndBookings>>;
+}): Promise<GetAllVenuesReturn<VenueFull>>;
 export function getAllVenues(options: {
   owner: true;
   bookings?: false;
@@ -38,11 +35,13 @@ export function getAllVenues(options: {
   page?: number;
 }): Promise<GetAllVenuesReturn<VenueWithBookings>>;
 export function getAllVenues(options?: {
-  owner?: false;
-  bookings?: false;
+  owner?: boolean;
+  bookings?: boolean;
   limit?: number;
   page?: number;
-}): Promise<GetAllVenuesReturn<BaseVenue>>;
+}): Promise<
+  GetAllVenuesReturn<VenueBase | VenueWithBookings | VenueWithOwner | VenueFull>
+>;
 
 export async function getAllVenues(
   options: {
@@ -52,10 +51,13 @@ export async function getAllVenues(
     page?: number;
   } = {}
 ): Promise<
-  GetAllVenuesReturn<
-    BaseVenue | VenueWithBookings | VenueWithOwner | VenueWithOwnerAndBookings
-  >
+  GetAllVenuesReturn<VenueBase | VenueWithBookings | VenueWithOwner | VenueFull>
 > {
+  const schema = buildVenueSchema({
+    owner: options.owner ?? false,
+    bookings: options.bookings ?? false,
+  });
+
   const { res, error, status } = await holidazeAPI({
     endpoint: '/venues',
     query: {
@@ -64,7 +66,7 @@ export async function getAllVenues(
       _limit: options.limit ?? 100,
       _page: options.page ?? 1,
     },
-    schema: createApiResponseSchema(z.array(buildVenueSchema({ ...options }))),
+    schema: createApiResponseSchema(z.array(schema)),
   });
 
   if (!res || res.data.length === 0)

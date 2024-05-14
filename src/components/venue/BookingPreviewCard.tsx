@@ -1,4 +1,4 @@
-import type { venueSchemaExtended } from '@/lib/schema/venueSchema';
+import type { venueSchemaFull } from '@/lib/schema/venueSchema';
 import type { z } from 'zod';
 
 import { differenceInDays, parseISO } from 'date-fns';
@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '../ui/badge';
 
 type Props = {
-  venue: z.infer<typeof venueSchemaExtended>;
+  venue: z.infer<typeof venueSchemaFull>;
   user: { name: string } | null;
 };
 export const BookingPreviewCard = ({ venue, user }: Props) => {
