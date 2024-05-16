@@ -22,7 +22,7 @@ export const constructFilters = (options: SearchOptions) => {
 const filterBySearchText = (venue: VenueFull, searchText: string) => {
   const options = {
     keys: ['name', 'description'],
-    threshold: 0.3,
+    threshold: 0.1,
   };
   const fuse = new Fuse([venue], options);
   return fuse.search(searchText).length > 0;
