@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 
+import { Suspense } from 'react';
+
 import { Chat } from '@/components/chat/Chat';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
@@ -18,7 +20,9 @@ export default function UserLayout({
     <>
       <Header />
       <main className="flex min-h-[calc(100dvh-56px)] flex-col items-center">
-        <Chat />
+        <Suspense>
+          <Chat />
+        </Suspense>
         <div className="flex w-full max-w-[1920px] flex-col items-center">{children}</div>
       </main>
       <Footer />
