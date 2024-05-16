@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { venueService } from '@/lib/services';
 import { SearchBar } from './SearchBar';
+import { SearchDrawer } from './SearchDrawer';
 import { SearchResult } from './SearchResult';
 
 type Props = {
@@ -29,15 +30,14 @@ const SearchPage = async ({ searchParams }: Props) => {
     },
   });
 
-  console.log(venues);
-
   return (
     <section className="container">
-      <div className="py-8">
+      <div className="hidden py-8 sm:block">
         <SearchBar prefilledTerm={q} />
       </div>
 
       <SearchResult venues={venues} />
+      <SearchDrawer prefilledTerm={q} />
     </section>
   );
 };

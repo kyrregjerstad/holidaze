@@ -2,6 +2,7 @@
 
 import { eachDayOfInterval } from 'date-fns';
 
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
@@ -14,6 +15,7 @@ type Props = {
   overlayDate: Date | undefined;
   label?: string;
   buttonText?: string;
+  className?: string;
 };
 export const DatePicker = ({
   label,
@@ -22,6 +24,7 @@ export const DatePicker = ({
   setDate,
   overlayDate,
   buttonText,
+  className,
 }: Props) => {
   const dateRange = eachDayOfInterval({
     start: selectedDate || new Date(),
@@ -31,9 +34,9 @@ export const DatePicker = ({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div className="flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col justify-between">
           {label && <Label className="text-sm">{label}</Label>}
-          <Button className="h-10 w-full flex-col items-start" variant="outline" type="button">
+          <Button className="w-full flex-col items-start" variant="outline" type="button">
             <span className="font-normal">
               {selectedDate ? (
                 selectedDate?.toLocaleDateString('en-UK')
@@ -46,7 +49,7 @@ export const DatePicker = ({
           </Button>
         </div>
       </PopoverTrigger>
-      <PopoverContent className="max-w-[276px] p-0">
+      <PopoverContent className={cn('max-w-[276px] p-0', className)}>
         <Calendar
           selected={selectedDate}
           onSelect={(selectedDate) => setDate(selectedDate, bookedDates)}

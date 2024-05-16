@@ -5,10 +5,10 @@ import { z } from 'zod';
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
-import { venueSchemaWithBookings } from '@/lib/schema/venueSchema';
+import { venueSchemaFull, venueSchemaWithBookings } from '@/lib/schema/venueSchema';
 
 type GetAllVenuesByProfileReturn = {
-  venues: z.infer<typeof venueSchemaWithBookings>[];
+  venues: z.infer<typeof venueSchemaFull>[];
   error: z.ZodError | null;
   status: number;
 };
@@ -22,7 +22,7 @@ export async function getAllVenuesByProfile(
     query: {
       _bookings: true,
     },
-    schema: createApiResponseSchema(z.array(venueSchemaWithBookings)),
+    schema: createApiResponseSchema(z.array(venueSchemaFull)),
     headers: await createAuthHeaders(accessToken),
   });
 
