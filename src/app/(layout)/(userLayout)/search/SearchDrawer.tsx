@@ -13,7 +13,7 @@ export const SearchDrawer = ({ prefilledTerm }: { prefilledTerm: string }) => {
     <Drawer>
       <DrawerTrigger
         className={buttonVariants({
-          className: 'fixed bottom-4 left-1/2 z-50 -translate-x-1/2 sm:hidden',
+          className: 'fixed bottom-4 left-1/2 z-50 -translate-x-1/2 drop-shadow sm:hidden',
         })}
       >
         Search and filter
