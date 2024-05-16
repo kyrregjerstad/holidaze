@@ -1,4 +1,4 @@
-import { type NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 import { loginUserSchema } from '@/lib/schema/userSchema';
 import { authService } from '@/lib/services';

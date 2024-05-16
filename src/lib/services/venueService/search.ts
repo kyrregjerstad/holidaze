@@ -3,8 +3,11 @@
 import type { ApiResponseBase } from '@/lib/api/types';
 import type { VenueFull } from '@/lib/types';
 
+import { z } from 'zod';
+
 import { getAllVenues } from './getAllVenues';
 import { constructFilters, sortVenues } from './searchFilters';
+import { searchOptionsSchema } from './searchOptionsSchema';
 
 interface SearchReturn<T> extends ApiResponseBase<T> {
   venues: T[];
@@ -13,28 +16,7 @@ interface SearchReturn<T> extends ApiResponseBase<T> {
 export type SortField = 'price' | 'maxGuests' | 'name' | 'created' | 'updated';
 export type SortOrder = 'asc' | 'desc';
 
-export type SearchOptions = {
-  searchText?: string;
-  price?: {
-    min?: number;
-    max?: number;
-  };
-  location?: string;
-  amenities?: {
-    wifi?: boolean;
-    parking?: boolean;
-  };
-  availability?: {
-    dateFrom?: string;
-    dateTo?: string;
-    flexible?: boolean;
-  };
-  minGuests?: number;
-  sort?: {
-    field: SortField;
-    order: SortOrder;
-  };
-};
+export type SearchOptions = z.infer<typeof searchOptionsSchema>;
 
 export async function search(options: SearchOptions): Promise<SearchReturn<VenueFull>> {
   const { venues, error, status, meta } = await getAllVenues({
@@ -49,7 +31,7 @@ export async function search(options: SearchOptions): Promise<SearchReturn<Venue
   const sortedVenues = options.sort ? sortVenues(filteredVenues, options.sort) : filteredVenues;
 
   return {
-    venues: sortedVenues,
+    venues: sortedVenues.slice(0, options.amount ?? 100),
     error: error,
     status,
     meta,

@@ -7,6 +7,7 @@ import { Inter } from 'next/font/google';
 import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import { extractRouterConfig } from 'uploadthing/server';
 
+import { AIAction as AIProvider } from '@/lib/services/chatService/AIActions';
 import { Toaster } from '@/components/ui/toaster';
 import QueryClientProvider from './_providers/QueryClientProvider';
 import { ourFileRouter } from './api/uploadthing/core';
@@ -32,10 +33,12 @@ export default function RootLayout({
       <body className={inter.className}>
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <QueryClientProvider>
-          <div className="bg-background">{children}</div>
-          {modal}
-          <div id="modal-root" />
-          <Toaster />
+          <AIProvider>
+            <div className="bg-background">{children}</div>
+            {modal}
+            <div id="modal-root" />
+            <Toaster />
+          </AIProvider>
         </QueryClientProvider>
       </body>
     </html>
