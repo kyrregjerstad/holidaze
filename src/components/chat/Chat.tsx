@@ -20,7 +20,7 @@ export function Chat() {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-0 left-0 m-4 drop-shadow-sm z-50 bg-sky-600 hover:bg-sky-500"
+        className="fixed bottom-0 left-0 z-50 m-4 bg-sky-600 drop-shadow-sm hover:bg-sky-500"
       >
         <BotMessageSquareIcon />
         <span className="sr-only">Toggle Chat</span>
@@ -69,29 +69,29 @@ const ChatWindow = ({ setIsOpen }: { setIsOpen: (isOpen: boolean) => void }) => 
 
   return (
     <>
-      <Card className="fixed w-[28rem] bottom-0 left-0 m-4 p-0 bg-white drop-shadow-sm border z-50 h-[600px] rounded-lg overflow-hidden">
-        <CardHeader className="p-0 border-b">
-          <div className="flex justify-between items-center py-2 px-2">
+      <Card className="fixed bottom-0 left-0 z-50 m-4 h-[600px] w-[28rem] max-w-full overflow-hidden rounded-lg border bg-white p-0 drop-shadow-sm">
+        <CardHeader className="border-b p-0">
+          <div className="flex items-center justify-between px-2 py-2">
             <h2 className="text-sm font-bold ">Daizy Chat</h2>
             <Button
               variant="ghost"
               size="sm"
-              className="p-0 aspect-square"
+              className="aspect-square p-0"
               onClick={() => setIsOpen(false)}
             >
               <ChevronDownIcon />
             </Button>
           </div>
         </CardHeader>
-        <div className="overflow-y-auto h-[475px]" ref={scrollRef}>
-          <div className="pb-10 px-4 flex flex-col gap-4" ref={messagesRef}>
+        <div className="h-[475px] overflow-y-auto" ref={scrollRef}>
+          <div className="flex flex-col gap-4 px-4 pb-10" ref={messagesRef}>
             {messages.map((message) => (
               <div key={message.id} className="flex flex-col">
                 <>{message.display}</>
               </div>
             ))}
           </div>
-          <div className="w-full h-px" ref={visibilityRef} />
+          <div className="h-px w-full" ref={visibilityRef} />
         </div>
         {isLoading && <div>Loading...</div>}
         <ChatInput
@@ -123,7 +123,7 @@ const ChatInput = ({
 }: ChatInputProps) => {
   return (
     <form
-      className="left-0 right-0 fixed bottom-0 bg-background p-4 border-t shadow-md"
+      className="fixed bottom-0 left-0 right-0 border-t bg-background p-4 shadow-md"
       onSubmit={onSubmit}
     >
       <div className="flex gap-2">
