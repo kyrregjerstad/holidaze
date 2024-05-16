@@ -10,6 +10,7 @@ import { SearchCard } from './SearchCard';
 import { SearchDrawer } from './SearchDrawer';
 import { SearchResult } from './SearchResult';
 import { z } from 'zod';
+import { NonUndefined } from 'react-hook-form';
 
 type Props = {
   searchParams?: Partial<SearchOptions>;
@@ -17,10 +18,14 @@ type Props = {
 
 const SearchPage = async ({ searchParams }: Props) => {
   const searchOptions = flatSearchOptionsSchema.safeParse(searchParams);
+
   if (!searchOptions.success) return notFound();
 
   const transformedOptions = transformSearchParams(searchOptions.data);
-  const { venues } = await venueService.search(transformedOptions);
+
+  const cleanedOptions = removeUndefinedAndEmpty(transformedOptions);
+
+  const { venues } = await venueService.search(cleanedOptions);
 
   return (
     <section className="container">
@@ -61,6 +66,28 @@ function transformSearchParams(
     sort: params.sortField
       ? { field: params.sortField, order: params.sortOrder || 'asc' }
       : undefined,
-    amount: params.amount,
   };
 }
+
+// TODO: improve the return type of this function to correctly remove undefined values
+const removeUndefinedAndEmpty = <T extends Record<string, any>>(obj: T): Partial<T> => {
+  return Object.entries(obj).reduce((acc, [key, value]) => {
+    if (value !== undefined) {
+      if (isObject(value)) {
+        const cleanedValue = removeUndefinedAndEmpty(value);
+        if (!isEmptyObject(cleanedValue)) {
+          acc[key as keyof T] = cleanedValue as NonUndefined<T[keyof T]>;
+        }
+      } else {
+        acc[key as keyof T] = value;
+      }
+    }
+    return acc;
+  }, {} as Partial<T>);
+};
+
+const isEmptyObject = (value: unknown): boolean =>
+  isObject(value) && Object.keys(value).length === 0;
+
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  value !== null && typeof value === 'object' && !Array.isArray(value);

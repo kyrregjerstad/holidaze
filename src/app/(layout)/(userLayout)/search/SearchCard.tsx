@@ -31,7 +31,7 @@ export const SearchCard = ({ prefilledSearch }: { prefilledSearch?: Partial<Sear
   };
 
   return (
-    <Card className="grid grid-cols-1 gap-4 p-4 text-left md:grid-cols-3">
+    <Card className="mx-auto grid max-w-5xl grid-cols-1 gap-4 p-4 text-left md:grid-cols-3">
       <div>
         <Label className="text-sm">Keywords</Label>
         <Input
@@ -84,14 +84,24 @@ export const SearchCard = ({ prefilledSearch }: { prefilledSearch?: Partial<Sear
             type="number"
             className="w-full flex-1"
             placeholder="from"
-            onChange={(e) => params.setPrice({ min: parseInt(e.target.value) })}
+            onChange={(e) =>
+              params.setPrice((prev) => {
+                const parsedValue = parseInt(e.target.value);
+                return { ...prev, min: isNaN(parsedValue) ? undefined : parsedValue };
+              })
+            }
             value={params.price?.min}
           />
           <Input
             type="number"
             className="w-full flex-1"
             placeholder="to"
-            onChange={(e) => params.setPrice({ max: parseInt(e.target.value) })}
+            onChange={(e) =>
+              params.setPrice((prev) => {
+                const parsedValue = parseInt(e.target.value);
+                return { ...prev, max: isNaN(parsedValue) ? undefined : parsedValue };
+              })
+            }
             value={params.price?.max}
           />
         </div>
@@ -101,7 +111,10 @@ export const SearchCard = ({ prefilledSearch }: { prefilledSearch?: Partial<Sear
           <Label className="text-sm">Guests</Label>
           <Input
             type="number"
-            onChange={(e) => params.setMinGuests(parseInt(e.target.value))}
+            onChange={(e) => {
+              const parsedValue = parseInt(e.target.value);
+              params.setMinGuests(isNaN(parsedValue) ? undefined : parsedValue);
+            }}
             value={params.minGuests}
           />
         </div>
