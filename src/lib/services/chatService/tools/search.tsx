@@ -4,7 +4,7 @@ import { SystemMessage } from '@/components/chat/Messages';
 import { VenueCardChat, VenueCardChatSkeleton } from '@/components/chat/VenueCardChat';
 import { venueService } from '../..';
 import { searchOptionsSchema } from '../../venueService/searchOptionsSchema';
-import { MutableAiState } from './types';
+import { MutableAiState } from '../types';
 
 export const searchTool = (history: MutableAiState) => ({
   description: 'Search for holiday homes',
@@ -70,18 +70,17 @@ export const searchTool = (history: MutableAiState) => ({
     ]);
 
     return (
-      <div>
-        <p className="py-2">
-          I found {venues.length} venues for you. Here are some of them. Click on them to see more
-          details.
-        </p>
-
-        <div className="grid gap-2 grid-cols-2">
-          {venues.map((venue) => (
-            <VenueCardChat key={venue.id} venue={venue} />
-          ))}
-        </div>
-      </div>
+      <SystemMessage
+        message={`I found ${venues.length} venues for you. Click on them to see more details.`}
+        needsSep={true}
+        richMessage={
+          <div className="grid gap-2 grid-cols-2">
+            {venues.map((venue) => (
+              <VenueCardChat key={venue.id} venue={venue} />
+            ))}
+          </div>
+        }
+      />
     );
   },
 });

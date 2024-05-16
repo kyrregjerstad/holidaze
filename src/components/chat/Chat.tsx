@@ -7,7 +7,7 @@ import { BotMessageSquareIcon, ChevronDownIcon } from 'lucide-react';
 import { nanoid } from 'nanoid';
 
 import { useScrollAnchor } from '@/lib/hooks/useScrollAnchor';
-import { AIAction } from '@/lib/services/chatService/AIActions';
+import { chatService } from '@/lib/services';
 import { Button } from '../ui/button';
 import { Card, CardHeader } from '../ui/card';
 import { Input } from '../ui/input';
@@ -33,10 +33,10 @@ export function Chat() {
 const ChatWindow = ({ setIsOpen }: { setIsOpen: (isOpen: boolean) => void }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useUIState<typeof AIAction>();
-  const [previousMessage, setPreviousMessage] = useState<string | null>(null);
+  const { submitUserMessage } = useActions<typeof chatService.create>();
 
-  const { submitUserMessage } = useActions<typeof AIAction>();
+  const [messages, setMessages] = useUIState<typeof chatService.create>();
+  const [previousMessage, setPreviousMessage] = useState<string | null>(null);
 
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } = useScrollAnchor();
 
@@ -84,7 +84,7 @@ const ChatWindow = ({ setIsOpen }: { setIsOpen: (isOpen: boolean) => void }) => 
           </div>
         </CardHeader>
         <div className="overflow-y-auto h-[475px]" ref={scrollRef}>
-          <div className="pb-10 px-4" ref={messagesRef}>
+          <div className="pb-10 px-4 flex flex-col gap-4" ref={messagesRef}>
             {messages.map((message) => (
               <div key={message.id} className="flex flex-col">
                 <>{message.display}</>

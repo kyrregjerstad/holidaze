@@ -15,7 +15,7 @@ export function SystemMessage(props: {
   return (
     <div className="flex flex-col gap-2 py-3">
       <div className="flex gap-2 items-center">
-        <Avatar className="size-8 bg-sky-400">
+        <Avatar className="size-6 bg-sky-400">
           <AvatarFallback className="text-md bg-sky-400">☀️</AvatarFallback>
         </Avatar>
         <span className="font-bold text-sm text-slate-900">Daizy</span>
