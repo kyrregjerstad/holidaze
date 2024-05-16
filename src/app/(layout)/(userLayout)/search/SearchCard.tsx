@@ -2,8 +2,6 @@
 
 import type { KeyboardEvent } from 'react';
 
-import { useState } from 'react';
-
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -19,34 +17,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useBookingStore } from '@/components/venue/bookingStore';
+import { useSearchQueryParams } from '@/lib/hooks/useQueryParams';
+import type { SearchOptions } from '@/lib/services/venueService/searchOptionsSchema';
 
-export const SearchBar = ({ prefilledTerm }: { prefilledTerm?: string }) => {
-  const [searchTerm, setSearchTerm] = useState<string>(prefilledTerm || '');
+export const SearchCard = ({ prefilledSearch }: { prefilledSearch?: Partial<SearchOptions> }) => {
   const router = useRouter();
+  const params = useSearchQueryParams(prefilledSearch);
 
-  const { startDate, endDate, setStartDate, setEndDate } = useBookingStore((state) => state);
-
-  const query = new URLSearchParams();
-
-  if (searchTerm && searchTerm !== '') {
-    query.set('q', searchTerm);
-  }
-
-  if (startDate) {
-    query.set('startDate', formatDate(startDate));
-  }
-  if (endDate) {
-    query.set('endDate', formatDate(endDate));
-  }
-
-  function handleSearchInput(event: KeyboardEvent<HTMLInputElement>): void {
+  const handleSearchInput = (event: KeyboardEvent<HTMLInputElement>): void => {
     if (event.key === 'Enter') {
-      router.push(`/search?${query.toString()}`);
-    } else {
-      setSearchTerm(event.currentTarget.value);
+      router.push(`/search?${params.getSearchParams()}`);
     }
-  }
+  };
 
   return (
     <Card className="grid grid-cols-1 gap-4 p-4 text-left md:grid-cols-3">
@@ -54,8 +36,8 @@ export const SearchBar = ({ prefilledTerm }: { prefilledTerm?: string }) => {
         <Label className="text-sm">Keywords</Label>
         <Input
           placeholder="Search by name or description"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={params.searchText}
+          onChange={(e) => params.setSearchText(e.target.value)}
           onKeyDown={handleSearchInput}
         />
       </div>
@@ -63,8 +45,8 @@ export const SearchBar = ({ prefilledTerm }: { prefilledTerm?: string }) => {
         <Label className="text-sm">Location</Label>
         <Input
           placeholder="City, country or region"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={params.location}
+          onChange={(e) => params.setLocation(e.target.value)}
           onKeyDown={handleSearchInput}
         />
       </div>
@@ -72,17 +54,25 @@ export const SearchBar = ({ prefilledTerm }: { prefilledTerm?: string }) => {
       <div className="flex gap-2">
         <DatePicker
           bookedDates={[]}
-          setDate={setStartDate}
-          selectedDate={startDate}
-          overlayDate={endDate}
+          setDate={(date) =>
+            params.setAvailability((prev) => ({ ...prev, dateFrom: formatDate(date) }))
+          }
+          selectedDate={
+            params.availability?.dateFrom ? new Date(params.availability.dateFrom) : undefined
+          }
+          overlayDate={undefined}
           buttonText="Start Date"
           label="From"
         />
         <DatePicker
           bookedDates={[]}
-          setDate={setEndDate}
-          selectedDate={endDate}
-          overlayDate={startDate}
+          setDate={(date) =>
+            params.setAvailability((prev) => ({ ...prev, dateTo: formatDate(date) }))
+          }
+          selectedDate={
+            params.availability?.dateTo ? new Date(params.availability.dateTo) : undefined
+          }
+          overlayDate={undefined}
           buttonText="End Date"
           label="To"
         />
@@ -90,18 +80,39 @@ export const SearchBar = ({ prefilledTerm }: { prefilledTerm?: string }) => {
       <div className="flex flex-col justify-between">
         <Label className="text-sm">Price</Label>
         <div className="flex w-full gap-2">
-          <Input type="number" className="w-full flex-1" placeholder="from" />
-          <Input type="number" className="w-full flex-1" placeholder="to" />
+          <Input
+            type="number"
+            className="w-full flex-1"
+            placeholder="from"
+            onChange={(e) => params.setPrice({ min: parseInt(e.target.value) })}
+            value={params.price?.min}
+          />
+          <Input
+            type="number"
+            className="w-full flex-1"
+            placeholder="to"
+            onChange={(e) => params.setPrice({ max: parseInt(e.target.value) })}
+            value={params.price?.max}
+          />
         </div>
       </div>
       <div className="flex gap-4">
         <div className="flex-1">
           <Label className="text-sm">Guests</Label>
-          <Input type="number" />
+          <Input
+            type="number"
+            onChange={(e) => params.setMinGuests(parseInt(e.target.value))}
+            value={params.minGuests}
+          />
         </div>
         <div className="flex-1">
-          <Label className="text-sm">Sort By</Label>
-          <Select defaultValue="asc">
+          <Label className="text-sm">Order</Label>
+          <Select
+            defaultValue="asc"
+            onValueChange={(value) =>
+              params.setSort({ field: 'price', order: value as 'asc' | 'desc' })
+            }
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Ascending" />
             </SelectTrigger>
@@ -115,7 +126,7 @@ export const SearchBar = ({ prefilledTerm }: { prefilledTerm?: string }) => {
 
       <Link
         type="submit"
-        href={`/search?${query}`}
+        href={`/search?${params.getSearchParams()}`}
         className={buttonVariants({ className: 'w-full self-end' })}
       >
         Search

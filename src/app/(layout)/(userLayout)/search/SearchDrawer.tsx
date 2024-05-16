@@ -6,9 +6,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { SearchBar } from './SearchBar';
+import { SearchCard } from './SearchCard';
+import { SearchOptions } from '@/lib/services/venueService/searchOptionsSchema';
 
-export const SearchDrawer = ({ prefilledTerm }: { prefilledTerm: string }) => {
+export const SearchDrawer = ({ prefilledSearch }: { prefilledSearch?: Partial<SearchOptions> }) => {
   return (
     <Drawer>
       <DrawerTrigger
@@ -21,7 +22,7 @@ export const SearchDrawer = ({ prefilledTerm }: { prefilledTerm: string }) => {
       <DrawerContent className="mx-2">
         <DrawerHeader>
           <DrawerTitle>Search and filter</DrawerTitle>
-          <SearchBar prefilledTerm={prefilledTerm} />
+          <SearchCard prefilledSearch={prefilledSearch} />
         </DrawerHeader>
       </DrawerContent>
     </Drawer>

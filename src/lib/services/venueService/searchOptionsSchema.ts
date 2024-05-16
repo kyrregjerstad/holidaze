@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { amenitiesSchema } from '@/lib/schema';
+import { amenitiesKeysSchema, amenitiesSchema } from '@/lib/schema';
 
 export const searchOptionsSchema = z.object({
   searchText: z
@@ -37,3 +37,32 @@ export const searchOptionsSchema = z.object({
     .optional(),
   amount: z.number().optional().describe('Amount of venues to return'),
 });
+
+export type SearchOptions = z.infer<typeof searchOptionsSchema>;
+
+/* This is used for query params, since we cannot have nested objects */
+export const flatSearchOptionsSchema = z.object({
+  searchText: z
+    .string()
+    .optional()
+    .describe('Fuzzy searches the name and description of the venue'),
+  priceMin: z.number().optional().describe('Minimum price per night, in USD'),
+  priceMax: z.number().optional().describe('Maximum price per night, in USD'),
+  location: z
+    .string()
+    .optional()
+    .describe('Fuzzy searches the location of the venue, can match city, country, etc.'),
+  dateFrom: z.string().optional().describe('Date as a string in DD-MM-YYYY format'),
+  dateTo: z.string().optional().describe('Date as a string in DD-MM-YYYY format'),
+  flexible: z.boolean().optional().describe('If true, the date range is flexible'),
+  minGuests: z.number().optional().describe('Minimum number of guests'),
+  amenities: amenitiesKeysSchema.optional(),
+  sortField: z
+    .enum(['price', 'maxGuests', 'name', 'created', 'updated'])
+    .optional()
+    .describe('Field to sort by'),
+  sortOrder: z.enum(['asc', 'desc']).optional().describe('Sort order'),
+  amount: z.number().optional().describe('Amount of venues to return'),
+});
+
+export type FlatSearchOptions = z.infer<typeof flatSearchOptionsSchema>;

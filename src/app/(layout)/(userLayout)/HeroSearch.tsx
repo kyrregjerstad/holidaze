@@ -19,13 +19,13 @@ export const HeroSearch = ({ prefilledTerm }: { prefilledTerm?: string }) => {
   const { startDate, endDate, setStartDate, setEndDate } = useBookingStore((state) => state);
 
   const query = new URLSearchParams();
-  query.set('q', searchTerm);
+  query.set('location', searchTerm);
 
   if (startDate) {
-    query.set('startDate', formatDate(startDate));
+    query.set('dateFrom', formatDate(startDate));
   }
   if (endDate) {
-    query.set('endDate', formatDate(endDate));
+    query.set('dateTo', formatDate(endDate));
   }
 
   function handleSearchInput(event: KeyboardEvent<HTMLInputElement>): void {

@@ -1,51 +1,66 @@
 import { notFound } from 'next/navigation';
 
-import { z } from 'zod';
-
 import { venueService } from '@/lib/services';
-import { SearchBar } from './SearchBar';
+import {
+  flatSearchOptionsSchema,
+  searchOptionsSchema,
+  type SearchOptions,
+} from '@/lib/services/venueService/searchOptionsSchema';
+import { SearchCard } from './SearchCard';
 import { SearchDrawer } from './SearchDrawer';
 import { SearchResult } from './SearchResult';
+import { z } from 'zod';
 
 type Props = {
-  searchParams?: {
-    q?: string;
-    startDate?: string;
-    endDate?: string;
-  };
+  searchParams?: Partial<SearchOptions>;
 };
 
 const SearchPage = async ({ searchParams }: Props) => {
-  const result = querySchema.safeParse(searchParams);
-  if (!result.success) return notFound();
+  const searchOptions = flatSearchOptionsSchema.safeParse(searchParams);
+  if (!searchOptions.success) return notFound();
 
-  const { q, startDate, endDate } = result.data;
-
-  const { venues } = await venueService.search({
-    location: q,
-    minGuests: 1,
-    availability: {
-      dateFrom: startDate,
-      dateTo: endDate,
-    },
-  });
+  const transformedOptions = transformSearchParams(searchOptions.data);
+  const { venues } = await venueService.search(transformedOptions);
 
   return (
     <section className="container">
       <div className="hidden py-8 sm:block">
-        <SearchBar prefilledTerm={q} />
+        <SearchCard prefilledSearch={transformedOptions} />
       </div>
 
       <SearchResult venues={venues} />
-      <SearchDrawer prefilledTerm={q} />
+      <SearchDrawer prefilledSearch={transformedOptions} />
     </section>
   );
 };
 
 export default SearchPage;
 
-const querySchema = z.object({
-  q: z.string(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-});
+function transformSearchParams(
+  params: z.infer<typeof flatSearchOptionsSchema>
+): z.infer<typeof searchOptionsSchema> {
+  return {
+    searchText: params.searchText,
+    price: {
+      min: params.priceMin,
+      max: params.priceMax,
+    },
+    location: params.location,
+    amenities: {
+      wifi: params.amenities?.includes('wifi'),
+      parking: params.amenities?.includes('parking'),
+      breakfast: params.amenities?.includes('breakfast'),
+      pets: params.amenities?.includes('pets'),
+    },
+    availability: {
+      dateFrom: params.dateFrom,
+      dateTo: params.dateTo,
+      flexible: params.flexible,
+    },
+    minGuests: params.minGuests,
+    sort: params.sortField
+      ? { field: params.sortField, order: params.sortOrder || 'asc' }
+      : undefined,
+    amount: params.amount,
+  };
+}
