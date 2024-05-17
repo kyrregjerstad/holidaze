@@ -8,11 +8,12 @@ import { Label } from './ui/label';
 
 type Props = {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
+  defaultValue?: string;
 };
 
-export const AddressAutocomplete = ({ onPlaceSelect }: Props) => {
+export const AddressAutocomplete = ({ onPlaceSelect, defaultValue }: Props) => {
   const { handleInputChange, handleSuggestionClick, inputValue, predictions } =
-    useGooglePlacesAutocomplete({ onPlaceSelect });
+    useGooglePlacesAutocomplete({ onPlaceSelect, defaultValue });
 
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -32,6 +33,7 @@ export const AddressAutocomplete = ({ onPlaceSelect }: Props) => {
         onFocus={handleFocus}
         placeholder="Search for a location"
         id="address"
+        defaultValue={defaultValue}
       />
 
       {predictions.length > 0 && isFocused && (

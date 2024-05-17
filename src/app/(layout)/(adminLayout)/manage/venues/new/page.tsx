@@ -5,12 +5,19 @@ import { redirect } from 'next/navigation';
 
 import { venueService } from '@/lib/services';
 import { NewVenueForm } from './NewVenueForm';
+import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 
 const CreateNewVenuePage = async () => {
+  const accessToken = await getAccessTokenCookie();
+
+  if (!accessToken) {
+    return redirect('/login');
+  }
+
   const submitFn = async (data: z.infer<typeof createVenueSchema>) => {
     'use server';
 
-    return venueService.createVenue(data);
+    return venueService.createVenue(data, accessToken);
   };
 
   const onSuccess = async () => {

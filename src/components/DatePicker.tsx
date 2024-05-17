@@ -56,8 +56,8 @@ export const DatePicker = ({
           mode="single"
           modifiers={{ booked: dateRange }}
           modifiersClassNames={{
-            booked: 'bg-accent/50 font-bold',
-            selected: 'bg-black text-white',
+            booked: 'bg-sky-300 rounded-none font-bold booked [&:first]:!bg-black',
+            selected: 'text-white',
           }}
           required
           fromDate={new Date()}

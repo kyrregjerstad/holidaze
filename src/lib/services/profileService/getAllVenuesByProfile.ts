@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
-import { venueSchemaFull, venueSchemaWithBookings } from '@/lib/schema/venueSchema';
+import { venueSchemaFull } from '@/lib/schema/venueSchema';
 
 type GetAllVenuesByProfileReturn = {
   venues: z.infer<typeof venueSchemaFull>[];
@@ -21,6 +21,7 @@ export async function getAllVenuesByProfile(
     endpoint: `/profiles/${name}/venues`,
     query: {
       _bookings: true,
+      _owner: true,
     },
     schema: createApiResponseSchema(z.array(venueSchemaFull)),
     headers: await createAuthHeaders(accessToken),

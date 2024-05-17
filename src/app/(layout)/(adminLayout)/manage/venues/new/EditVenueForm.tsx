@@ -36,7 +36,7 @@ type Props = {
   onSuccess: () => Promise<void>;
 };
 
-const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY_KEY;
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 if (!GOOGLE_MAPS_API_KEY) {
   throw new Error('Google Maps API key is required');
@@ -69,11 +69,17 @@ export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
     },
   });
 
+  console.log('amenities: ', {
+    wifi: venue.meta.wifi,
+    parking: venue.meta.parking,
+    breakfast: venue.meta.breakfast,
+    pets: venue.meta.pets,
+  });
+
   const [images, setImages] = useState<string[]>(venue.media.map((m) => m.url));
   const [files, setFiles] = useState<File[]>([]);
 
   const onSubmit = async (data: z.infer<typeof createVenueSchemaFlattened>) => {
-    console.log('data', data);
     const res = await submitFn(venue.id, {
       ...data,
       meta: {
@@ -113,7 +119,7 @@ export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
   };
 
   return (
-    <Card>
+    <Card className="mx-auto max-w-5xl">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} method="POST">
           <CardHeader />
@@ -219,7 +225,12 @@ export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch id="wifi" {...field} onCheckedChange={field.onChange} />
+                      <Switch
+                        id="wifi"
+                        {...field}
+                        defaultChecked={venue.meta.wifi}
+                        onCheckedChange={field.onChange}
+                      />
                       <Label htmlFor="wifi">Wifi</Label>
                     </div>
                   </FormItem>
@@ -230,7 +241,12 @@ export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch id="parking" {...field} onCheckedChange={field.onChange} />
+                      <Switch
+                        id="parking"
+                        {...field}
+                        defaultChecked={venue.meta.parking}
+                        onCheckedChange={field.onChange}
+                      />
                       <Label htmlFor="parking">Parking</Label>
                     </div>
                   </FormItem>
@@ -241,7 +257,12 @@ export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch id="breakfast" {...field} onCheckedChange={field.onChange} />
+                      <Switch
+                        id="breakfast"
+                        {...field}
+                        defaultChecked={venue.meta.breakfast}
+                        onCheckedChange={field.onChange}
+                      />
                       <Label htmlFor="breakfast">Breakfast</Label>
                     </div>
                   </FormItem>
@@ -253,7 +274,12 @@ export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center space-x-2">
-                      <Switch id="pets" {...field} onCheckedChange={field.onChange} />
+                      <Switch
+                        id="pets"
+                        {...field}
+                        defaultChecked={venue.meta.pets}
+                        onCheckedChange={field.onChange}
+                      />
                       <Label htmlFor="pets">Pets Allowed</Label>
                     </div>
                   </FormItem>
@@ -262,6 +288,7 @@ export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
             </div>
             <APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
               <AddressAutocomplete
+                defaultValue={createDefaultAddress(venue)}
                 onPlaceSelect={(place) => {
                   const address = transformAddress(place?.address_components);
                   form.setValue('address', address.address);
@@ -326,4 +353,22 @@ function transformAddress(
     country: country?.long_name ?? null,
     continent: null,
   };
+}
+
+function createDefaultAddress(venue: VenueFull) {
+  let address = '';
+
+  if (venue.location.address) {
+    address += venue.location.address;
+  }
+
+  if (venue.location.city) {
+    address += `, ${venue.location.city}`;
+  }
+
+  if (venue.location.country) {
+    address += `, ${venue.location.country}`;
+  }
+
+  return address;
 }

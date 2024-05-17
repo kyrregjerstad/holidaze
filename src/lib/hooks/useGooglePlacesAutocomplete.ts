@@ -4,9 +4,10 @@ import { useMapsLibrary } from '@vis.gl/react-google-maps';
 
 type Params = {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
+  defaultValue?: string;
 };
 
-export const useGooglePlacesAutocomplete = ({ onPlaceSelect }: Params) => {
+export const useGooglePlacesAutocomplete = ({ onPlaceSelect, defaultValue }: Params) => {
   const places = useMapsLibrary('places');
   const [sessionToken, setSessionToken] = useState<google.maps.places.AutocompleteSessionToken>();
 
@@ -17,7 +18,7 @@ export const useGooglePlacesAutocomplete = ({ onPlaceSelect }: Params) => {
 
   const [predictions, setPredictions] = useState<google.maps.places.AutocompletePrediction[]>([]);
 
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(defaultValue ?? '');
 
   // Required for PlacesService to work, but we don't need it since we don't render the map
   const emptyDiv = document.createElement('div');

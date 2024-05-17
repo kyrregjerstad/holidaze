@@ -8,7 +8,7 @@ import type {
 } from '@tanstack/react-table';
 import type { TransformedVenue } from './processVenue';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import Link from 'next/link';
 
@@ -44,16 +44,21 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { venueService } from '@/lib/services';
+import { useToast } from '@/components/ui/use-toast';
 
 type Props = {
   venues: TransformedVenue[];
+  handleDelete: (venueId: string) => Promise<boolean>;
 };
 
-export const VenuesTable = ({ venues }: Props) => {
+export const VenuesTable = ({ venues, handleDelete }: Props) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+
+  const columns = useMemo(() => createColumns(handleDelete), [handleDelete]);
 
   const table = useReactTable({
     data: venues,
@@ -180,150 +185,178 @@ export const VenuesTable = ({ venues }: Props) => {
   );
 };
 
-export const columns: ColumnDef<TransformedVenue>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'name',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="gap-2"
-        >
-          <span>Name</span>
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+function createColumns(
+  handleDelete: (venueId: string) => Promise<boolean>
+): ColumnDef<TransformedVenue>[] {
+  return [
+    {
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
     },
-    cell: ({ row }) => {
-      const url = `/manage/venues/${row.original.id}`;
-      return (
-        <Link href={url} className="px-4 lowercase hover:underline">
-          {row.getValue('name')}
-        </Link>
-      );
+    {
+      accessorKey: 'name',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="gap-2"
+          >
+            <span>Name</span>
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const url = `/manage/venues/${row.original.id}`;
+        return (
+          <Link href={url} className="px-4 lowercase hover:underline">
+            {row.getValue('name')}
+          </Link>
+        );
+      },
     },
-  },
-  {
-    id: 'location',
-    accessorKey: 'location.city',
-    header: () => <div className="text-right">Location</div>,
-    cell: ({ row }) => {
-      return <div className="px-4 text-right font-medium ">{row.getValue('location')}</div>;
+    {
+      id: 'location',
+      accessorKey: 'location.city',
+      header: () => <div className="text-right">Location</div>,
+      cell: ({ row }) => {
+        return <div className="px-4 text-right font-medium ">{row.getValue('location')}</div>;
+      },
     },
-  },
-  {
-    accessorKey: 'status',
-    enableSorting: true,
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="gap-2"
-        >
-          Booking
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      const status: string = row.getValue('status');
-      return (
-        <div
-          className={cn(
-            'px-4 capitalize',
-            status === 'Now' && 'font-bold',
-            status === 'No bookings' && 'text-neutral-400'
-          )}
-        >
-          {row.getValue('status')}
-        </div>
-      );
-    },
-    sortingFn: (rowA, rowB) => {
-      const dateA =
-        rowA.original.bookings.length > 0
-          ? new Date(rowA.original.bookings[0].dateFrom)
-          : new Date(0);
-      const dateB =
-        rowB.original.bookings.length > 0
-          ? new Date(rowB.original.bookings[0].dateFrom)
-          : new Date(0);
+    {
+      accessorKey: 'status',
+      enableSorting: true,
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="gap-2"
+          >
+            Booking
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const status: string = row.getValue('status');
+        return (
+          <div
+            className={cn(
+              'px-4 capitalize',
+              status === 'Now' && 'font-bold',
+              status === 'No bookings' && 'text-neutral-400'
+            )}
+          >
+            {row.getValue('status')}
+          </div>
+        );
+      },
+      sortingFn: (rowA, rowB) => {
+        const dateA =
+          rowA.original.bookings.length > 0
+            ? new Date(rowA.original.bookings[0].dateFrom)
+            : new Date(0);
+        const dateB =
+          rowB.original.bookings.length > 0
+            ? new Date(rowB.original.bookings[0].dateFrom)
+            : new Date(0);
 
-      return compareAsc(dateA, dateB);
+        return compareAsc(dateA, dateB);
+      },
     },
-  },
-  {
-    accessorKey: 'price',
-    enableSorting: true,
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="gap-2"
-        >
-          Price
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+    {
+      accessorKey: 'price',
+      enableSorting: true,
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="gap-2"
+          >
+            Price
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const formatted = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(parseInt(row.getValue('price'), 10));
+        return <div className="px-4 capitalize">{formatted}</div>;
+      },
     },
-    cell: ({ row }) => {
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(parseInt(row.getValue('price'), 10));
-      return <div className="px-4 capitalize">{formatted}</div>;
+    {
+      id: 'actions',
+      enableHiding: false,
+      header: 'Actions',
+      cell: ({ row }) => {
+        const { toast } = useToast();
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href={`/venues/${row.original.id}`} className="cursor-pointer">
+                  View
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>Edit</DropdownMenuItem>
+              <Separator className="my-2" />
+              <DropdownMenuItem asChild>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  className="w-full cursor-pointer"
+                  onClick={async () => {
+                    const success = await handleDelete(row.original.id);
+                    if (success) {
+                      toast({
+                        title: 'Venue deleted',
+                        description: 'The venue has been successfully deleted.',
+                      });
+                    } else {
+                      toast({
+                        title: 'Failed to delete venue',
+                        description: 'An error occurred while deleting the venue.',
+                      });
+                    }
+                  }}
+                >
+                  Delete
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
     },
-  },
-  {
-    id: 'actions',
-    enableHiding: false,
-    header: 'Actions',
-    cell: ({ row }) => {
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href={`/venues/${row.original.id}`} className="cursor-pointer">
-                View
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <Separator />
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
+  ];
+}

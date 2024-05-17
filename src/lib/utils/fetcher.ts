@@ -66,8 +66,6 @@ export async function fetcher<T>({
 
     return { res: result.data, status: 200, error: null };
   } catch (error) {
-    console.error(error);
-
     if (error instanceof z.ZodError) {
       console.error(
         'PATHS: ',
@@ -76,6 +74,7 @@ export async function fetcher<T>({
       return { res: null, status: 500, error };
     }
 
+    console.error(error);
     return { res: null, status: 500, error: new z.ZodError([]) };
   }
 }

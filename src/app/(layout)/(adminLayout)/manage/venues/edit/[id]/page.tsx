@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { venueService } from '@/lib/services';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { EditVenueForm } from '../../new/EditVenueForm';
+import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 
 type Props = {
   params: { id: string };
@@ -14,8 +15,9 @@ type Props = {
 
 const EditVenuePage = async ({ params }: Props) => {
   const result = schema.safeParse(params);
+  const accessToken = await getAccessTokenCookie();
 
-  if (!result.success) {
+  if (!result.success || !accessToken) {
     return notFound();
   }
 
@@ -33,7 +35,7 @@ const EditVenuePage = async ({ params }: Props) => {
 
   const updateVenue = async (id: string, data: UpdateVenueSchema) => {
     'use server';
-    return await venueService.updateVenue(id, data);
+    return venueService.updateVenue(id, data, accessToken);
   };
 
   const onSuccess = async () => {
@@ -41,7 +43,11 @@ const EditVenuePage = async ({ params }: Props) => {
     redirect(`/manage/venues/${venue.id}`);
   };
 
-  return <EditVenueForm venue={venue} submitFn={updateVenue} onSuccess={onSuccess} />;
+  return (
+    <div className="p-8">
+      <EditVenueForm venue={venue} submitFn={updateVenue} onSuccess={onSuccess} />
+    </div>
+  );
 };
 
 export default EditVenuePage;
