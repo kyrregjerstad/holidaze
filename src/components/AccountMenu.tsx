@@ -2,7 +2,7 @@ import type { CookieUser } from '@/lib/utils/cookies';
 
 import Link from 'next/link';
 
-import { CircleUserIcon, FolderOpenIcon, HomeIcon } from 'lucide-react';
+import { CalendarIcon, CircleUserIcon, HomeIcon, SettingsIcon } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -43,20 +43,28 @@ export const AccountMenu = ({ user }: Props) => {
             <CircleUserIcon size={18} />
           </Link>
         </DropdownMenuItem>
+        {user.isVenueManager && (
+          <>
+            <DropdownMenuItem asChild>
+              <Link href="/manage/venues" className="flex cursor-pointer justify-end gap-1">
+                Venues
+                <HomeIcon size={18} />
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/manage/bookings" className="flex cursor-pointer justify-end gap-1">
+                Bookings
+                <CalendarIcon size={18} />
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuItem asChild>
-          <Link href="/manage/bookings" className="flex cursor-pointer justify-end gap-1">
-            My Bookings
-            <FolderOpenIcon size={18} />
+          <Link href="/settings" className="flex cursor-pointer justify-end gap-1">
+            Settings
+            <SettingsIcon size={18} />
           </Link>
         </DropdownMenuItem>
-        {user.isVenueManager && (
-          <DropdownMenuItem asChild>
-            <Link href="/manage/venues" className="flex cursor-pointer justify-end gap-1">
-              My Venues
-              <HomeIcon size={18} />
-            </Link>
-          </DropdownMenuItem>
-        )}
         <Separator className="my-2" />
         <DropdownMenuItem asChild>
           <LogOutBtn />

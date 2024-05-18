@@ -96,3 +96,25 @@ export const userProfileSchema = z.object({
 export const userProfileSchemaExtended = userProfileSchema.extend({
   venues: z.array(venueBaseSchema),
 });
+
+export const updateProfileSchema = z.object({
+  bio: z
+    .string()
+    .min(3, 'Bio must be at least 3 characters')
+    .max(255, 'Bio must be at most 255 characters')
+    .nullish(),
+  avatarUrl: z.string().url().nullish(),
+  avatarAlt: z.string().nullish(),
+  bannerUrl: z.string().url().nullish(),
+  bannerAlt: z.string().nullish(),
+  venueManager: z.boolean().nullish(),
+});
+
+export const updateUserProfileResponse = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  bio: z.string(),
+  avatar: avatarSchema,
+  banner: bannerSchema,
+  venueManager: z.boolean(),
+});
