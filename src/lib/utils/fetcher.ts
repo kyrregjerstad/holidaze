@@ -30,6 +30,8 @@ export async function fetcher<T>({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const errorResponse = await response.json();
 
+      console.error('ERROR RESPONSE: ', errorResponse);
+
       const parsedError = errorsSchema.safeParse(errorResponse);
 
       if (!parsedError.success) {

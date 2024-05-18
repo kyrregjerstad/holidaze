@@ -36,7 +36,7 @@ export async function createBooking(data: BookVenue): Promise<CreateBookingRetur
   const { res, error, status } = await holidazeAPI({
     method: 'POST',
     endpoint: '/bookings',
-    data: JSON.stringify({ ...data }),
+    data,
     headers: await createAuthHeaders(accessToken),
     schema: createApiResponseSchema(bookingReturnSchema),
   });
