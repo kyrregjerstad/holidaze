@@ -115,10 +115,10 @@ importers:
         version: 8.16.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@uploadthing/react':
         specifier: ^6.5.0
-        version: 6.5.0(@uploadthing/mime-types@0.2.8)(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)(solid-js@1.8.17)(svelte@4.2.15)(uploadthing@6.10.0(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3))(vue@3.4.27(typescript@5.4.5))
+        version: 6.5.0(@uploadthing/mime-types@0.2.10)(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)(solid-js@1.8.17)(svelte@4.2.15)(uploadthing@6.10.4(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3))(vue@3.4.27(typescript@5.4.5))
       '@uploadthing/svelte':
         specifier: ^6.4.1
-        version: 6.4.1(@uploadthing/mime-types@0.2.8)(react@18.2.0)(solid-js@1.8.17)(svelte@4.2.15)(uploadthing@6.10.0(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3))
+        version: 6.4.1(@uploadthing/mime-types@0.2.10)(react@18.2.0)(solid-js@1.8.17)(svelte@4.2.15)(uploadthing@6.10.4(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3))
       '@vis.gl/react-google-maps':
         specifier: ^0.9.0
         version: 0.9.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -182,9 +182,6 @@ importers:
       posthog-js:
         specifier: ^1.121.3
         version: 1.121.3
-      prettier-plugin-tailwindcss:
-        specifier: 0.0.0-insiders.3c9ce4e
-        version: 0.0.0-insiders.3c9ce4e(@ianvs/prettier-plugin-sort-imports@4.2.1(@vue/compiler-sfc@3.4.27)(prettier@3.2.5))(prettier@3.2.5)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -222,8 +219,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.3)
       uploadthing:
-        specifier: ^6.10.0
-        version: 6.10.0(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3)
+        specifier: ^6.10.4
+        version: 6.10.4(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3)
       vaul:
         specifier: ^0.9.0
         version: 0.9.0(@types/react-dom@18.2.24)(@types/react@18.2.74)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -276,6 +273,9 @@ importers:
       postcss:
         specifier: ^8.4.38
         version: 8.4.38
+      prettier-plugin-tailwindcss:
+        specifier: 0.0.0-insiders.3c9ce4e
+        version: 0.0.0-insiders.3c9ce4e(@ianvs/prettier-plugin-sort-imports@4.2.1(@vue/compiler-sfc@3.4.27)(prettier@3.2.5))(prettier@3.2.5)
       tailwindcss:
         specifier: ^3.4.3
         version: 3.4.3
@@ -391,6 +391,10 @@ packages:
     resolution: {integrity: sha512-Y4OZ+ytlatR8AI+8KZfKuL5urKp7qey08ha31L8b3BwewJAoJamTzyvxPR/5D+KkdJCGPq/+8TukHBlY10FX9A==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/helper-validator-identifier@7.24.5':
+    resolution: {integrity: sha512-3q93SSKX2TWCG30M2G2kwaKeTYgEUp5Snjuj8qm729SObL6nbtUldAi37qbxkD5gg3xnBio+f9nqpSepGZMvxA==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-validator-option@7.23.5':
     resolution: {integrity: sha512-85ttAOMLsr53VgXkTbkx8oA6YTfT4q7/HzXSLEYmjcSTJPMPQtvq1BD79Byep5xMUYbGRzEpDsjUf3dyp54IKw==}
     engines: {node: '>=6.9.0'}
@@ -405,6 +409,11 @@ packages:
 
   '@babel/parser@7.24.4':
     resolution: {integrity: sha512-zTvEBcghmeBma9QIGunWevvBAp4/Qu9Bdq+2k0Ot4fVMD6v3dsC9WOcRSKk7tRRyBM/53yKMJko9xOatGQAwSg==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
+  '@babel/parser@7.24.5':
+    resolution: {integrity: sha512-EOv5IK8arwh3LI47dz1b0tKUb/1uhHAnHJOrjgtQMIpu1uXd9mlFrJg9IUgGUgZ41Ch0K8REPTYpO7B76b4vJg==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -424,10 +433,20 @@ packages:
     resolution: {integrity: sha512-+j7a5c253RfKh8iABBhywc8NSfP5LURe7Uh4qpsh6jc+aLJguvmIUBdjSdEMQv2bENrCR5MfRdjGo7vzS/ob7w==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/types@7.24.5':
+    resolution: {integrity: sha512-6mQNsaLeXTw0nxYUYu+NSa4Hx4BlF1x1x8/PMFbiR+GBSr+2DkECc69b8hgy2frEodNcvPffeH8YfWd3LI6jhQ==}
+    engines: {node: '>=6.9.0'}
+
   '@effect/schema@0.66.10':
     resolution: {integrity: sha512-5lZTPRbncsqAhqQx3cCd3emR/q/CtvFFJZNvwNF66sUD1SjbMsLPbRkEzIaG9k2X8M71YD9GDbUE0lRWG1J+mA==}
     peerDependencies:
       effect: ^3.0.7
+      fast-check: ^3.13.2
+
+  '@effect/schema@0.66.16':
+    resolution: {integrity: sha512-sT/k5NOgKslGPzs3DUaCFuM6g2JQoIIT8jpwEorAZooplPIMK2xIspr7ECz6pp6Dc7Wz/ppXGk7HVyGZQsIYEQ==}
+    peerDependencies:
+      effect: ^3.1.3
       fast-check: ^3.13.2
 
   '@emnapi/runtime@1.1.1':
@@ -1662,8 +1681,8 @@ packages:
       vue:
         optional: true
 
-  '@uploadthing/mime-types@0.2.8':
-    resolution: {integrity: sha512-x+OhjdgC+FXzIScuVDzWxUpPKRjq/WiXNh6bUz1pNAHsb7ecKhxHUfhdWg8+YkO32kDs8TCuMN1bVWTyJYDMQA==}
+  '@uploadthing/mime-types@0.2.10':
+    resolution: {integrity: sha512-kz3F0oEgAyts25NAGXlUBCWh3mXonbSOQJFGFMawHuIgbUbnzXbe4w5WI+0XdneCbjNmikfWrdWrs8m/7HATfQ==}
 
   '@uploadthing/react@6.5.0':
     resolution: {integrity: sha512-Mapjyl897k93b7SRi5A+Ez4hOpBrgu0vgRFbM2Ni/2GIul1jdJVebcOJ0LDB9TAZmQ4G4sMgL7h1QlfDUBSvlg==}
@@ -1687,6 +1706,14 @@ packages:
     resolution: {integrity: sha512-+5xBa3gdCoCI2R2HkIOAu0DRiZqEt3MtOHefNsuVlYjpEngeg04AHlNaTvAIFuBz6Wz43SFOiqpeQcpqGBUc5w==}
     peerDependencies:
       '@uploadthing/mime-types': 0.2.8
+    peerDependenciesMeta:
+      '@uploadthing/mime-types':
+        optional: true
+
+  '@uploadthing/shared@6.7.4':
+    resolution: {integrity: sha512-7e35U7/84qQQx+bhldSdze9ODiAo4NCCZiYEV3NomD44O9fE5bfQXcCPtBeXh3y3udf7S28PMZbT6ybJeuKfgw==}
+    peerDependencies:
+      '@uploadthing/mime-types': 0.2.10
     peerDependenciesMeta:
       '@uploadthing/mime-types':
         optional: true
@@ -2191,6 +2218,9 @@ packages:
 
   effect@3.0.7:
     resolution: {integrity: sha512-VlEpWUc3IBc7k9NUdsdbh7cnGFNIdMpIoUFbbiVkt304d40pSr6Zadnr5Tk8m1cniqOLo4SXSZLw0M6f7N17Hg==}
+
+  effect@3.1.5:
+    resolution: {integrity: sha512-nTkW/ViRF8cXVMKjusYMVp7L1eqLwMZV7K6GHoqq3MD7NjPT/tJRVhY8d6z5Vam9kxgvRAzqwJKkaRpRVz1jTw==}
 
   electron-to-chromium@1.4.729:
     resolution: {integrity: sha512-bx7+5Saea/qu14kmPTDHQxkp2UnziG3iajUQu3BxFvCOnpAJdDbMV4rSl+EqFDkkpNNVUFlR1kDfpL59xfy1HA==}
@@ -3702,14 +3732,14 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  seroval-plugins@1.0.5:
-    resolution: {integrity: sha512-8+pDC1vOedPXjKG7oz8o+iiHrtF2WswaMQJ7CKFpccvSYfrzmvKY9zOJWCg+881722wIHfwkdnRmiiDm9ym+zQ==}
+  seroval-plugins@1.0.7:
+    resolution: {integrity: sha512-GO7TkWvodGp6buMEX9p7tNyIkbwlyuAWbI6G9Ec5bhcm7mQdu3JOK1IXbEUwb3FVzSc363GraG/wLW23NSavIw==}
     engines: {node: '>=10'}
     peerDependencies:
       seroval: ^1.0
 
-  seroval@1.0.5:
-    resolution: {integrity: sha512-TM+Z11tHHvQVQKeNlOUonOWnsNM+2IBwZ4vwoi4j3zKzIpc5IDw8WPwCfcc8F17wy6cBcJGbZbFOR0UCuTZHQA==}
+  seroval@1.0.7:
+    resolution: {integrity: sha512-n6ZMQX5q0Vn19Zq7CIKNIo7E75gPkGCFUEqDpa8jgwpYr/vScjqnQ6H09t1uIiZ0ZSK0ypEGvrYK2bhBGWsGdw==}
     engines: {node: '>=10'}
 
   server-only@0.0.1:
@@ -4042,8 +4072,8 @@ packages:
     peerDependencies:
       browserslist: '>= 4.21.0'
 
-  uploadthing@6.10.0:
-    resolution: {integrity: sha512-4wuvfzg7mG0ffO2WfkoFdr5L4EHPXy55vN7Ju7/IJzddqTHWyH1p1ucE0Jsoniybn/tXB7hUsNQjVxJyvP41nQ==}
+  uploadthing@6.10.4:
+    resolution: {integrity: sha512-0hGO0Q7R7MnxzVkUbYHE6PkwFieYH+UUa905uo7JtA0h3Gpc89bNDFaOfK8634Z66088VRLNVuWxY2FTIqw4sg==}
     engines: {node: '>=18.13.0'}
     peerDependencies:
       express: '*'
@@ -4337,6 +4367,8 @@ snapshots:
 
   '@babel/helper-validator-identifier@7.22.20': {}
 
+  '@babel/helper-validator-identifier@7.24.5': {}
+
   '@babel/helper-validator-option@7.23.5': {}
 
   '@babel/helpers@7.24.4':
@@ -4357,6 +4389,10 @@ snapshots:
   '@babel/parser@7.24.4':
     dependencies:
       '@babel/types': 7.24.0
+
+  '@babel/parser@7.24.5':
+    dependencies:
+      '@babel/types': 7.24.5
 
   '@babel/runtime@7.24.4':
     dependencies:
@@ -4389,9 +4425,20 @@ snapshots:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
 
+  '@babel/types@7.24.5':
+    dependencies:
+      '@babel/helper-string-parser': 7.24.1
+      '@babel/helper-validator-identifier': 7.24.5
+      to-fast-properties: 2.0.0
+
   '@effect/schema@0.66.10(effect@3.0.7)(fast-check@3.18.0)':
     dependencies:
       effect: 3.0.7
+      fast-check: 3.18.0
+
+  '@effect/schema@0.66.16(effect@3.1.5)(fast-check@3.18.0)':
+    dependencies:
+      effect: 3.1.5
       fast-check: 3.18.0
 
   '@emnapi/runtime@1.1.1':
@@ -5782,16 +5829,16 @@ snapshots:
       svelte: 4.2.15
       vue: 3.4.27(typescript@5.4.5)
 
-  '@uploadthing/mime-types@0.2.8': {}
+  '@uploadthing/mime-types@0.2.10': {}
 
-  '@uploadthing/react@6.5.0(@uploadthing/mime-types@0.2.8)(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)(solid-js@1.8.17)(svelte@4.2.15)(uploadthing@6.10.0(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3))(vue@3.4.27(typescript@5.4.5))':
+  '@uploadthing/react@6.5.0(@uploadthing/mime-types@0.2.10)(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(react@18.2.0)(solid-js@1.8.17)(svelte@4.2.15)(uploadthing@6.10.4(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3))(vue@3.4.27(typescript@5.4.5))':
     dependencies:
       '@uploadthing/dropzone': 0.4.0(react@18.2.0)(solid-js@1.8.17)(svelte@4.2.15)(vue@3.4.27(typescript@5.4.5))
-      '@uploadthing/shared': 6.7.0(@uploadthing/mime-types@0.2.8)(fast-check@3.18.0)
+      '@uploadthing/shared': 6.7.0(@uploadthing/mime-types@0.2.10)(fast-check@3.18.0)
       file-selector: 0.6.0
       react: 18.2.0
       tailwind-merge: 2.2.2
-      uploadthing: 6.10.0(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3)
+      uploadthing: 6.10.4(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3)
     optionalDependencies:
       next: 14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
     transitivePeerDependencies:
@@ -5801,29 +5848,36 @@ snapshots:
       - svelte
       - vue
 
-  '@uploadthing/shared@6.6.0(@uploadthing/mime-types@0.2.8)':
+  '@uploadthing/shared@6.6.0(@uploadthing/mime-types@0.2.10)':
     dependencies:
       std-env: 3.7.0
     optionalDependencies:
-      '@uploadthing/mime-types': 0.2.8
+      '@uploadthing/mime-types': 0.2.10
 
-  '@uploadthing/shared@6.7.0(@uploadthing/mime-types@0.2.8)(fast-check@3.18.0)':
+  '@uploadthing/shared@6.7.0(@uploadthing/mime-types@0.2.10)(fast-check@3.18.0)':
     dependencies:
       '@effect/schema': 0.66.10(effect@3.0.7)(fast-check@3.18.0)
       effect: 3.0.7
       std-env: 3.7.0
     optionalDependencies:
-      '@uploadthing/mime-types': 0.2.8
+      '@uploadthing/mime-types': 0.2.10
     transitivePeerDependencies:
       - fast-check
 
-  '@uploadthing/svelte@6.4.1(@uploadthing/mime-types@0.2.8)(react@18.2.0)(solid-js@1.8.17)(svelte@4.2.15)(uploadthing@6.10.0(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3))':
+  '@uploadthing/shared@6.7.4(@uploadthing/mime-types@0.2.10)':
+    dependencies:
+      effect: 3.1.5
+      std-env: 3.7.0
+    optionalDependencies:
+      '@uploadthing/mime-types': 0.2.10
+
+  '@uploadthing/svelte@6.4.1(@uploadthing/mime-types@0.2.10)(react@18.2.0)(solid-js@1.8.17)(svelte@4.2.15)(uploadthing@6.10.4(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3))':
     dependencies:
       '@uploadthing/dropzone': 0.3.1(react@18.2.0)(solid-js@1.8.17)(svelte@4.2.15)
-      '@uploadthing/shared': 6.6.0(@uploadthing/mime-types@0.2.8)
+      '@uploadthing/shared': 6.6.0(@uploadthing/mime-types@0.2.10)
       svelte: 4.2.15
       tailwind-merge: 2.2.2
-      uploadthing: 6.10.0(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3)
+      uploadthing: 6.10.4(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3)
     transitivePeerDependencies:
       - '@uploadthing/mime-types'
       - react
@@ -5838,7 +5892,7 @@ snapshots:
 
   '@vue/compiler-core@3.4.27':
     dependencies:
-      '@babel/parser': 7.24.4
+      '@babel/parser': 7.24.5
       '@vue/shared': 3.4.27
       entities: 4.5.0
       estree-walker: 2.0.2
@@ -5851,7 +5905,7 @@ snapshots:
 
   '@vue/compiler-sfc@3.4.27':
     dependencies:
-      '@babel/parser': 7.24.4
+      '@babel/parser': 7.24.5
       '@vue/compiler-core': 3.4.27
       '@vue/compiler-dom': 3.4.27
       '@vue/compiler-ssr': 3.4.27
@@ -6366,6 +6420,8 @@ snapshots:
       wcwidth: 1.0.1
 
   effect@3.0.7: {}
+
+  effect@3.1.5: {}
 
   electron-to-chromium@1.4.729: {}
 
@@ -8185,11 +8241,11 @@ snapshots:
     dependencies:
       lru-cache: 6.0.0
 
-  seroval-plugins@1.0.5(seroval@1.0.5):
+  seroval-plugins@1.0.7(seroval@1.0.7):
     dependencies:
-      seroval: 1.0.5
+      seroval: 1.0.7
 
-  seroval@1.0.5: {}
+  seroval@1.0.7: {}
 
   server-only@0.0.1: {}
 
@@ -8265,8 +8321,8 @@ snapshots:
   solid-js@1.8.17:
     dependencies:
       csstype: 3.1.3
-      seroval: 1.0.5
-      seroval-plugins: 1.0.5(seroval@1.0.5)
+      seroval: 1.0.7
+      seroval-plugins: 1.0.7(seroval@1.0.7)
 
   solid-swr-store@0.10.7(solid-js@1.8.17)(swr-store@0.10.6):
     dependencies:
@@ -8614,19 +8670,18 @@ snapshots:
       escalade: 3.1.2
       picocolors: 1.0.0
 
-  uploadthing@6.10.0(fast-check@3.18.0)(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3):
+  uploadthing@6.10.4(next@14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0))(tailwindcss@3.4.3):
     dependencies:
-      '@effect/schema': 0.66.10(effect@3.0.7)(fast-check@3.18.0)
-      '@uploadthing/mime-types': 0.2.8
-      '@uploadthing/shared': 6.7.0(@uploadthing/mime-types@0.2.8)(fast-check@3.18.0)
+      '@effect/schema': 0.66.16(effect@3.1.5)(fast-check@3.18.0)
+      '@uploadthing/mime-types': 0.2.10
+      '@uploadthing/shared': 6.7.4(@uploadthing/mime-types@0.2.10)
       consola: 3.2.3
-      effect: 3.0.7
+      effect: 3.1.5
+      fast-check: 3.18.0
       std-env: 3.7.0
     optionalDependencies:
       next: 14.3.0-canary.30(@babel/core@7.24.4)(@playwright/test@1.44.0)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       tailwindcss: 3.4.3
-    transitivePeerDependencies:
-      - fast-check
 
   uri-js@4.4.1:
     dependencies:

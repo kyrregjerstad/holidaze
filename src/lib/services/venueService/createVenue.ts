@@ -3,13 +3,14 @@
 import type { ApiResponseBase } from '@/lib/api/types';
 import type { CreateVenue } from '@/lib/types';
 
+import { revalidateTag } from 'next/cache';
+
+import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
 import { venueBaseSchema } from '@/lib/schema/venueSchema';
-import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
-import { revalidateTag } from 'next/cache';
 
-interface CreateVenueReturn<T> extends ApiResponseBase<T> {
+export interface CreateVenueReturn<T> extends ApiResponseBase<T> {
   venue: T | null;
 }
 

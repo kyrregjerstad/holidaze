@@ -14,6 +14,7 @@ import { XIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { createVenueSchemaFlattened } from '@/lib/schema/venueSchema';
+import { CreateVenue } from '@/lib/types';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { ImageUploader } from '@/components/ImageUploader';
 import { Button } from '@/components/ui/button';
@@ -21,6 +22,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
@@ -30,7 +32,7 @@ TODO:
 - accessibility could be improved, with keyboard navigation.
 */
 type Props = {
-  submitFn: (data: z.infer<typeof createVenueSchema>) => CreateVenueReturn;
+  submitFn: (data: z.infer<typeof createVenueSchema>) => Promise<CreateVenueReturn<CreateVenue>>;
   onSuccess: () => Promise<void>;
 };
 
@@ -69,9 +71,9 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
 
   const [images, setImages] = useState<string[]>([]);
   const [files, setFiles] = useState<File[]>([]);
+  const [imagesLoading, setImagesLoading] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof createVenueSchemaFlattened>) => {
-    console.log('data', data);
     const res = await submitFn({
       ...data,
       meta: {
@@ -121,11 +123,16 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
             )}
             {images.length < 8 && (
               <ImageUploader
-                files={files}
                 setFiles={setFiles}
                 uploadedImages={images}
                 setUploadedImages={setImages}
+                setImagesLoading={setImagesLoading}
               />
+            )}
+            {images.length === 0 && imagesLoading && (
+              <div className="grid grid-cols-4 gap-2">
+                <Skeleton className="aspect-square" />
+              </div>
             )}
             {images.length > 0 && (
               <div className="grid grid-cols-4 gap-2">
@@ -154,6 +161,7 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
                       />
                     </div>
                   ))}
+                  {imagesLoading && <Skeleton className="aspect-square" />}
                 </>
               </div>
             )}

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 
 import { useDropzone } from '@uploadthing/react';
 import { generateClientDropzoneAccept } from 'uploadthing/client';
@@ -8,31 +8,37 @@ import { Label } from './ui/label';
 import { Progress } from './ui/progress';
 
 type Props = {
-  files: File[];
   setFiles: Dispatch<SetStateAction<File[]>>;
   uploadedImages: string[];
   setUploadedImages: Dispatch<SetStateAction<string[]>>;
+  setImagesLoading: (loading: boolean) => void;
 };
 
-export const ImageUploader = ({ files, setFiles, uploadedImages, setUploadedImages }: Props) => {
+export const ImageUploader = ({
+  setFiles,
+  uploadedImages,
+  setUploadedImages,
+  setImagesLoading,
+}: Props) => {
   const [progress, setProgress] = useState(0);
 
-  const { startUpload, permittedFileInfo } = useUploadThing('imageUploader', {
+  const { startUpload, permittedFileInfo, isUploading } = useUploadThing('imageUploader', {
     onClientUploadComplete: (res) => {
       console.log('client upload complete');
       setUploadedImages([...uploadedImages, ...res.map((r) => r.serverData.url)]);
     },
-    onUploadError: () => {
-      console.log('upload error');
+    onUploadError: (e) => {
+      console.log('upload error', e);
     },
-    onUploadBegin: () => {
-      console.log('upload begin');
-    },
+    onUploadBegin: () => {},
     onUploadProgress(p) {
-      console.log(p);
       setProgress(p);
     },
   });
+
+  useEffect(() => {
+    setImagesLoading(isUploading);
+  }, [isUploading]);
 
   const maxFiles = permittedFileInfo?.config.image?.maxFileCount || 8;
   const fileTypes = permittedFileInfo?.config ? Object.keys(permittedFileInfo?.config) : [];
