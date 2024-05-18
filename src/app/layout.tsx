@@ -9,7 +9,6 @@ import { extractRouterConfig } from 'uploadthing/server';
 
 import { chatService } from '@/lib/services';
 import { Toaster } from '@/components/ui/toaster';
-import QueryClientProvider from './_providers/QueryClientProvider';
 import { ourFileRouter } from './api/uploadthing/core';
 
 import './globals.css';
@@ -32,14 +31,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-        <QueryClientProvider>
-          <chatService.AIProvider>
-            <div className="bg-background">{children}</div>
-            {modal}
-            <div id="modal-root" />
-            <Toaster />
-          </chatService.AIProvider>
-        </QueryClientProvider>
+        <chatService.AIProvider>
+          <div className="bg-background">{children}</div>
+          {modal}
+          <div id="modal-root" />
+          <Toaster />
+        </chatService.AIProvider>
       </body>
     </html>
   );
