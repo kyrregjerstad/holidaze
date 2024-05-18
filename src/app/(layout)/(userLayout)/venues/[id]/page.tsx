@@ -52,7 +52,7 @@ const VenuePage = async ({ params }: Props) => {
   );
 
   return (
-    <div className="mx-auto max-w-6xl px-4">
+    <div className="mx-auto w-full max-w-6xl px-4">
       <Suspense>
         <Debug data={venue} />
       </Suspense>
@@ -72,7 +72,7 @@ const VenuePage = async ({ params }: Props) => {
         </BreadcrumbList>
       </Breadcrumb>
       <VenueGallery images={venue.media} />
-      <section className="grid items-start gap-8 py-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-[1fr_400px]">
+      <section className="grid w-full items-start gap-8 py-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:grid-cols-[1fr_400px]">
         <div className="row-start-2 grid gap-8 md:row-start-auto">
           <div className="flex flex-col gap-1">
             <h2 className="max-w-[600px] overflow-hidden text-pretty break-words pb-6 text-3xl font-semibold sm:text-5xl">
