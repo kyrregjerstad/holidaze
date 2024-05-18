@@ -7,6 +7,7 @@ import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
 import { venueBaseSchema } from '@/lib/schema/venueSchema';
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
+import { revalidateTag } from 'next/cache';
 
 export type UpdateVenueSchema = DeepPartial<z.infer<typeof venueBaseSchema>>;
 export type UpdateVenueReturn = ReturnType<typeof updateVenue>;
@@ -19,6 +20,8 @@ export async function updateVenue(id: string, data: UpdateVenueSchema, accessTok
     schema: createApiResponseSchema(venueBaseSchema),
     headers: await createAuthHeaders(accessToken),
   });
+
+  revalidateTag(`venue-${id}`);
 
   return { venue: res?.data ?? null, error, status };
 }

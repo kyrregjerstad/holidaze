@@ -89,6 +89,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "prettier-plugin-tailwindcss": "0.0.0-insiders.3c9ce4e",
     "@ianvs/prettier-plugin-sort-imports": "^4.2.1",
     "@playwright/test": "^1.44.0",
     "@tailwindcss/container-queries": "^0.1.1",

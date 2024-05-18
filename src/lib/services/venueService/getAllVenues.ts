@@ -58,6 +58,7 @@ export async function getAllVenues(
       _page: options.page ?? 1,
     },
     schema: createApiResponseSchema(z.array(schema)),
+    cacheTags: ['venues'],
   });
 
   if (!res || res.data.length === 0) return { venues: [], meta: null, error, status };

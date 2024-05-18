@@ -23,25 +23,22 @@ const ManageVenuesPage = async () => {
 
   const transformedVenues = venues.map(processVenue);
 
-  const handleDelete = async (id: string) => {
+  const deleteVenue = async (id: string) => {
     'use server';
     const { status, error } = await venueService.deleteVenue(id, accessToken);
 
-    console.log('status', status);
-    console.log('error', error);
-
-    if (status >= 400) {
+    if (status === 204) {
+      return true;
+    } else {
       console.error('Failed to delete venue', error);
       return false;
-    } else {
-      return true;
     }
   };
 
   return (
     <div>
       <div className="shadow-xs w-full overflow-hidden rounded-lg">
-        <VenuesTable venues={transformedVenues} handleDelete={handleDelete} />
+        <VenuesTable venues={transformedVenues} deleteVenue={deleteVenue} />
       </div>
     </div>
   );

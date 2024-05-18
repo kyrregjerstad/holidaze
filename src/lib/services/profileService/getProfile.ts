@@ -24,6 +24,7 @@ export async function getProfile(
     },
     schema: createApiResponseSchema(userProfileSchema),
     headers: await createAuthHeaders(accessToken),
+    cacheTags: [`profile-${name}`],
   });
 
   if (!res) return { profile: null, error, status };

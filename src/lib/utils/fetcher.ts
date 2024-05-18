@@ -20,6 +20,12 @@ export async function fetcher<T>({
   try {
     const response = await fetch(url, options);
 
+    // in the case of a 204 response, we don't need to parse the response body
+    // this is used for DELETE requests
+    if (response.status === 204) {
+      return { res: null, status: 204, error: null };
+    }
+
     if (!response.ok) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const errorResponse = await response.json();

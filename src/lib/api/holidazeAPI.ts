@@ -22,6 +22,7 @@ type HolidazeAPIOptions<T> = {
   data?: unknown;
   method?: Method;
   headers?: Headers;
+  cacheTags?: string[];
   schema: z.Schema<T>;
 };
 
@@ -38,11 +39,18 @@ export async function holidazeAPI<T>({
   method = 'GET',
   headers,
   schema,
+  cacheTags,
 }: HolidazeAPIOptions<T>): Promise<HolidazeAPIReturn<T>> {
   const options: RequestInit = {
     method,
     headers: headers ? headers : createDefaultHolidazeHeaders(),
   };
+
+  if (cacheTags) {
+    options.next = {
+      tags: cacheTags,
+    };
+  }
 
   if (['POST', 'PUT', 'PATCH'].includes(method) && data) {
     options.body = JSON.stringify(data);

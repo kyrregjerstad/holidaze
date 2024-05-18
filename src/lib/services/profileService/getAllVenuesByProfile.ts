@@ -25,6 +25,7 @@ export async function getAllVenuesByProfile(
     },
     schema: createApiResponseSchema(z.array(venueSchemaFull)),
     headers: await createAuthHeaders(accessToken),
+    cacheTags: [`profile-${name}-venues`],
   });
 
   if (!res) return { venues: [], error, status };

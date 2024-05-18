@@ -7,6 +7,7 @@ import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { createApiResponseSchema } from '@/lib/schema/apiSchema';
 import { venueBaseSchema } from '@/lib/schema/venueSchema';
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
+import { revalidateTag } from 'next/cache';
 
 interface CreateVenueReturn<T> extends ApiResponseBase<T> {
   venue: T | null;
@@ -23,6 +24,8 @@ export async function createVenue(
     schema: createApiResponseSchema(venueBaseSchema),
     headers: await createAuthHeaders(accessToken),
   });
+
+  revalidateTag('venues');
 
   return { venue: res?.data ?? null, error, meta: res?.meta ?? null, status };
 }

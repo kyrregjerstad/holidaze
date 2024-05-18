@@ -8,3 +8,8 @@ export const CREATE_API_KEY_URL = `${API_BASE_URL}/auth/create-api-key`;
 
 export const HERO_IMAGE = HeroImage;
 export const VENUE_FALLBACK_IMAGE = VenueFallbackImage;
+
+export const TAG = {
+  venue: 'venue',
+  profile: 'profile',
+};

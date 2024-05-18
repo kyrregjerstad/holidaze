@@ -44,19 +44,37 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { venueService } from '@/lib/services';
 import { useToast } from '@/components/ui/use-toast';
 
 type Props = {
   venues: TransformedVenue[];
-  handleDelete: (venueId: string) => Promise<boolean>;
+  deleteVenue: (venueId: string) => Promise<boolean>;
 };
 
-export const VenuesTable = ({ venues, handleDelete }: Props) => {
+export const VenuesTable = ({ venues, deleteVenue }: Props) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const { toast } = useToast();
+
+  const handleDelete = async (venueId: string) => {
+    const success = await deleteVenue(venueId);
+
+    if (success) {
+      toast({
+        title: 'Venue deleted',
+        description: 'The venue has been successfully deleted.',
+      });
+    } else {
+      toast({
+        title: 'Failed to delete venue',
+        description: 'An error occurred while deleting the venue.',
+        variant: 'error',
+        duration: 10_000,
+      });
+    }
+  };
 
   const columns = useMemo(() => createColumns(handleDelete), [handleDelete]);
 
@@ -80,7 +98,7 @@ export const VenuesTable = ({ venues, handleDelete }: Props) => {
   });
 
   return (
-    <div className="w-full max-w-[100vw] p-4 sm:max-w-[calc(100vw_-_168px)]">
+    <div className=" w-full max-w-[100vw] p-4 sm:max-w-[calc(100vw_-_168px)]">
       <div className="flex items-center py-4">
         <div className="flex gap-2">
           <Input
@@ -186,7 +204,7 @@ export const VenuesTable = ({ venues, handleDelete }: Props) => {
 };
 
 function createColumns(
-  handleDelete: (venueId: string) => Promise<boolean>
+  handleDelete: (venueId: string) => Promise<void>
 ): ColumnDef<TransformedVenue>[] {
   return [
     {
@@ -312,7 +330,6 @@ function createColumns(
       enableHiding: false,
       header: 'Actions',
       cell: ({ row }) => {
-        const { toast } = useToast();
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -335,20 +352,7 @@ function createColumns(
                   variant="destructive"
                   size="sm"
                   className="w-full cursor-pointer"
-                  onClick={async () => {
-                    const success = await handleDelete(row.original.id);
-                    if (success) {
-                      toast({
-                        title: 'Venue deleted',
-                        description: 'The venue has been successfully deleted.',
-                      });
-                    } else {
-                      toast({
-                        title: 'Failed to delete venue',
-                        description: 'An error occurred while deleting the venue.',
-                      });
-                    }
-                  }}
+                  onClick={() => handleDelete(row.original.id)}
                 >
                   Delete
                 </Button>

@@ -19,6 +19,7 @@ export async function getVenueById(id: string): Promise<GetVenueByIdReturn<Venue
       _bookings: true,
     },
     schema: createApiResponseSchema(venueSchemaFull),
+    cacheTags: [`venue-${id}`],
   });
 
   return { venue: res?.data ?? null, error, meta: res?.meta ?? null, status };
