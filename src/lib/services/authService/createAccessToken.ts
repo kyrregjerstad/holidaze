@@ -6,7 +6,7 @@ import { createApiResponseSchema, loginUserReturnSchema } from '@/lib/schema';
 import { fetcher } from '@/lib/utils/fetcher';
 
 export async function createAccessToken(data: z.infer<typeof loginUserSchema>) {
-  const { res, error } = await fetcher({
+  const { res, error, status } = await fetcher({
     url: `${API_BASE_URL}/auth/login?_holidaze=true`,
     options: {
       method: 'POST',
@@ -18,5 +18,5 @@ export async function createAccessToken(data: z.infer<typeof loginUserSchema>) {
     schema: createApiResponseSchema(loginUserReturnSchema),
   });
 
-  return { res, error };
+  return { res, error, status };
 }

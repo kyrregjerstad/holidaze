@@ -12,17 +12,12 @@ export async function POST(req: NextRequest) {
       return Response.json(validation.error, { status: 400 });
     }
 
-    console.log('validation.data', validation.data);
-
-    const { res, error } = await authService.createAccessToken({
+    const { res, error, status } = await authService.createAccessToken({
       ...validation.data,
     });
 
-    console.log('res', res);
-    console.log('error', error);
-
     if (error || !res?.data.accessToken) {
-      return Response.json('error', { status: 400 });
+      return Response.json('error', { status });
     }
 
     const accessToken = createCookie({

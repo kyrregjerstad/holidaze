@@ -4,14 +4,21 @@ import { fetcher } from '@/lib/utils/fetcher';
 
 export async function login(email: string, password: string): Promise<LoginReturn> {
   try {
-    const { res, error } = await fetcher({
+    const { res, error, status } = await fetcher({
       url: '/api/login', // this is a local API for handling login
       options: {
         method: 'POST',
         body: JSON.stringify({ email, password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
       schema: loginApiResponseSchema,
     });
+
+    if (status === 401) {
+      return { user: null, error: 'Invalid username or password' };
+    }
 
     if (error) {
       console.error('ERROR', error);

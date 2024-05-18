@@ -11,6 +11,9 @@ export async function register(data: z.infer<typeof registerUserSchema>) {
     options: {
       method: 'POST',
       body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     },
     schema: createApiResponseSchema(registerUserResponseSchema),
   });

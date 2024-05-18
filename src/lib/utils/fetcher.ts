@@ -20,10 +20,17 @@ export async function fetcher<T>({
   try {
     const response = await fetch(url, options);
 
+    console.log('RESPONSE status: ', response.status);
+
     // in the case of a 204 response, we don't need to parse the response body
     // this is used for DELETE requests
     if (response.status === 204) {
       return { res: null, status: 204, error: null };
+    }
+
+    if (response.status === 401) {
+      console.error('UNAUTHORIZED');
+      return { res: null, status: 401, error: null };
     }
 
     if (!response.ok) {

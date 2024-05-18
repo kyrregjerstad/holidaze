@@ -37,10 +37,11 @@ const VenuePage = async ({ params }: Props) => {
         <Debug data={venue} />
       </Suspense>
       <Image
-        src={venue.media[0].url || VENUE_FALLBACK_IMAGE}
+        src={venue.media[0]?.url || VENUE_FALLBACK_IMAGE}
         alt={venue.name}
         width={1200}
         height={600}
+        className="aspect-[21/5] object-cover "
       />
       <section className="flex flex-col">
         <h2 className="truncate py-4 text-5xl font-semibold">{venue.name}</h2>
