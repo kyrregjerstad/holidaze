@@ -14,7 +14,7 @@ export const PathsList = () => {
     { path: '/', Icon: Undo, label: 'Home' },
     { path: '/manage/venues', Icon: HomeIcon, label: 'Venues' },
     { path: '/manage/bookings', Icon: CalendarIcon, label: 'Bookings' },
-    { path: '/manage/reports', Icon: NotepadTextIcon, label: 'Reports' },
+    // { path: '/manage/reports', Icon: NotepadTextIcon, label: 'Reports' },
   ];
 
   return (

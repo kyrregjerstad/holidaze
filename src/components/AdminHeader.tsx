@@ -12,7 +12,7 @@ import { Drawer, DrawerClose, DrawerContent, DrawerTrigger } from '@/components/
 
 export const AdminHeader = () => {
   return (
-    <header className="sticky top-0 z-50 flex h-14 items-center justify-between bg-background px-4 drop-shadow-sm sm:justify-end lg:px-6">
+    <header className="sticky top-0 z-50 flex h-14 w-full items-center justify-between bg-background px-4 drop-shadow-sm sm:justify-end lg:px-6">
       <Drawer>
         <DrawerTrigger asChild>
           <Button variant="ghost" className="inline sm:hidden">

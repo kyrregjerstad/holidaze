@@ -6,7 +6,6 @@ import type {
   SortingState,
   VisibilityState,
 } from '@tanstack/react-table';
-import type { TransformedVenue } from './processVenue';
 
 import { useMemo, useState } from 'react';
 
@@ -20,24 +19,17 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { compareAsc } from 'date-fns';
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown, ChevronDown } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
-import { DeleteVenueDialog } from '@/components/DeleteVenueDialog';
-import { AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
 import {
   Table,
   TableBody,
@@ -46,40 +38,45 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useToast } from '@/components/ui/use-toast';
+
+type Booking = {
+  id: string;
+  dateFrom: Date;
+  dateTo: Date;
+  totalPrice: number;
+  guests: number;
+  customer: {
+    name: string;
+    avatar: {
+      url: string;
+      alt: string;
+    } | null;
+    banner: {
+      url: string;
+      alt: string;
+    } | null;
+  } | null;
+  venue: {
+    name: string;
+    id: string;
+  };
+};
 
 type Props = {
-  venues: TransformedVenue[];
+  bookings: Booking[];
   deleteVenue: (venueId: string) => Promise<boolean>;
 };
 
-export const VenuesTable = ({ venues, deleteVenue }: Props) => {
+export const BookingsTable = ({ bookings }: Props) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-  const { toast } = useToast();
 
-  const handleDelete = async (venueId: string) => {
-    const success = await deleteVenue(venueId);
-    if (success) {
-      toast({
-        title: 'Venue deleted',
-        description: 'Your venue has been successfully deleted',
-      });
-    } else {
-      toast({
-        title: 'Failed to delete venue',
-        description: 'An error occurred while deleting your venue',
-        variant: 'error',
-      });
-    }
-  };
-
-  const columns = useMemo(() => createColumns(handleDelete), [handleDelete]);
+  const columns = useMemo(() => createColumns(), []);
 
   const table = useReactTable({
-    data: venues,
+    data: bookings,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -102,9 +99,9 @@ export const VenuesTable = ({ venues, deleteVenue }: Props) => {
       <div className="flex items-center py-4">
         <div className="flex gap-2">
           <Input
-            placeholder="Filter by name..."
-            value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
+            placeholder="Filter by venue name..."
+            value={(table.getColumn('venue')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('venue')?.setFilterValue(event.target.value)}
             className="max-w-sm"
           />
           <DropdownMenu>
@@ -132,11 +129,6 @@ export const VenuesTable = ({ venues, deleteVenue }: Props) => {
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
-        <div className="ml-auto flex items-center gap-4">
-          <Link href="/manage/venues/new" className={buttonVariants()}>
-            Add Venue
-          </Link>
         </div>
       </div>
       <div className="overflow-auto rounded-md border">
@@ -203,34 +195,11 @@ export const VenuesTable = ({ venues, deleteVenue }: Props) => {
   );
 };
 
-function createColumns(
-  handleDelete: (venueId: string) => Promise<void>
-): ColumnDef<TransformedVenue>[] {
+function createColumns(): ColumnDef<Booking>[] {
   return [
     {
-      id: 'select',
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && 'indeterminate')
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
-      accessorKey: 'name',
+      id: 'venue',
+      accessorKey: 'venue',
       header: ({ column }) => {
         return (
           <Button
@@ -238,30 +207,24 @@ function createColumns(
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
             className="gap-2"
           >
-            <span>Name</span>
+            <span>Venue</span>
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => {
-        const url = `/manage/venues/${row.original.id}`;
+        const url = `/manage/venues/${row.original.venue.id}`;
+        const value: { name: string } = row.getValue('venue');
+
         return (
-          <Link href={url} className="text-nowrap px-4 lowercase hover:underline">
-            {row.getValue('name')}
+          <Link href={url} className="whitespace-nowrap text-nowrap px-4 lowercase hover:underline">
+            {value.name}
           </Link>
         );
       },
     },
     {
-      id: 'location',
-      accessorKey: 'location.city',
-      header: () => <div className="text-right">Location</div>,
-      cell: ({ row }) => {
-        return <div className="px-4 text-right font-medium ">{row.getValue('location')}</div>;
-      },
-    },
-    {
-      accessorKey: 'status',
+      accessorKey: 'customer',
       enableSorting: true,
       header: ({ column }) => {
         return (
@@ -270,40 +233,35 @@ function createColumns(
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
             className="gap-2"
           >
-            Booking
+            Customer
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => {
-        const status: string = row.getValue('status');
+        const value: { name: string; avatar: { url: string; alt: string } | null } =
+          row.getValue('customer');
+
         return (
-          <div
-            className={cn(
-              'px-4 capitalize',
-              status === 'Now' && 'font-bold',
-              status === 'No bookings' && 'text-neutral-400'
-            )}
-          >
-            {row.getValue('status')}
+          <div className="flex items-center px-4">
+            <Avatar className="h-8 w-8 rounded-full">
+              <AvatarImage
+                src={value.avatar?.url ?? '/avatar-placeholder.svg'}
+                alt={value.avatar?.alt ?? 'Avatar'}
+              />
+              <AvatarFallback className="h-8 w-8 rounded-full bg-gray-200">
+                {value.name[0].toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <Link href={`/profiles/${value.name}`} className="ml-2 hover:underline">
+              {value.name}
+            </Link>
           </div>
         );
       },
-      sortingFn: (rowA, rowB) => {
-        const dateA =
-          rowA.original.bookings.length > 0
-            ? new Date(rowA.original.bookings[0].dateFrom)
-            : new Date(0);
-        const dateB =
-          rowB.original.bookings.length > 0
-            ? new Date(rowB.original.bookings[0].dateFrom)
-            : new Date(0);
-
-        return compareAsc(dateA, dateB);
-      },
     },
     {
-      accessorKey: 'price',
+      accessorKey: 'dateFrom',
       enableSorting: true,
       header: ({ column }) => {
         return (
@@ -312,62 +270,98 @@ function createColumns(
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
             className="gap-2"
           >
-            Price
+            Check in
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => {
-        const formatted = new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        }).format(parseInt(row.getValue('price'), 10));
-        return <div className="px-4 capitalize">{formatted}</div>;
+        const value: Date = row.getValue('dateFrom');
+        return <div className="px-4">{value.toDateString()}</div>;
       },
     },
     {
-      id: 'actions',
-      enableHiding: false,
-      header: 'Actions',
-      cell: ({ row }) => {
+      accessorKey: 'dateTo',
+      enableSorting: true,
+      header: ({ column }) => {
         return (
-          <DeleteVenueDialog handleDelete={() => handleDelete(row.original.id)}>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <Link href={`/manage/venues/${row.original.id}`} className="cursor-pointer">
-                    Details
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href={`/venues/${row.original.id}`} className="cursor-pointer">
-                    Listing
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link href={`/manage/venues/edit/${row.original.id}`} className="cursor-pointer">
-                    Edit
-                  </Link>
-                </DropdownMenuItem>
-                <Separator className="my-2" />
-                <DropdownMenuItem asChild>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="destructive" className="w-full cursor-pointer" size="sm">
-                      Delete
-                    </Button>
-                  </AlertDialogTrigger>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </DeleteVenueDialog>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="gap-2"
+          >
+            Check out
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
         );
+      },
+      cell: ({ row }) => {
+        const value: Date = row.getValue('dateTo');
+        return <div className="px-4">{value.toDateString()}</div>;
+      },
+    },
+    {
+      accessorKey: 'totalDays',
+      enableSorting: true,
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="gap-2"
+          >
+            Days
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const value: number = row.getValue('totalDays');
+        return <div className="px-4">{value}</div>;
+      },
+    },
+    {
+      accessorKey: 'guests',
+      enableSorting: true,
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="gap-2"
+          >
+            Guests
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const value: number = row.getValue('guests');
+        return <div className="px-4">{value}</div>;
+      },
+    },
+    {
+      accessorKey: 'totalPrice',
+      enableSorting: true,
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className="gap-2"
+          >
+            Total Price
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const value: number = row.getValue('totalPrice');
+        const formatted = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(value);
+        return <div className="px-4">{formatted}</div>;
       },
     },
   ];

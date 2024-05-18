@@ -91,6 +91,4 @@ export const userProfileSchema = z.object({
     venues: z.number(),
     bookings: z.number(),
   }),
-  venues: venueBaseSchema.array(),
-  bookings: z.array(z.any()), // TODO: Add booking schema
 });
