@@ -1,4 +1,4 @@
-import type { userProfileSchema } from '@/lib/schema/userSchema';
+import type { userProfileSchemaExtended } from '@/lib/schema/userSchema';
 import type { z } from 'zod';
 
 import React from 'react';
@@ -10,6 +10,7 @@ import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 import { profileService } from '@/lib/services';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { VenueCard } from '@/components/VenueCard';
 
@@ -37,7 +38,7 @@ const ProfilePage = async ({ params: { name } }: Props) => {
 
 export default ProfilePage;
 
-const UserPage = ({ profile }: { profile: z.infer<typeof userProfileSchema> }) => {
+const UserPage = ({ profile }: { profile: z.infer<typeof userProfileSchemaExtended> }) => {
   return (
     <div className="flex w-full max-w-7xl flex-col items-center">
       <div className="w-full">
@@ -70,7 +71,7 @@ const UserPage = ({ profile }: { profile: z.infer<typeof userProfileSchema> }) =
   );
 };
 
-const ManagerPage = ({ profile }: { profile: z.infer<typeof userProfileSchema> }) => {
+const ManagerPage = ({ profile }: { profile: z.infer<typeof userProfileSchemaExtended> }) => {
   return (
     <div className="flex w-full max-w-7xl flex-col items-center">
       <div className="w-full">
@@ -94,17 +95,22 @@ const ManagerPage = ({ profile }: { profile: z.infer<typeof userProfileSchema> }
             </Avatar>
             <div>
               <h2 className="text-2xl font-semibold">{profile.name}</h2>
+              <Badge className="px-4 py-2">Venue Manager</Badge>
               <p>
                 {profile.venues.length} venue
                 {profile.venues.length > 1 ? 's' : ''}
               </p>
-              <p className="text-center text-gray-500 dark:text-gray-400">{profile.bio}</p>
             </div>
           </div>
+          {profile.bio && profile.bio.length > 0 ? (
+            <p className="">{profile.bio}</p>
+          ) : (
+            <p className="text-gray-500">{profile.name} has not written a bio yet.</p>
+          )}
           <div>
             {profile.venues.length > 0 ? (
               <>
-                <h3 className="mb-4 text-xl font-semibold">My Venues</h3>
+                <h3 className="mb-4 text-xl font-semibold">Venues</h3>
                 <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {profile.venues.map((venue) => (
                     <VenueCard key={venue.id} venue={venue} />

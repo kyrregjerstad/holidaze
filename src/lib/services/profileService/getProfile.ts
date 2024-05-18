@@ -4,10 +4,10 @@ import { z } from 'zod';
 
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
-import { createApiResponseSchema, userProfileSchema, venueBaseSchema } from '@/lib/schema';
+import { createApiResponseSchema, userProfileSchemaExtended } from '@/lib/schema';
 
 type FetchProfileByNameReturn = {
-  profile: z.infer<typeof userProfileSchema> | null;
+  profile: z.infer<typeof userProfileSchemaExtended> | null;
   error: z.ZodError | null;
   status: number;
 };
@@ -21,11 +21,7 @@ export async function getProfile(
     query: {
       _venues: true,
     },
-    schema: createApiResponseSchema(
-      userProfileSchema.extend({
-        venues: z.array(venueBaseSchema),
-      })
-    ),
+    schema: createApiResponseSchema(userProfileSchemaExtended),
     headers: await createAuthHeaders(accessToken),
     cacheTags: [`profile-${name}`],
   });

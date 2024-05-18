@@ -92,3 +92,7 @@ export const userProfileSchema = z.object({
     bookings: z.number(),
   }),
 });
+
+export const userProfileSchemaExtended = userProfileSchema.extend({
+  venues: z.array(venueBaseSchema),
+});
