@@ -24,6 +24,8 @@ import { compareAsc } from 'date-fns';
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
+import { DeleteVenueDialog } from '@/components/DeleteVenueDialog';
+import { AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -60,18 +62,16 @@ export const VenuesTable = ({ venues, deleteVenue }: Props) => {
 
   const handleDelete = async (venueId: string) => {
     const success = await deleteVenue(venueId);
-
     if (success) {
       toast({
         title: 'Venue deleted',
-        description: 'The venue has been successfully deleted.',
+        description: 'Your venue has been successfully deleted',
       });
     } else {
       toast({
         title: 'Failed to delete venue',
-        description: 'An error occurred while deleting the venue.',
+        description: 'An error occurred while deleting your venue',
         variant: 'error',
-        duration: 10_000,
       });
     }
   };
@@ -331,34 +331,33 @@ function createColumns(
       header: 'Actions',
       cell: ({ row }) => {
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href={`/venues/${row.original.id}`} className="cursor-pointer">
-                  View
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>Edit</DropdownMenuItem>
-              <Separator className="my-2" />
-              <DropdownMenuItem asChild>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  className="w-full cursor-pointer"
-                  onClick={() => handleDelete(row.original.id)}
-                >
-                  Delete
+          <DeleteVenueDialog handleDelete={() => handleDelete(row.original.id)}>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <span className="sr-only">Open menu</span>
+                  <MoreHorizontal className="h-4 w-4" />
                 </Button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href={`/venues/${row.original.id}`} className="cursor-pointer">
+                    View
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>Edit</DropdownMenuItem>
+                <Separator className="my-2" />
+                <DropdownMenuItem asChild>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive" className="w-full cursor-pointer" size="sm">
+                      Delete
+                    </Button>
+                  </AlertDialogTrigger>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </DeleteVenueDialog>
         );
       },
     },

@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 
 import { z } from 'zod';
 
+import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import { venueService } from '@/lib/services';
 import { getUserFromCookie } from '@/lib/utils/cookies';
@@ -141,15 +142,28 @@ const OtherVenuesSkeleton = () => {
   );
 };
 
-const InfoCards = ({ venue }: { venue: VenueFull }) => {
+const InfoCards = async ({ venue }: { venue: VenueFull }) => {
   const user = getUserFromCookie();
 
   if (!user) {
     return <DisabledBookingCard venue={venue} />;
   }
 
-  if (user.name === venue.owner.name) {
-    return <VenueManagerCard venue={venue} />;
+  const accessToken = await getAccessTokenCookie();
+  if (user.name === venue.owner.name && user.isVenueManager && accessToken) {
+    const deleteVenue = async (venueId: string) => {
+      'use server';
+      const { status, error } = await venueService.deleteVenue(venueId, accessToken);
+
+      if (status === 204) {
+        return true;
+      } else {
+        console.error('Failed to delete venue', error);
+        return false;
+      }
+    };
+
+    return <VenueManagerCard venue={venue} deleteVenue={deleteVenue} />;
   }
 
   return (
