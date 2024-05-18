@@ -24,7 +24,7 @@ export const ReportDialog = () => {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className="gap-2 text-gray-500 underline hover:text-inherit dark:text-gray-400"
+          className="mx-auto w-fit gap-2 text-gray-500 underline hover:text-inherit dark:text-gray-400"
           variant="link"
         >
           <FlagIcon className="h-4 w-4" />

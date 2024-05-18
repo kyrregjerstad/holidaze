@@ -17,6 +17,10 @@ type Props = {
 export const VenueGallery = ({ images }: Props) => {
   const [selectedImage, setSelectedImage] = useState<Image | null>(null);
 
+  if (!images.length || images.length === 0) {
+    return null;
+  }
+
   return (
     <Dialog>
       <section className="relative min-h-32 bg-gray-100 dark:bg-gray-800">

@@ -14,6 +14,7 @@ import { DrawerTrigger } from '../ui/drawer';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Separator } from '../ui/separator';
+import { useToast } from '../ui/use-toast';
 import { useBookingStore } from './bookingStore';
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 };
 
 export const NewBookingCard = ({ venue }: Props) => {
+  const { toast } = useToast();
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -52,6 +54,21 @@ export const NewBookingCard = ({ venue }: Props) => {
   const onSuccess = () => {
     setStartDate(undefined, bookedDates);
     setEndDate(undefined, bookedDates);
+  };
+
+  const handleGuestsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const guests = Number(e.target.value);
+    if (guests > venue.maxGuests) {
+      setGuests(venue.maxGuests);
+      toast({
+        title: 'Max guests reached',
+        description: `This venue can accommodate max ${venue.maxGuests} guests`,
+        variant: 'error',
+      });
+
+      return;
+    }
+    setGuests(Number(e.target.value));
   };
 
   return (
@@ -98,7 +115,8 @@ export const NewBookingCard = ({ venue }: Props) => {
                   className="w-20"
                   max={venue.maxGuests}
                   min={1}
-                  onChange={(e) => setGuests(Number(e.target.value))}
+                  onChange={handleGuestsChange}
+                  value={guests}
                 />
               </div>
               <div className="self-end justify-self-end ">
