@@ -5,6 +5,14 @@ import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { bookingService, profileService } from '@/lib/services';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { Debug } from '@/components/Debug';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BookingCard } from './BookingCard';
 import { CancelBookingDialog } from './CancelBookingDialog';
@@ -48,8 +56,22 @@ const MyBookingsPage = async ({ searchParams }: Props) => {
   };
 
   return (
-    <div className="shadow-xs w-full overflow-hidden rounded-lg">
-      <Debug data={bookings} />
+    <div className="w-full max-w-7xl">
+      <Breadcrumb className="self-start p-8">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/profile/${user.name}`}>{user.name}</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage className="max-w-xs truncate">My bookings</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <section className="mx-auto max-w-5xl p-8">
         <Tabs defaultValue={tab}>
           <TabsList>
@@ -66,7 +88,7 @@ const MyBookingsPage = async ({ searchParams }: Props) => {
           </TabsList>
           <TabsContent value="upcoming">
             <CancelBookingDialog handleCancel={handleCancel}>
-              <section className="mx-auto grid max-w-5xl grid-cols-2 gap-4 gap-y-12 p-8">
+              <section className="mx-auto grid max-w-5xl gap-4 gap-y-12 p-8 sm:grid-cols-2">
                 {upcoming.map((booking) => (
                   <BookingCard key={booking.id} booking={booking} upcoming={true} />
                 ))}
@@ -74,7 +96,7 @@ const MyBookingsPage = async ({ searchParams }: Props) => {
             </CancelBookingDialog>
           </TabsContent>
           <TabsContent value="past">
-            <section className="mx-auto grid max-w-5xl grid-cols-2 gap-4 gap-y-12 p-8">
+            <section className="mx-auto grid max-w-5xl gap-4 gap-y-12 p-8 sm:grid-cols-2">
               {past.map((booking) => (
                 <BookingCard key={booking.id} booking={booking} upcoming={false} />
               ))}
