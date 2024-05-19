@@ -2,7 +2,8 @@ import type { ReactNode } from 'react';
 
 import remarkGfm from 'remark-gfm';
 
-import { Avatar, AvatarFallback } from '../ui/avatar';
+import { CookieUser, getUserFromCookie } from '@/lib/utils/cookies';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Card } from '../ui/card';
 import { Separator } from '../ui/separator';
 import { MemoizedReactMarkdown } from './Markdown';
@@ -14,34 +15,34 @@ export function SystemMessage(props: {
 }) {
   return (
     <div className="flex flex-col gap-2 py-3">
-      <div className="flex gap-2 items-center">
+      <div className="flex items-center gap-2">
         <Avatar className="size-6 bg-sky-400">
           <AvatarFallback className="text-md bg-sky-400">☀️</AvatarFallback>
         </Avatar>
-        <span className="font-bold text-sm text-slate-900">Daizy</span>
+        <span className="text-sm font-bold text-slate-900">Daizy</span>
       </div>
       {props.richMessage}
       <MemoizedReactMarkdown
-        className="prose break-words prose-p:leading-relaxed prose-pre:p-0"
+        className="prose prose-p:leading-relaxed prose-pre:p-0 break-words"
         remarkPlugins={[remarkGfm]}
         components={{
           p({ children }) {
             return <p className="mb-2 last:mb-0">{children}</p>;
           },
           ul({ children }) {
-            return <ul className="list-disc list-inside">{children}</ul>;
+            return <ul className="list-inside list-disc">{children}</ul>;
           },
           ol({ children }) {
-            return <ol className="list-decimal list-inside [&>li]:py-2 ">{children}</ol>;
+            return <ol className="list-inside list-decimal [&>li]:py-2 ">{children}</ol>;
           },
           li({ children }) {
             return <li className="mb-1 [&_p]:inline">{children}</li>;
           },
           hr() {
-            return <hr className="border-slate-400 my-4 opacity-50" />;
+            return <hr className="my-4 border-slate-400 opacity-50" />;
           },
           blockquote({ children }) {
-            return <blockquote className="bg-slate-100 p-2 mb-2">{children}</blockquote>;
+            return <blockquote className="mb-2 bg-slate-100 p-2">{children}</blockquote>;
           },
         }}
       >
@@ -52,12 +53,14 @@ export function SystemMessage(props: {
   );
 }
 
-export function UserMessage(props: { message: string }) {
+export function UserMessage({ message, user }: { message: string; user: CookieUser }) {
+  // const user = getUserFromCookie();
   return (
     <>
-      <Card className="flex gap-2 py-3 p-2 max-w-[80%] w-fit self-end justify-self-end text-pretty bg-sky-400">
-        <p>{props.message}</p>
+      <Card className="flex w-fit max-w-[80%] gap-2 self-end justify-self-end text-pretty bg-sky-400 p-2 py-3">
+        <p>{message}</p>
         <Avatar className="size-6">
+          <AvatarImage src={user.avatarUrl || undefined}></AvatarImage>
           <AvatarFallback className="text-xs">U</AvatarFallback>
         </Avatar>
       </Card>

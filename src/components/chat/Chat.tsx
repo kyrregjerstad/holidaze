@@ -8,12 +8,13 @@ import { nanoid } from 'nanoid';
 
 import { useScrollAnchor } from '@/lib/hooks/useScrollAnchor';
 import { chatService } from '@/lib/services';
+import { CookieUser } from '@/lib/utils/cookies';
 import { Button } from '../ui/button';
 import { Card, CardHeader } from '../ui/card';
 import { Input } from '../ui/input';
 import { UserMessage } from './Messages';
 
-export function Chat() {
+export function Chat({ user }: { user: CookieUser }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -25,12 +26,18 @@ export function Chat() {
         <BotMessageSquareIcon />
         <span className="sr-only">Toggle Chat</span>
       </Button>
-      {isOpen && <ChatWindow setIsOpen={setIsOpen} />}
+      {isOpen && <ChatWindow setIsOpen={setIsOpen} user={user} />}
     </>
   );
 }
 
-const ChatWindow = ({ setIsOpen }: { setIsOpen: (isOpen: boolean) => void }) => {
+const ChatWindow = ({
+  setIsOpen,
+  user,
+}: {
+  setIsOpen: (isOpen: boolean) => void;
+  user: CookieUser;
+}) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { submitUserMessage } = useActions<typeof chatService.create>();
@@ -48,7 +55,7 @@ const ChatWindow = ({ setIsOpen }: { setIsOpen: (isOpen: boolean) => void }) => 
       {
         id: nanoid(),
         role: 'user',
-        display: <UserMessage message={inputValue} />,
+        display: <UserMessage message={inputValue} user={user} />,
       },
     ]);
     const responseMessage = await submitUserMessage(inputValue);
