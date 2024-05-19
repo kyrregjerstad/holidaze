@@ -176,6 +176,9 @@ importers:
       react-hook-form:
         specifier: ^7.51.2
         version: 7.51.2(react@18.2.0)
+      react-hotjar:
+        specifier: ^6.3.1
+        version: 6.3.1
       react-intersection-observer:
         specifier: ^9.10.2
         version: 9.10.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
@@ -3470,6 +3473,9 @@ packages:
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
+
+  react-hotjar@6.3.1:
+    resolution: {integrity: sha512-EwMqL+ROSlKzatMhT/aqRq7XWWfzlnHynSBSTJh5M2O78mBiPohiSl4Ysls3HOQkkD9y6L22BW0c9bxK2JguwQ==}
 
   react-intersection-observer@9.10.2:
     resolution: {integrity: sha512-j2hGADK2hCbAlfaq6L3tVLb4iqngoN7B1fT16MwJ4J16YW/vWLcmAIinLsw0lgpZeMi4UDUWtHC9QDde0/P1yQ==}
@@ -7873,6 +7879,8 @@ snapshots:
   react-hook-form@7.51.2(react@18.2.0):
     dependencies:
       react: 18.2.0
+
+  react-hotjar@6.3.1: {}
 
   react-intersection-observer@9.10.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0):
     dependencies:

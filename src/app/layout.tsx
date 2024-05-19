@@ -13,6 +13,8 @@ import { ourFileRouter } from './api/uploadthing/core';
 
 import './globals.css';
 
+import { HotJar } from '@/components/HotJar';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -29,6 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <HotJar />
       <body className={inter.className}>
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <chatService.AIProvider>

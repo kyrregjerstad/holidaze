@@ -30,7 +30,7 @@ const SearchPage = async ({ searchParams }: Props) => {
   const { venues } = await venueService.search(cleanedOptions);
 
   return (
-    <section className="max-w-7xl pb-16">
+    <section className="max-w-7xl px-4 pb-16">
       <div className="hidden py-8 sm:block">
         <SearchCard prefilledSearch={transformedOptions} />
       </div>
