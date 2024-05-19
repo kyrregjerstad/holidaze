@@ -19,7 +19,7 @@ export function SystemMessage(props: {
         <Avatar className="size-6 bg-sky-400">
           <AvatarFallback className="text-md bg-sky-400">☀️</AvatarFallback>
         </Avatar>
-        <span className="text-sm font-bold text-slate-900">Daizy</span>
+        <span className="text-sm text-neutral-500">Daizy</span>
       </div>
       {props.richMessage}
       <MemoizedReactMarkdown
@@ -54,15 +54,17 @@ export function SystemMessage(props: {
 }
 
 export function UserMessage({ message, user }: { message: string; user: CookieUser }) {
-  // const user = getUserFromCookie();
   return (
     <>
-      <Card className="flex w-fit max-w-[80%] gap-2 self-end justify-self-end text-pretty bg-sky-400 p-2 py-3">
+      <Card className="flex w-fit max-w-[80%] flex-col gap-2 self-end justify-self-end text-pretty p-2 py-3">
+        <div className="flex items-center gap-2 text-sm">
+          <span className="text-sm text-neutral-500">{user.name}</span>
+          <Avatar className="size-6">
+            <AvatarImage src={user.avatarUrl || undefined}></AvatarImage>
+            <AvatarFallback className="text-xs">{user.name.at(0)}</AvatarFallback>
+          </Avatar>
+        </div>
         <p>{message}</p>
-        <Avatar className="size-6">
-          <AvatarImage src={user.avatarUrl || undefined}></AvatarImage>
-          <AvatarFallback className="text-xs">U</AvatarFallback>
-        </Avatar>
       </Card>
     </>
   );

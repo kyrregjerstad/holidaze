@@ -6,6 +6,7 @@ import { getMutableAIState, streamUI } from 'ai/rsc';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
+import { getUserFromCookie } from '@/lib/utils/cookies';
 import { SystemMessage } from '@/components/chat/Messages';
 import { VenueDetailsCardChat } from '@/components/chat/VenueCardChat';
 import { venueService } from '..';
@@ -17,13 +18,17 @@ export async function submitUserMessage(
   userInput: string
 ): Promise<{ id: string; role: 'assistant'; display: ReactNode }> {
   const history = getMutableAIState();
+  const user = getUserFromCookie();
 
   history.update([...history.get(), { role: 'user', content: userInput }]);
 
   const result = await streamUI({
     model: aiProvider,
     messages: [...history.get(), { role: 'user', content: userInput }],
-    system: systemMessage,
+    system: `you are an assistant chatbot named Daizy to a page called Holidaze, 
+    where users can search for holiday homes from all over the world. 
+    You will help customers find the perfect holiday home and can also assist with booking it. 
+    Keep it casual and friendly. The current user is ${user?.name} and the user is ${user?.isVenueManager ? 'a venue manager' : 'a customer'}.`,
     text: ({ content, done }) => {
       if (done) {
         history.done((messages: ServerMessage[]) => [...messages, { role: 'assistant', content }]);
