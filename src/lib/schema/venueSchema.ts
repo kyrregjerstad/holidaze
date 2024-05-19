@@ -47,13 +47,14 @@ export const bookingSchema = z.object({
   guests: z.number(),
   created: z.string(),
   updated: z.string(),
-  customer: z.object({
-    name: z.string(),
-    email: z.string().email(),
-    bio: z.string().nullable(),
-    avatar: mediaSchema.nullable(),
-    banner: mediaSchema.nullable(),
-  }),
+});
+
+export const customerSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  bio: z.string().nullable(),
+  avatar: mediaSchema.nullable(),
+  banner: mediaSchema.nullable(),
 });
 
 export const ownerSchema = z.object({
@@ -66,11 +67,11 @@ export const ownerSchema = z.object({
 
 export const venueSchemaFull = venueBaseSchema.extend({
   owner: ownerSchema,
-  bookings: z.array(bookingSchema),
+  bookings: z.array(bookingSchema.extend({ customer: customerSchema })),
 });
 
 export const venueSchemaWithBookings = venueBaseSchema.extend({
-  bookings: z.array(bookingSchema),
+  bookings: z.array(bookingSchema.extend({ customer: customerSchema })),
 });
 
 export const venueSchemaWithOwner = venueBaseSchema.extend({
@@ -107,3 +108,5 @@ export const createVenueSchemaFlattened = createVenueSchemaBase
   .merge(amenitiesSchema)
   .merge(locationSchema)
   .merge(z.object({ media: z.array(mediaSchema) }));
+
+export const getAllBookingsSchema = z.array(bookingSchema.extend({ venue: venueBaseSchema }));

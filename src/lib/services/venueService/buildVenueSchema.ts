@@ -2,7 +2,12 @@ import type { VenueBase, VenueFull, VenueWithBookings, VenueWithOwner } from '@/
 
 import { z } from 'zod';
 
-import { bookingSchema, ownerSchema, venueBaseSchema } from '@/lib/schema/venueSchema';
+import {
+  bookingSchema,
+  customerSchema,
+  ownerSchema,
+  venueBaseSchema,
+} from '@/lib/schema/venueSchema';
 
 export function buildVenueSchema(options: { owner: true; bookings: true }): z.ZodSchema<VenueFull>;
 export function buildVenueSchema(options: {
@@ -35,7 +40,9 @@ export function buildVenueSchema(
   }
 
   if (options.bookings === true) {
-    schema = schema.extend({ bookings: z.array(bookingSchema) });
+    schema = schema.extend({
+      bookings: z.array(bookingSchema.extend({ customer: customerSchema })),
+    });
   }
 
   return schema;
