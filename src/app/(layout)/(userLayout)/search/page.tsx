@@ -1,16 +1,18 @@
+import type { SearchOptions } from '@/lib/services/venueService/searchOptionsSchema';
+
 import { notFound } from 'next/navigation';
+
+import { NonUndefined } from 'react-hook-form';
+import { z } from 'zod';
 
 import { venueService } from '@/lib/services';
 import {
   flatSearchOptionsSchema,
   searchOptionsSchema,
-  type SearchOptions,
 } from '@/lib/services/venueService/searchOptionsSchema';
 import { SearchCard } from './SearchCard';
 import { SearchDrawer } from './SearchDrawer';
 import { SearchResult } from './SearchResult';
-import { z } from 'zod';
-import { NonUndefined } from 'react-hook-form';
 
 type Props = {
   searchParams?: Partial<SearchOptions>;
@@ -28,7 +30,7 @@ const SearchPage = async ({ searchParams }: Props) => {
   const { venues } = await venueService.search(cleanedOptions);
 
   return (
-    <section className="container">
+    <section className="max-w-7xl pb-16">
       <div className="hidden py-8 sm:block">
         <SearchCard prefilledSearch={transformedOptions} />
       </div>

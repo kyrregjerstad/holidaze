@@ -49,6 +49,12 @@ export const AccountMenu = ({ user }: Props) => {
             <HomeIcon size={18} />
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/settings" className="flex cursor-pointer justify-end gap-1">
+            Settings
+            <SettingsIcon size={18} />
+          </Link>
+        </DropdownMenuItem>
         {user.isVenueManager && (
           <>
             <Separator className="my-2" />
@@ -66,12 +72,7 @@ export const AccountMenu = ({ user }: Props) => {
             </DropdownMenuItem>
           </>
         )}
-        <DropdownMenuItem asChild>
-          <Link href="/settings" className="flex cursor-pointer justify-end gap-1">
-            Settings
-            <SettingsIcon size={18} />
-          </Link>
-        </DropdownMenuItem>
+
         <Separator className="my-2" />
         <DropdownMenuItem asChild>
           <LogOutBtn />

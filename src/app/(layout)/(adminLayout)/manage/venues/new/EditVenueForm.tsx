@@ -22,6 +22,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
@@ -69,15 +70,9 @@ export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
     },
   });
 
-  console.log('amenities: ', {
-    wifi: venue.meta.wifi,
-    parking: venue.meta.parking,
-    breakfast: venue.meta.breakfast,
-    pets: venue.meta.pets,
-  });
-
   const [images, setImages] = useState<string[]>(venue.media.map((m) => m.url));
   const [files, setFiles] = useState<File[]>([]);
+  const [imagesLoading, setImagesLoading] = useState(false);
 
   const onSubmit = async (data: z.infer<typeof createVenueSchemaFlattened>) => {
     const res = await submitFn(venue.id, {
@@ -129,11 +124,16 @@ export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
             )}
             {images.length < 8 && (
               <ImageUploader
-                files={files}
                 setFiles={setFiles}
                 uploadedImages={images}
                 setUploadedImages={setImages}
+                setImagesLoading={setImagesLoading}
               />
+            )}
+            {images.length === 0 && imagesLoading && (
+              <div className="grid grid-cols-4 gap-2">
+                <Skeleton className="aspect-square" />
+              </div>
             )}
             {images.length > 0 && (
               <div className="grid grid-cols-4 gap-2">
@@ -162,6 +162,7 @@ export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
                       />
                     </div>
                   ))}
+                  {imagesLoading && <Skeleton className="aspect-square" />}
                 </>
               </div>
             )}
