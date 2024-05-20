@@ -1,1 +1,1 @@
-export { create, AIProvider } from './AIActions';
+export { AIcreator as create, AIProvider } from './AIActions';

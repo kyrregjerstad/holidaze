@@ -14,9 +14,11 @@ type BookVenue = {
   venueId: string;
 };
 
+type Schema = z.infer<typeof bookingReturnSchema>;
+
 type CreateBookingReturn = {
-  booking: z.infer<typeof bookingReturnSchema> | null;
-  error: z.ZodError | null;
+  booking: Schema | null;
+  error: z.ZodFormattedError<Schema, string> | null;
   status: number;
 };
 
@@ -28,7 +30,7 @@ export async function createBooking(data: BookVenue): Promise<CreateBookingRetur
       booking: null,
       error: createApiError({
         message: 'Unauthorized',
-      }),
+      }).format(),
       status: 401,
     };
   }
@@ -41,7 +43,7 @@ export async function createBooking(data: BookVenue): Promise<CreateBookingRetur
     schema: createApiResponseSchema(bookingReturnSchema),
   });
 
-  if (!res) return { booking: null, error, status };
+  if (!res) return { booking: null, error: error?.format() ?? null, status };
 
-  return { booking: res?.data, error, status };
+  return { booking: res?.data, error: error?.format() ?? null, status };
 }

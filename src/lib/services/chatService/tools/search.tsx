@@ -1,17 +1,20 @@
+import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import { SystemMessage } from '@/components/chat/Messages';
 import { VenueCardChat, VenueCardChatSkeleton } from '@/components/chat/VenueCardChat';
 import { venueService } from '../..';
 import { searchOptionsSchema } from '../../venueService/searchOptionsSchema';
-import { MutableAiState } from '../types';
+import { MutableAIState } from '../types';
 
-export const searchTool = (history: MutableAiState) => ({
+export const searchTool = (aiState: MutableAIState) => ({
   description: 'Search for holiday homes',
   parameters: searchOptionsSchema,
   generate: async function* (parameters: z.infer<typeof searchOptionsSchema>) {
+    const toolCallId = nanoid();
+
     yield (
-      <div className="grid gap-2 grid-cols-2">
+      <div className="grid grid-cols-2 gap-2">
         <VenueCardChatSkeleton />
         <VenueCardChatSkeleton />
       </div>
@@ -20,13 +23,31 @@ export const searchTool = (history: MutableAiState) => ({
     const { venues, error } = await venueService.search({ ...parameters, amount: 10 });
 
     if (venues.length === 0) {
-      history.done([
-        ...history.get(),
-        {
-          role: 'assistant',
-          content: `Sorry, I couldn't find any venues matching that criteria`,
-        },
-      ]);
+      aiState.done({
+        ...aiState.get(),
+        messages: [
+          ...aiState.get().messages,
+          {
+            id: nanoid(),
+            role: 'assistant',
+            content: [
+              { type: 'tool-call', toolName: 'search', toolCallId, args: { ...parameters } },
+            ],
+          },
+          {
+            id: nanoid(),
+            role: 'tool',
+            content: [
+              {
+                type: 'tool-result',
+                toolName: 'search',
+                toolCallId,
+                result: [],
+              },
+            ],
+          },
+        ],
+      });
 
       return (
         <SystemMessage
@@ -37,13 +58,31 @@ export const searchTool = (history: MutableAiState) => ({
     }
 
     if (error) {
-      history.done([
-        ...history.get(),
-        {
-          role: 'assistant',
-          content: `Sorry, there was an error while performing your search`,
-        },
-      ]);
+      aiState.done({
+        ...aiState.get(),
+        messages: [
+          ...aiState.get().messages,
+          {
+            id: nanoid(),
+            role: 'assistant',
+            content: [
+              { type: 'tool-call', toolName: 'search', toolCallId, args: { ...parameters } },
+            ],
+          },
+          {
+            id: nanoid(),
+            role: 'tool',
+            content: [
+              {
+                type: 'tool-result',
+                toolName: 'search',
+                toolCallId,
+                result: error,
+              },
+            ],
+          },
+        ],
+      });
 
       return (
         <SystemMessage
@@ -61,20 +100,36 @@ export const searchTool = (history: MutableAiState) => ({
       price: venue.price,
     }));
 
-    history.done([
-      ...history.get(),
-      {
-        role: 'assistant',
-        content: `showing search result UI for the following venues: \n ${JSON.stringify(content)} `,
-      },
-    ]);
+    aiState.done({
+      ...aiState.get(),
+      messages: [
+        ...aiState.get().messages,
+        {
+          id: nanoid(),
+          role: 'assistant',
+          content: [{ type: 'tool-call', toolName: 'search', toolCallId, args: { ...parameters } }],
+        },
+        {
+          id: nanoid(),
+          role: 'tool',
+          content: [
+            {
+              type: 'tool-result',
+              toolName: 'search',
+              toolCallId,
+              result: content,
+            },
+          ],
+        },
+      ],
+    });
 
     return (
       <SystemMessage
         message={`I found ${venues.length} venues for you. Click on them to see more details.`}
         needsSep={true}
         richMessage={
-          <div className="grid gap-2 grid-cols-2">
+          <div className="grid grid-cols-2 gap-2">
             {venues.map((venue) => (
               <VenueCardChat key={venue.id} venue={venue} />
             ))}
