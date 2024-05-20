@@ -62,7 +62,9 @@ export const HeroSearch = ({ prefilledTerm }: { prefilledTerm?: string }) => {
         />
       </div>
       <Link
-        className={buttonVariants({ className: 'mt-2 w-full text-lg font-bold' })}
+        className={buttonVariants({
+          className: 'mt-2 w-full bg-black text-lg font-bold text-foreground',
+        })}
         href={`/search?${query.toString()}`}
       >
         Search

@@ -131,3 +131,5 @@ const ManagerPage = ({ profile }: { profile: z.infer<typeof userProfileSchemaExt
     </div>
   );
 };
+
+export const dynamic = 'force-dynamic';
