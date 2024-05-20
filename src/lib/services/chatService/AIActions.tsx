@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid';
 import { VenueFull } from '@/lib/types';
 import { SystemMessage } from '@/components/chat/Messages';
 import { VenueConfirmBookingCardChat } from '@/components/chat/VenueConfirmBookingCardChat';
-import { submitUserMessage } from './actions';
+import { submitUserMessage, userConfirmBooking } from './actions';
 import { AIState, UIState } from './types';
 
 // test data for populating the initial UI state
@@ -72,10 +72,11 @@ const initialUIState: {
 export const AIcreator = createAI<
   AIState,
   UIState,
-  { submitUserMessage: typeof submitUserMessage }
+  { submitUserMessage: typeof submitUserMessage; userConfirmBooking: typeof userConfirmBooking }
 >({
   actions: {
     submitUserMessage,
+    userConfirmBooking,
   },
   initialUIState,
   initialAIState: { chatId: nanoid(), messages: [] },

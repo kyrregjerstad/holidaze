@@ -4,11 +4,12 @@ import { ReactNode } from 'react';
 
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 
-import { createStreamableValue, getMutableAIState, streamUI } from 'ai/rsc';
+import { createStreamableUI, createStreamableValue, getMutableAIState, streamUI } from 'ai/rsc';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import { VenueFull } from '@/lib/types';
+import { runAsyncFnWithoutBlocking } from '@/lib/utils';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { SystemMessage } from '@/components/chat/Messages';
 import { VenueDetailsCardChat } from '@/components/chat/VenueCardChat';
@@ -16,7 +17,10 @@ import {
   VenueConfirmBookingCardChat,
   VenueConfirmBookingCardChatSkeleton,
 } from '@/components/chat/VenueConfirmBookingCardChat';
+import { Skeleton } from '@/components/ui/skeleton';
+import { BookingPreviewCard } from '@/components/venue/BookingPreviewCard';
 import { bookingService, venueService } from '..';
+import { BookVenue } from '../bookingService/createBooking';
 import { aiProvider } from './provider';
 import { searchTool } from './tools/search';
 import { AIChat } from './types';
@@ -305,8 +309,32 @@ export async function submitUserMessage(
           'Create a confirm booking card with prefilled values and present it to the user',
         parameters: z.object({
           venueId: z.string(),
-          startDate: z.date().optional(),
-          endDate: z.date().optional(),
+          startDate: z.coerce
+            .date()
+            .transform((dateString, ctx) => {
+              const date = new Date(dateString);
+
+              if (!z.date().safeParse(date).success) {
+                ctx.addIssue({
+                  code: z.ZodIssueCode.invalid_date,
+                });
+              }
+
+              return date;
+            })
+            .optional()
+            .describe('The date in the format YYYY-MM-DD'),
+          endDate: z.coerce.date().transform((dateString, ctx) => {
+            const date = new Date(dateString);
+
+            if (!z.date().safeParse(date).success) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.invalid_date,
+              });
+            }
+
+            return date;
+          }),
           guests: z.number(),
         }),
         generate: async function* (parameters) {
@@ -314,6 +342,7 @@ export async function submitUserMessage(
           const { venue } = await venueService.getVenueById(parameters.venueId);
           const toolCallId = nanoid();
 
+          console.log(parameters);
           if (!venue) {
             aiState.done({
               ...aiState.get(),
@@ -395,24 +424,68 @@ export async function submitUserMessage(
   };
 }
 
-// export async function userConfirmBooking(venue: VenueFull) {
-//   const aiState = getMutableAIState<AIChat>();
+export async function userConfirmBooking(venue: VenueFull, bookingData: BookVenue) {
+  const aiState = getMutableAIState<AIChat>();
 
-//   aiState.update({
-//     ...aiState.get(),
-//     messages: [
-//       ...aiState.get().messages,
-//       {
-//         id: nanoid(),
-//         role: 'user',
-//         content: `[user confirmed their booking at ${venue.name} ]`,
-//       },
-//     ],
-//   });
+  const booking = createStreamableUI(
+    <div>
+      <Skeleton className="mb-2 h-4 w-1/2" />
+      <p>Booking {venue.name}...</p>
+    </div>
+  );
 
-//   return {
-//     id: nanoid(),
-//     role: 'assistant',
-//     display: <SystemMessage message="Please confirm your booking" needsSep />,
-//   };
-// }
+  const systemMessage = createStreamableUI(null);
+
+  runAsyncFnWithoutBlocking(async () => {
+    booking.update(
+      <div>
+        <Skeleton className="mb-2 h-4 w-1/2" />
+        <p>Booking {venue.name}... ...</p>
+      </div>
+    );
+
+    const { booking: bookingRes, error, status } = await bookingService.createBooking(bookingData);
+
+    console.log({ bookingRes, error, status });
+
+    booking.done(
+      <div>
+        <p className="py-4">
+          You have successfully booked {venue.name}! Here are the booking details.
+        </p>
+      </div>
+    );
+
+    systemMessage.done(
+      <SystemMessage
+        richMessage={<BookingPreviewCard venue={venue} booking={bookingData} headerLink />}
+        needsSep
+      />
+    );
+
+    aiState.done({
+      ...aiState.get(),
+      messages: [
+        ...aiState.get().messages,
+        {
+          id: nanoid(),
+          role: 'system',
+          content: `[user successfully created a booking at ${venue.name} from ]`,
+        },
+        {
+          id: nanoid(),
+          role: 'assistant',
+          content: `Your booking at ${venue.name} has been confirmed. Enjoy your stay!`,
+        },
+      ],
+    });
+  });
+
+  return {
+    confirmationUI: booking.value,
+    newMessage: {
+      id: nanoid(),
+      display: systemMessage.value,
+    },
+  };
+}

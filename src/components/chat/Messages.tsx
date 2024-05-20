@@ -13,11 +13,11 @@ import { Separator } from '../ui/separator';
 import { MemoizedReactMarkdown } from './Markdown';
 
 export function SystemMessage(props: {
-  message: string | StreamableValue<string>;
+  message?: string | StreamableValue<string>;
   needsSep: boolean;
   richMessage?: ReactNode;
 }) {
-  const text = useStreamableText(props.message);
+  const text = useStreamableText(props.message || '');
 
   return (
     <div className="flex flex-col gap-2 py-3">

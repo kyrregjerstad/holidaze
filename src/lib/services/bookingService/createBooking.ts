@@ -7,7 +7,7 @@ import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { bookingReturnSchema, createApiError, createApiResponseSchema } from '@/lib/schema';
 
-type BookVenue = {
+export type BookVenue = {
   dateFrom: string;
   dateTo: string;
   guests: number;
