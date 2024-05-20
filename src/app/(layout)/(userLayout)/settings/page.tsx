@@ -51,7 +51,7 @@ const SettingsPage = async () => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/profile/${user.name}`}>{user.name}</BreadcrumbLink>
+            <BreadcrumbLink href={`/profiles/${user.name}`}>{user.name}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
