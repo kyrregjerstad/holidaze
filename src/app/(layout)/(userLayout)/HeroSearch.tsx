@@ -36,8 +36,13 @@ export const HeroSearch = ({ prefilledTerm }: { prefilledTerm?: string }) => {
 
   return (
     <div className="mx-auto grid w-full max-w-md gap-1">
+      <label htmlFor="search-location" className="sr-only">
+        Search Locations
+      </label>
       <Input
         placeholder="Search location"
+        id="search-location"
+        name="search-location"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyDown={handleSearchInput}
@@ -57,7 +62,7 @@ export const HeroSearch = ({ prefilledTerm }: { prefilledTerm?: string }) => {
         />
       </div>
       <Link
-        className={buttonVariants({ className: 'mt-2 w-full' })}
+        className={buttonVariants({ className: 'mt-2 w-full text-lg font-bold' })}
         href={`/search?${query.toString()}`}
       >
         Search

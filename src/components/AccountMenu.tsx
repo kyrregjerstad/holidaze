@@ -27,9 +27,10 @@ export const AccountMenu = ({ user }: Props) => {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
-          <AvatarImage src={user.avatarUrl || undefined} />
+          <AvatarImage src={user.avatarUrl || undefined} alt="user profile image" />
           <AvatarFallback>{user.name[0]}</AvatarFallback>
         </Avatar>
+        <span className="sr-only">account menu</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="flex max-w-[200px] flex-col gap-1 p-4 sm:p-2">
         <DropdownMenuLabel className="flex max-w-64 flex-col items-end justify-end text-pretty break-all">
