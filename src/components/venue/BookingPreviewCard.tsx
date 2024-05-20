@@ -22,7 +22,7 @@ export const BookingPreviewCard = ({ venue, booking, headerLink }: Props) => {
         <CardTitle>
           <span className="block text-lg font-normal">Your upcoming booking at</span>
           {headerLink ? (
-            <Link href={`/venues/${venue.id}`}>
+            <Link href={`/venues/${venue.id}`} className="hover:underline">
               <span>{venue.name}</span>
             </Link>
           ) : (
@@ -38,7 +38,9 @@ export const BookingPreviewCard = ({ venue, booking, headerLink }: Props) => {
           <Badge className="px-4 py-2">
             {amountOfDays} night{amountOfDays > 1 ? 's' : ''}
           </Badge>
-          <Badge className="px-4 py-2">{booking.guests} guests</Badge>
+          <Badge className="px-4 py-2">
+            {booking.guests} {booking.guests > 1 ? 'guests' : 'guest'}
+          </Badge>
         </div>
       </CardContent>
     </Card>

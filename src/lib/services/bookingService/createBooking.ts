@@ -41,6 +41,7 @@ export async function createBooking(data: BookVenue): Promise<CreateBookingRetur
     data,
     headers: await createAuthHeaders(accessToken),
     schema: createApiResponseSchema(bookingReturnSchema),
+    cacheTags: [`venue-${data.venueId}`],
   });
 
   if (!res) return { booking: null, error: error?.format() ?? null, status };

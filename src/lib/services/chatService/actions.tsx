@@ -446,8 +446,6 @@ export async function userConfirmBooking(venue: VenueFull, bookingData: BookVenu
 
     const { booking: bookingRes, error, status } = await bookingService.createBooking(bookingData);
 
-    console.log({ bookingRes, error, status });
-
     booking.done(
       <div>
         <p className="py-4">
