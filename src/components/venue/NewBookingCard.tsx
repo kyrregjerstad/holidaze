@@ -5,7 +5,7 @@ import type { z } from 'zod';
 
 import { useEffect } from 'react';
 
-import { formatUSD } from '@/lib/utils';
+import { extractBookedDates, formatUSD } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookingDrawer } from '../BookingDrawer';
 import { DatePicker } from '../DatePicker';
@@ -160,21 +160,3 @@ export const NewBookingCard = ({ venue }: Props) => {
     </Card>
   );
 };
-
-function extractBookedDates(bookings: { dateFrom: string; dateTo: string }[]) {
-  return bookings.flatMap(({ dateFrom, dateTo }) => {
-    const start = new Date(dateFrom);
-    const end = new Date(dateTo);
-    return generateDates(start, end);
-  });
-}
-
-function generateDates(start: Date, end: Date): Date[] {
-  if (start > end) {
-    return [];
-  } else {
-    const nextDate = new Date(start);
-    nextDate.setDate(nextDate.getDate() + 1);
-    return [new Date(start), ...generateDates(nextDate, end)];
-  }
-}
