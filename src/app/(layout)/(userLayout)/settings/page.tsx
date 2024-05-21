@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { updateProfileSchema } from '@/lib/schema';
 import { profileService } from '@/lib/services';
-import { getUserFromCookie } from '@/lib/utils/cookies';
+import { getUserFromCookie, updateUserCookie } from '@/lib/utils/cookies';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -35,11 +35,22 @@ const SettingsPage = async () => {
   const updateProfile = async (data: z.infer<typeof updateProfileSchema>) => {
     'use server';
 
-    return await profileService.updateProfile({
+    const res = await profileService.updateProfile({
       name: user.name,
       accessToken,
       data,
     });
+
+    if (res?.profile) {
+      await updateUserCookie({
+        name: res.profile.name,
+        email: res.profile.email,
+        avatarUrl: res.profile.avatar?.url ? encodeURIComponent(res.profile.avatar.url) : null,
+        isVenueManager: res.profile.venueManager || false,
+      });
+    }
+
+    return res;
   };
 
   return (

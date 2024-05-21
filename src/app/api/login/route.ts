@@ -1,5 +1,7 @@
 import type { NextRequest } from 'next/server';
 
+import { cookies } from 'next/headers';
+
 import { loginUserSchema } from '@/lib/schema/userSchema';
 import { authService } from '@/lib/services';
 import { createCookie } from '@/lib/utils/createCookie';

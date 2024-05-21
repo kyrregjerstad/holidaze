@@ -137,8 +137,12 @@ export const UpdateProfileForm = ({ profile, updateProfile }: Props) => {
             name="venueManager"
             render={({ field }) => (
               <FormItem className="flex flex-col gap-2">
-                <FormLabel>I'm a Venue Manager</FormLabel>
-                <Switch {...field} defaultChecked={profile.venueManager} />
+                <FormLabel>I&apos;m a Venue Manager</FormLabel>
+                <Switch
+                  {...field}
+                  onCheckedChange={field.onChange}
+                  defaultChecked={profile.venueManager}
+                />
                 <FormMessage />
               </FormItem>
             )}
