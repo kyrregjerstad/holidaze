@@ -1,12 +1,12 @@
 'use client';
 
 import type { SearchOptions } from '@/lib/services/venueService/searchOptionsSchema';
-import type { KeyboardEvent } from 'react';
+import type { ChangeEvent, KeyboardEvent } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { useSearchQueryParams } from '@/lib/hooks/useQueryParams';
+import { SortField, SortOrder, useSearchQueryParams } from '@/lib/hooks/useQueryParams';
 import { DatePicker } from '@/components/DatePicker';
 import { buttonVariants } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -31,8 +31,8 @@ export const SearchCard = ({ prefilledSearch }: { prefilledSearch?: Partial<Sear
   };
 
   return (
-    <Card className="mx-auto grid max-w-5xl grid-cols-1 gap-4 p-4 text-left md:grid-cols-3">
-      <div>
+    <Card className="mx-auto grid max-w-7xl grid-cols-1 gap-4 p-4 text-left md:grid-cols-9">
+      <div className="md:col-span-3">
         <Label className="text-sm">Keywords</Label>
         <Input
           placeholder="Search by name or description"
@@ -41,7 +41,7 @@ export const SearchCard = ({ prefilledSearch }: { prefilledSearch?: Partial<Sear
           onKeyDown={handleSearchInput}
         />
       </div>
-      <div>
+      <div className="md:col-span-3">
         <Label className="text-sm">Location</Label>
         <Input
           placeholder="City, country or region"
@@ -51,7 +51,7 @@ export const SearchCard = ({ prefilledSearch }: { prefilledSearch?: Partial<Sear
         />
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-4 md:col-span-3 md:gap-2">
         <DatePicker
           bookedDates={[]}
           setDate={(date) =>
@@ -77,9 +77,9 @@ export const SearchCard = ({ prefilledSearch }: { prefilledSearch?: Partial<Sear
           label="To"
         />
       </div>
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between md:col-span-2">
         <Label className="text-sm">Price</Label>
-        <div className="flex w-full gap-2">
+        <div className="flex w-full gap-4 md:gap-2">
           <Input
             type="number"
             className="w-full flex-1"
@@ -106,8 +106,8 @@ export const SearchCard = ({ prefilledSearch }: { prefilledSearch?: Partial<Sear
           />
         </div>
       </div>
-      <div className="flex gap-4">
-        <div className="flex-1">
+      <div className="grid grid-cols-5 gap-4 md:col-span-5">
+        <div className="col-span-1">
           <Label className="text-sm">Guests</Label>
           <Input
             type="number"
@@ -118,29 +118,51 @@ export const SearchCard = ({ prefilledSearch }: { prefilledSearch?: Partial<Sear
             value={params.minGuests}
           />
         </div>
-        <div className="flex-1">
-          <Label className="text-sm">Order</Label>
-          <Select
-            defaultValue="asc"
-            onValueChange={(value) =>
-              params.setSort({ field: 'price', order: value as 'asc' | 'desc' })
-            }
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Ascending" />
-            </SelectTrigger>
-            <SelectContent className="">
-              <SelectItem value="asc">Ascending</SelectItem>
-              <SelectItem value="desc">Descending</SelectItem>
-            </SelectContent>
-          </Select>
+        <div className="col-span-4 grid grid-cols-2 gap-4">
+          <div>
+            <Label className="text-sm">Sort By</Label>
+            <Select
+              defaultValue="created"
+              onValueChange={(field: SortField) =>
+                params.setSort(({ order }) => ({ field, order }))
+              }
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="created" />
+              </SelectTrigger>
+              <SelectContent className="">
+                <SelectItem value="price">Price</SelectItem>
+                <SelectItem value="maxGuests">Guests</SelectItem>
+                <SelectItem value="name">Name</SelectItem>
+                <SelectItem value="created">Created</SelectItem>
+                <SelectItem value="updated">Update</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label className="text-sm">Order</Label>
+            <Select
+              defaultValue="asc"
+              onValueChange={(order: SortOrder) =>
+                params.setSort(({ field }) => ({ field, order }))
+              }
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Ascending" />
+              </SelectTrigger>
+              <SelectContent className="">
+                <SelectItem value="asc">Ascending</SelectItem>
+                <SelectItem value="desc">Descending</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
       <Link
         type="submit"
         href={`/search?${params.getSearchParams()}`}
-        className={buttonVariants({ className: 'w-full self-end' })}
+        className={buttonVariants({ className: 'w-full self-end md:col-span-2' })}
       >
         Search
       </Link>

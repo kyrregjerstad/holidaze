@@ -62,6 +62,7 @@ export const flatSearchOptionsSchema = z.object({
     .optional()
     .describe('Field to sort by'),
   sortOrder: z.enum(['asc', 'desc']).optional().describe('Sort order'),
+  sortBy: z.enum(['price', 'maxGuests', 'name', 'created', 'updated']).optional(),
 });
 
 export type FlatSearchOptions = z.infer<typeof flatSearchOptionsSchema>;

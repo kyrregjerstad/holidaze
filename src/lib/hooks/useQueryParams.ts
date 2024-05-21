@@ -2,6 +2,8 @@ import type { SearchOptions } from '../services/venueService/searchOptionsSchema
 
 import { useState } from 'react';
 
+export type SortField = 'price' | 'maxGuests' | 'name' | 'created' | 'updated';
+export type SortOrder = 'asc' | 'desc';
 export const useSearchQueryParams = (prefilledValues?: Partial<SearchOptions>) => {
   const [searchText, setSearchText] = useState<string>(prefilledValues?.searchText || '');
   const [price, setPrice] = useState<{ min?: number; max?: number }>({
@@ -20,8 +22,8 @@ export const useSearchQueryParams = (prefilledValues?: Partial<SearchOptions>) =
   });
   const [minGuests, setMinGuests] = useState<number | undefined>(prefilledValues?.minGuests);
   const [sort, setSort] = useState<{
-    field: 'price' | 'maxGuests' | 'name' | 'created' | 'updated';
-    order: 'asc' | 'desc';
+    field: SortField;
+    order: SortOrder;
   }>({
     field: prefilledValues?.sort?.field || 'price',
     order: prefilledValues?.sort?.order || 'asc',
