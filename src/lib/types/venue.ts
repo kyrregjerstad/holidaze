@@ -15,8 +15,3 @@ export type VenueFull = z.infer<typeof venueSchemaFull>;
 
 export type Amenities = z.infer<typeof amenitiesSchema>;
 export type CreateVenue = z.infer<typeof createVenueSchema>;
-
-export interface ServiceReturn {
-  error: z.ZodError | null;
-  status: number;
-}

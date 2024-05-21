@@ -90,8 +90,5 @@ const countTotalDays = (booking: { dateFrom: Date; dateTo: Date }) =>
 
 const removePastDates = (booking: { dateTo: Date }) => !isPast(booking.dateTo);
 
-export const sortDatesAsc = (booking: { dateFrom: Date; dateTo: Date }) =>
+const sortDatesAsc = (booking: { dateFrom: Date; dateTo: Date }) =>
   compareAsc(booking.dateFrom, booking.dateTo);
-
-export const sortDatesDesc = (booking: { dateFrom: Date; dateTo: Date }) =>
-  compareAsc(booking.dateTo, booking.dateFrom);

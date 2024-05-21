@@ -8,11 +8,12 @@ import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
 import { extractRouterConfig } from 'uploadthing/server';
 
 import { chatService } from '@/lib/services';
-import { HotJar } from '@/components/HotJar';
 import { Toaster } from '@/components/ui/toaster';
 import { ourFileRouter } from './api/uploadthing/core';
 
 import './globals.css';
+
+import { Analytics } from '@/components/Analytics';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <HotJar />
+      <Analytics />
       <body className={inter.className}>
         <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <chatService.AIProvider>

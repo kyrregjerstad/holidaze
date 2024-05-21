@@ -82,5 +82,4 @@ export const AIcreator = createAI<
   initialAIState: { chatId: nanoid(), messages: [] },
 });
 
-export type CreateAi = ReturnType<typeof AIcreator>;
 export { AIcreator as AIProvider };

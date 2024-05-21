@@ -3,11 +3,6 @@ import { getMutableAIState } from 'ai/rsc';
 
 import { AIcreator } from './AIActions';
 
-export type ServerMessage = {
-  role: 'user' | 'assistant';
-  content: string;
-};
-
 type Message = CoreMessage & {
   id: string;
 };
