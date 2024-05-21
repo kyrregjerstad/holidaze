@@ -17,6 +17,7 @@ import { createVenueSchemaFlattened } from '@/lib/schema/venueSchema';
 import { CreateVenue } from '@/lib/types';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { ImageUploader } from '@/components/ImageUploader';
+import { Spinner } from '@/components/Spinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -95,10 +96,10 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
     });
 
     if (res.error) {
-      form.setError('root', { message: res.error.message });
+      form.setError('root', { message: res.error._errors.map((e) => e).join(' ') });
       toast({
         title: 'Error',
-        description: res.error.message,
+        description: res.error._errors.map((e) => e).join(' '),
         variant: 'destructive',
       });
       return;
@@ -282,8 +283,8 @@ export const NewVenueForm = ({ submitFn, onSuccess }: Props) => {
             </APIProvider>
           </CardContent>
           <CardFooter>
-            <Button className="ml-auto" disabled={form.formState.isSubmitting}>
-              Create Venue
+            <Button className="ml-auto w-32" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting ? <Spinner /> : <>Create Venue</>}
             </Button>
           </CardFooter>
         </form>

@@ -40,23 +40,6 @@ export function getNoroffApiKey() {
 
   return apiKey;
 }
-export function extractBookedDates(bookings: { dateFrom: string; dateTo: string }[]) {
-  return bookings.flatMap(({ dateFrom, dateTo }) => {
-    const start = new Date(dateFrom);
-    const end = new Date(dateTo);
-    return generateDates(start, end);
-  });
-}
-
-function generateDates(start: Date, end: Date): Date[] {
-  if (start > end) {
-    return [];
-  } else {
-    const nextDate = new Date(start);
-    nextDate.setDate(nextDate.getDate() + 1);
-    return [new Date(start), ...generateDates(nextDate, end)];
-  }
-}
 export function checkAvailability(
   startDate?: Date,
   endDate?: Date,
@@ -74,3 +57,19 @@ export function checkAvailability(
 export const runAsyncFnWithoutBlocking = (fn: (...args: any) => Promise<any>) => {
   fn();
 };
+export function extractBookedDates(bookings: { dateFrom: string; dateTo: string }[]) {
+  return bookings.flatMap(({ dateFrom, dateTo }) => {
+    const start = new Date(dateFrom);
+    const end = new Date(dateTo);
+    return generateDates(start, end);
+  });
+}
+function generateDates(start: Date, end: Date): Date[] {
+  if (start > end) {
+    return [];
+  } else {
+    const nextDate = new Date(start);
+    nextDate.setDate(nextDate.getDate() + 1);
+    return [new Date(start), ...generateDates(nextDate, end)];
+  }
+}

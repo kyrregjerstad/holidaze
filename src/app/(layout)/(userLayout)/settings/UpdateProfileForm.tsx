@@ -8,8 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { updateProfileSchema } from '@/lib/schema';
+import { updateProfileSchema, updateUserProfileResponse } from '@/lib/schema';
 import { UpdateProfileReturn } from '@/lib/services/profileService/updateProfile';
+import { Spinner } from '@/components/Spinner';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -32,7 +33,9 @@ type Props = {
     } | null;
     venueManager: boolean;
   };
-  updateProfile: (data: Schema) => Promise<UpdateProfileReturn>;
+  updateProfile: (
+    data: Schema
+  ) => Promise<UpdateProfileReturn<z.infer<typeof updateUserProfileResponse> | null>>;
 };
 export const UpdateProfileForm = ({ profile, updateProfile }: Props) => {
   const form = useForm<Schema>({
@@ -135,8 +138,12 @@ export const UpdateProfileForm = ({ profile, updateProfile }: Props) => {
             name="venueManager"
             render={({ field }) => (
               <FormItem className="flex flex-col gap-2">
-                <FormLabel>I'm a Venue Manager</FormLabel>
-                <Switch {...field} defaultChecked={profile.venueManager} />
+                <FormLabel>I&apos;m a Venue Manager</FormLabel>
+                <Switch
+                  {...field}
+                  onCheckedChange={field.onChange}
+                  defaultChecked={profile.venueManager}
+                />
                 <FormMessage />
               </FormItem>
             )}
@@ -146,7 +153,7 @@ export const UpdateProfileForm = ({ profile, updateProfile }: Props) => {
               Cancel
             </Button>
             <Button type="submit" disabled={form.formState.isSubmitting || !form.formState.isDirty}>
-              Update Profile
+              {form.formState.isSubmitting ? <Spinner /> : 'Update Profile'}
             </Button>
           </div>
         </form>

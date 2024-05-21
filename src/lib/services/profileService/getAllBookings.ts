@@ -4,23 +4,19 @@ import { z } from 'zod';
 
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
-import {
-  bookingSchema,
-  createApiResponseSchema,
-  getAllBookingsSchema,
-  venueBaseSchema,
-} from '@/lib/schema';
+import { ServiceReturnBase } from '@/lib/api/types';
+import { createApiResponseSchema, getAllBookingsSchema } from '@/lib/schema';
 
-type FetchProfileByNameReturn = {
-  bookings: z.infer<typeof getAllBookingsSchema> | null;
-  error: z.ZodError | null;
-  status: number;
-};
+type Bookings = z.infer<typeof getAllBookingsSchema>;
+
+interface FetchProfileByNameReturn<T> extends ServiceReturnBase<T> {
+  bookings: T;
+}
 
 export async function getAllBookings(
   name: string,
   accessToken: string
-): Promise<FetchProfileByNameReturn> {
+): Promise<FetchProfileByNameReturn<Bookings | null>> {
   const { res, error, status } = await holidazeAPI({
     endpoint: `/profiles/${name}/bookings`,
     schema: createApiResponseSchema(getAllBookingsSchema),

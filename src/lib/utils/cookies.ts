@@ -10,7 +10,7 @@ export function getUserFromCookie() {
   }
 
   const userJson = decodeURIComponent(user);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
   const userData = JSON.parse(userJson);
 
   const validation = userCookieSchema.safeParse(userData);
@@ -30,3 +30,16 @@ const userCookieSchema = z.object({
 });
 
 export type CookieUser = z.infer<typeof userCookieSchema>;
+
+export async function updateUserCookie(user: {
+  name: string;
+  email: string;
+  avatarUrl: string | null;
+  isVenueManager: boolean;
+}) {
+  'use server';
+  cookies().set('user', JSON.stringify(user), {
+    maxAge: 60 * 60 * 24 * 7,
+    path: '/',
+  });
+}

@@ -6,12 +6,14 @@ import React from 'react';
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
 
+import { Metadata } from 'next';
+
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 import { profileService } from '@/lib/services';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { VenueCard } from '@/components/VenueCard';
 
 type Props = {
@@ -118,9 +120,11 @@ const ManagerPage = ({ profile }: { profile: z.infer<typeof userProfileSchemaExt
                 </div>
               </>
             ) : (
-              <Card>
+              <Card className="w-fit">
+                <CardHeader>
+                  <CardTitle>No venues found</CardTitle>
+                </CardHeader>
                 <CardContent>
-                  <h3 className="text-xl font-semibold">No venues found</h3>
                   <p>{profile.name} has not created any venues yet. Check back later.</p>
                 </CardContent>
               </Card>
@@ -130,4 +134,10 @@ const ManagerPage = ({ profile }: { profile: z.infer<typeof userProfileSchemaExt
       </section>
     </div>
   );
+};
+
+export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Profile',
 };

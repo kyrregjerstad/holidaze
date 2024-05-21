@@ -4,11 +4,13 @@ import { Suspense } from 'react';
 
 import { notFound } from 'next/navigation';
 
+import { Metadata } from 'next';
 import { z } from 'zod';
 
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { amenitiesKeysSchema } from '@/lib/schema/venueSchema';
 import { venueService } from '@/lib/services';
+import { extractBookedDates } from '@/lib/utils';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { Debug } from '@/components/Debug';
 import {
@@ -19,6 +21,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { Calendar } from '@/components/ui/calendar';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BookingPreviewCard } from '@/components/venue/BookingPreviewCard';
@@ -50,6 +53,8 @@ const VenuePage = async ({ params }: Props) => {
       .filter(([_key, value]) => Boolean(value))
       .map(([key]) => key)
   );
+
+  const disabledDates = extractBookedDates(venue.bookings);
 
   return (
     <div className="mx-auto w-full max-w-6xl px-4">
@@ -93,6 +98,9 @@ const VenuePage = async ({ params }: Props) => {
             </div>
           )}
           <div className="grid gap-4">
+            <h3>Calendar</h3>
+          </div>
+          <div className="grid gap-4">
             <h3 className="text-xl font-semibold">About the Owner</h3>
             <OwnerCard owner={venue.owner} />
           </div>
@@ -104,7 +112,24 @@ const VenuePage = async ({ params }: Props) => {
           </Suspense>
         </div>
       </section>
+
       <LocationMap location={venue.location} />
+      <Separator className="my-20" />
+      <h2 className="pb-8 text-xl font-semibold">Availability</h2>
+      <Calendar
+        classNames={{
+          months: 'flex flex-col md:flex-row justify-center gap-8 md:gap-8',
+          caption_start: 'w-full',
+          caption_end: 'w-full',
+          caption_label: 'text-lg font-semibold',
+          cell: 'w-full flex justify-center items-center ',
+          day: 'text-center flex justify-center items-center text-lg w-12 h-12 lg:w-16 lg:h-16',
+          head_cell: 'w-full',
+        }}
+        className="w-full p-0"
+        numberOfMonths={2}
+        disabled={disabledDates}
+      />
       <Separator className="my-12" />
       <section className="">
         <h3 className="pb-4 text-xl font-bold">Other venues by {venue.owner.name}: </h3>
@@ -175,4 +200,8 @@ const InfoCards = async ({ venue }: { venue: VenueFull }) => {
       <ReportDialog />
     </div>
   );
+};
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Venue Details',
 };

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { FrownIcon } from 'lucide-react';
+import { Metadata } from 'next';
 
 export default async function NotFound() {
   return (
@@ -11,8 +12,8 @@ export default async function NotFound() {
           Oops! This page could not be found.
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          The page you're looking for doesn't seem to exist. It may have been removed or the link
-          you followed was incorrect.
+          The page you&apos;re looking for doesn&apos;t seem to exist. It may have been removed or
+          the link you followed was incorrect.
         </p>
         <Link
           className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-6 font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-950 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-200 dark:focus:ring-gray-300"
@@ -24,3 +25,7 @@ export default async function NotFound() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Not Found',
+};

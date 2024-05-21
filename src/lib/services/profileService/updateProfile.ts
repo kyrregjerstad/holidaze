@@ -4,17 +4,17 @@ import { z } from 'zod';
 
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
+import { ServiceReturnBase } from '@/lib/api/types';
 import {
   createApiResponseSchema,
   updateProfileSchema,
   updateUserProfileResponse,
 } from '@/lib/schema';
 
-export type UpdateProfileReturn = {
-  profile: z.infer<typeof updateUserProfileResponse> | null;
-  error: z.ZodError | null;
-  status: number;
-};
+type Profile = z.infer<typeof updateUserProfileResponse>;
+export interface UpdateProfileReturn<T> extends ServiceReturnBase<T> {
+  profile: T;
+}
 
 export async function updateProfile({
   name,
@@ -24,7 +24,7 @@ export async function updateProfile({
   name: string;
   accessToken: string;
   data: z.infer<typeof updateProfileSchema>;
-}): Promise<UpdateProfileReturn> {
+}): Promise<UpdateProfileReturn<Profile | null>> {
   const { res, error, status } = await holidazeAPI({
     endpoint: `/profiles/${name}`,
     method: 'PUT',

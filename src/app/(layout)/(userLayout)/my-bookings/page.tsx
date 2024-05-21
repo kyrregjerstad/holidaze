@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { Metadata } from 'next';
+
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { bookingService, profileService } from '@/lib/services';
 import { getUserFromCookie } from '@/lib/utils/cookies';
@@ -64,7 +66,7 @@ const MyBookingsPage = async ({ searchParams }: Props) => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/profile/${user.name}`}>{user.name}</BreadcrumbLink>
+            <BreadcrumbLink href={`/profiles/${user.name}`}>{user.name}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -109,3 +111,7 @@ const MyBookingsPage = async ({ searchParams }: Props) => {
 };
 
 export default MyBookingsPage;
+
+export const metadata: Metadata = {
+  title: 'Holidaze | My Bookings',
+};

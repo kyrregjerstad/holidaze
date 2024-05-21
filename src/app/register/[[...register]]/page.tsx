@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 
 import { Header } from '@/app/login/[[...login]]/Header';
+import { Metadata } from 'next';
 
 import { BackgroundClipPath } from '@/components/BackgroundClipPath';
 import { BackgroundImage } from '@/components/BackgroundImage';
@@ -30,3 +31,7 @@ export default async function Page() {
     </section>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Register',
+};

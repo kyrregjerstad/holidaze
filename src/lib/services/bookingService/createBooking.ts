@@ -5,6 +5,7 @@ import type { z } from 'zod';
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
+import { ServiceReturnBase } from '@/lib/api/types';
 import { bookingReturnSchema, createApiError, createApiResponseSchema } from '@/lib/schema';
 
 export type BookVenue = {
@@ -13,16 +14,13 @@ export type BookVenue = {
   guests: number;
   venueId: string;
 };
+type Booking = z.infer<typeof bookingReturnSchema>;
 
-type Schema = z.infer<typeof bookingReturnSchema>;
+interface CreateBookingReturn<T> extends ServiceReturnBase<T> {
+  booking: T;
+}
 
-type CreateBookingReturn = {
-  booking: Schema | null;
-  error: z.ZodFormattedError<Schema, string> | null;
-  status: number;
-};
-
-export async function createBooking(data: BookVenue): Promise<CreateBookingReturn> {
+export async function createBooking(data: BookVenue): Promise<CreateBookingReturn<Booking | null>> {
   const accessToken = await getAccessTokenCookie();
 
   if (!accessToken) {
@@ -44,7 +42,7 @@ export async function createBooking(data: BookVenue): Promise<CreateBookingRetur
     cacheTags: [`venue-${data.venueId}`],
   });
 
-  if (!res) return { booking: null, error: error?.format() ?? null, status };
+  if (!res) return { booking: null, error, status };
 
-  return { booking: res?.data, error: error?.format() ?? null, status };
+  return { booking: res?.data, error, status };
 }

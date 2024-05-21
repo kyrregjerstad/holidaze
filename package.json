@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
+    "test:unit": "vitest",
     "test:e2e": "playwright test",
     "knip": "knip"
   },
@@ -88,18 +89,25 @@
     "@playwright/test": "^1.44.0",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tanstack/eslint-plugin-query": "^5.28.11",
+    "@testing-library/react": "^15.0.7",
     "@types/lodash": "^4.17.0",
     "@types/node": "^20.12.5",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.24",
-    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "autoprefixer": "^10.4.19",
-    "eslint": "8.2.0",
+    "eslint": "8.1.0",
     "eslint-config-next": "14.2.3",
+    "jsdom": "^24.0.0",
     "knip": "^5.15.1",
     "postcss": "^8.4.38",
     "prettier-plugin-tailwindcss": "0.0.0-insiders.3c9ce4e",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^1.6.0",
+    "vitest-fetch-mock": "^0.2.2"
   }
 }

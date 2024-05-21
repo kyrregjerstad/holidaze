@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { Metadata } from 'next';
 import { z } from 'zod';
 
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
@@ -66,3 +67,7 @@ const paramsSchema = z.object({
 export default VenuePage;
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Manage Venue',
+};
