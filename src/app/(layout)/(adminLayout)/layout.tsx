@@ -17,7 +17,7 @@ export default function AdminLayout({
       </div>
       <div className="flex w-full flex-col items-center sm:col-start-2">
         <AdminHeader />
-        <div className="max-w-8xl w-full overflow-y-auto overflow-x-hidden">{children}</div>
+        <div className="w-full max-w-8xl overflow-y-auto overflow-x-hidden">{children}</div>
       </div>
     </div>
   );

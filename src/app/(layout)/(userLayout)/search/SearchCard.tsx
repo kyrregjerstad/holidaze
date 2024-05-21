@@ -1,10 +1,12 @@
 'use client';
 
+import type { SearchOptions } from '@/lib/services/venueService/searchOptionsSchema';
 import type { KeyboardEvent } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { useSearchQueryParams } from '@/lib/hooks/useQueryParams';
 import { DatePicker } from '@/components/DatePicker';
 import { buttonVariants } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -17,8 +19,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useSearchQueryParams } from '@/lib/hooks/useQueryParams';
-import type { SearchOptions } from '@/lib/services/venueService/searchOptionsSchema';
 
 export const SearchCard = ({ prefilledSearch }: { prefilledSearch?: Partial<SearchOptions> }) => {
   const router = useRouter();

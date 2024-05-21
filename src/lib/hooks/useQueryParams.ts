@@ -1,4 +1,5 @@
 import type { SearchOptions } from '../services/venueService/searchOptionsSchema';
+
 import { useState } from 'react';
 
 export const useSearchQueryParams = (prefilledValues?: Partial<SearchOptions>) => {

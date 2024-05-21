@@ -1,3 +1,4 @@
+import { SearchOptions } from '@/lib/services/venueService/searchOptionsSchema';
 import { buttonVariants } from '@/components/ui/button';
 import {
   Drawer,
@@ -7,7 +8,6 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { SearchCard } from './SearchCard';
-import { SearchOptions } from '@/lib/services/venueService/searchOptionsSchema';
 
 export const SearchDrawer = ({ prefilledSearch }: { prefilledSearch?: Partial<SearchOptions> }) => {
   return (
