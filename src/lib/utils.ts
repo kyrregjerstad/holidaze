@@ -1,6 +1,7 @@
 import type { ClassValue } from 'clsx';
 
 import { clsx } from 'clsx';
+import { areIntervalsOverlapping } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -39,6 +40,23 @@ export function getNoroffApiKey() {
 
   return apiKey;
 }
+export function checkAvailability(
+  startDate?: Date,
+  endDate?: Date,
+  bookedDates: Date[] = []
+): boolean {
+  return !(
+    startDate &&
+    endDate &&
+    bookedDates.some((date) =>
+      areIntervalsOverlapping({ start: startDate, end: endDate }, { start: date, end: date })
+    )
+  );
+}
+
+export const runAsyncFnWithoutBlocking = (fn: (...args: any) => Promise<any>) => {
+  fn();
+};
 export function extractBookedDates(bookings: { dateFrom: string; dateTo: string }[]) {
   return bookings.flatMap(({ dateFrom, dateTo }) => {
     const start = new Date(dateFrom);

@@ -8,7 +8,7 @@ import { holidazeAPI } from '@/lib/api/holidazeAPI';
 import { ServiceReturnBase } from '@/lib/api/types';
 import { bookingReturnSchema, createApiError, createApiResponseSchema } from '@/lib/schema';
 
-type BookVenue = {
+export type BookVenue = {
   dateFrom: string;
   dateTo: string;
   guests: number;
@@ -39,6 +39,7 @@ export async function createBooking(data: BookVenue): Promise<CreateBookingRetur
     data,
     headers: await createAuthHeaders(accessToken),
     schema: createApiResponseSchema(bookingReturnSchema),
+    cacheTags: [`venue-${data.venueId}`],
   });
 
   if (!res) return { booking: null, error, status };

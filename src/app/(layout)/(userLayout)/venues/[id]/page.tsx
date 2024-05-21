@@ -191,9 +191,11 @@ const InfoCards = async ({ venue }: { venue: VenueFull }) => {
     return <VenueManagerCard venue={venue} deleteVenue={deleteVenue} />;
   }
 
+  const upcomingUserBooking = venue.bookings.find((booking) => booking.customer.name === user.name);
+
   return (
     <div className="flex flex-col justify-center gap-4">
-      <BookingPreviewCard venue={venue} user={user} />
+      {upcomingUserBooking && <BookingPreviewCard venue={venue} booking={upcomingUserBooking} />}
       <NewBookingCard venue={venue} />
       <ReportDialog />
     </div>

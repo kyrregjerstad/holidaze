@@ -30,7 +30,27 @@ export const NewBookingCard = ({ venue }: Props) => {
   const inOneWeek = new Date(today);
   inOneWeek.setDate(inOneWeek.getDate() + 7);
 
+  function extractBookedDates(bookings: { dateFrom: string; dateTo: string }[]) {
+    return bookings.flatMap(({ dateFrom, dateTo }) => {
+      const start = new Date(dateFrom);
+      const end = new Date(dateTo);
+      return generateDates(start, end);
+    });
+  }
+
+  function generateDates(start: Date, end: Date): Date[] {
+    if (start > end) {
+      return [];
+    } else {
+      const nextDate = new Date(start);
+      nextDate.setDate(nextDate.getDate() + 1);
+      return [new Date(start), ...generateDates(nextDate, end)];
+    }
+  }
+
   const bookedDates = extractBookedDates(venue.bookings);
+
+  console.log('bookedDates', bookedDates);
 
   const {
     startDate,

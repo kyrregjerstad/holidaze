@@ -1,8 +1,12 @@
 'use client';
 
+import type { AIChat } from '@/lib/services/chatService/types';
+
 import { useState } from 'react';
 
-import { useActions, useUIState } from 'ai/rsc';
+import { useParams, usePathname } from 'next/navigation';
+
+import { useActions, useAIState, useUIState } from 'ai/rsc';
 import { BotMessageSquareIcon, ChevronDownIcon } from 'lucide-react';
 import { nanoid } from 'nanoid';
 
@@ -40,12 +44,22 @@ const ChatWindow = ({
 }) => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { submitUserMessage } = useActions<typeof chatService.create>();
 
-  const [messages, setMessages] = useUIState<typeof chatService.create>();
+  const { submitUserMessage } = useActions<AIChat>();
+  const [messages, setMessages] = useUIState<AIChat>();
+  const [aiState] = useAIState();
+
   const [previousMessage, setPreviousMessage] = useState<string | null>(null);
 
   const { messagesRef, scrollRef, visibilityRef, isAtBottom, scrollToBottom } = useScrollAnchor();
+  const params = useParams();
+  const pathname = usePathname();
+
+  const userMeta = {
+    pathname,
+    params,
+    currentTime: new Date().toISOString(),
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,7 +72,7 @@ const ChatWindow = ({
         display: <UserMessage message={inputValue} user={user} />,
       },
     ]);
-    const responseMessage = await submitUserMessage(inputValue);
+    const responseMessage = await submitUserMessage(inputValue, userMeta);
 
     setMessages((currentMessages) => [...currentMessages, responseMessage]);
 

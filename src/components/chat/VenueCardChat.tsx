@@ -13,7 +13,7 @@ export const VenueCardChat = ({ venue }: { venue: VenueBase }) => {
     <Card className="overflow-hidden">
       <Link href={`/venues/${venue.id}`} className="group cursor-pointer">
         <CardHeader className="p-0">
-          <div className="overflow-hidden aspect-square">
+          <div className="aspect-square overflow-hidden">
             <VenueCardImage
               url={venue.media?.at(0)?.url}
               name={venue.name}
@@ -22,7 +22,7 @@ export const VenueCardChat = ({ venue }: { venue: VenueBase }) => {
           </div>
         </CardHeader>
         <CardContent className="truncate p-0 px-2">
-          <CardTitle className="truncate text-lg group-hover:underline p-0">{venue.name}</CardTitle>
+          <CardTitle className="truncate p-0 text-lg group-hover:underline">{venue.name}</CardTitle>
           {venue.location.city && venue.location.country ? (
             <span className="text-sm">
               {venue.location.city}, {venue.location.country}
@@ -57,8 +57,8 @@ export const VenueDetailsCardChat = ({ venue }: { venue: VenueFull }) => {
         </div>
       </CardHeader>
       <CardContent className="truncate p-0 px-2">
-        <Link href={`/venues/${venue.id}`} className="cursor-pointer group">
-          <CardTitle className="truncate text-lg group-hover:underline p-0">{venue.name}</CardTitle>
+        <Link href={`/venues/${venue.id}`} className="group cursor-pointer">
+          <CardTitle className="truncate p-0 text-lg group-hover:underline">{venue.name}</CardTitle>
         </Link>
         <div>
           {venue.location.city && venue.location.country ? (
@@ -75,9 +75,9 @@ export const VenueDetailsCardChat = ({ venue }: { venue: VenueFull }) => {
 
         <span className="max-w-[150px] truncate">{formatUSD(venue.price)} per night</span>
       </CardContent>
-      <CardFooter className="p-2 flex flex-col">
+      <CardFooter className="flex flex-col p-2">
         <Button className="w-full">Reserve</Button>
-        <span className="text-neutral-400 text-sm py-2">You won't be charged yet</span>
+        <span className="py-2 text-sm text-neutral-400">You won't be charged yet</span>
       </CardFooter>
     </Card>
   );

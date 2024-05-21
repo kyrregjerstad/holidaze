@@ -1,5 +1,7 @@
-import { addDays, areIntervalsOverlapping, differenceInDays } from 'date-fns';
+import { addDays, differenceInDays } from 'date-fns';
 import { create } from 'zustand';
+
+import { checkAvailability } from '@/lib/utils';
 
 type FormState = {
   startDate: Date | undefined;
@@ -48,13 +50,3 @@ export const useBookingStore = create<FormState>((set, get) => ({
     }
   },
 }));
-
-function checkAvailability(startDate?: Date, endDate?: Date, bookedDates: Date[] = []): boolean {
-  return !(
-    startDate &&
-    endDate &&
-    bookedDates.some((date) =>
-      areIntervalsOverlapping({ start: startDate, end: endDate }, { start: date, end: date })
-    )
-  );
-}

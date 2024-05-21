@@ -1,7 +1,11 @@
+'use client';
+
 import type { ReactNode } from 'react';
 
+import { StreamableValue } from 'ai/rsc';
 import remarkGfm from 'remark-gfm';
 
+import { useStreamableText } from '@/lib/hooks/useStreamableText';
 import { CookieUser, getUserFromCookie } from '@/lib/utils/cookies';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Card } from '../ui/card';
@@ -9,10 +13,12 @@ import { Separator } from '../ui/separator';
 import { MemoizedReactMarkdown } from './Markdown';
 
 export function SystemMessage(props: {
-  message: string;
+  message?: string | StreamableValue<string>;
   needsSep: boolean;
   richMessage?: ReactNode;
 }) {
+  const text = useStreamableText(props.message || '');
+
   return (
     <div className="flex flex-col gap-2 py-3">
       <div className="flex items-center gap-2">
@@ -46,7 +52,7 @@ export function SystemMessage(props: {
           },
         }}
       >
-        {props.message}
+        {text}
       </MemoizedReactMarkdown>
       {props.needsSep && <Separator />}
     </div>
