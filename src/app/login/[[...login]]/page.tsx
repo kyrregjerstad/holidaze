@@ -23,7 +23,7 @@ export default function Page({ searchParams }: Props) {
 
   return (
     <section>
-      <div className="relative grid h-svh w-screen grid-cols-1 items-baseline p-4 md:grid-cols-2 md:items-center">
+      <div className="relative grid h-svh w-screen grid-cols-1 items-baseline overflow-hidden p-4 md:grid-cols-2 md:items-center">
         <div className="absolute z-10 h-full w-full drop-shadow-md">
           <BackgroundClipPath />
         </div>
