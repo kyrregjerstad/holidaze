@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { updateProfileSchema } from '@/lib/schema';
+import { updateProfileSchema, updateUserProfileResponse } from '@/lib/schema';
 import { UpdateProfileReturn } from '@/lib/services/profileService/updateProfile';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -32,7 +32,9 @@ type Props = {
     } | null;
     venueManager: boolean;
   };
-  updateProfile: (data: Schema) => Promise<UpdateProfileReturn>;
+  updateProfile: (
+    data: Schema
+  ) => Promise<UpdateProfileReturn<z.infer<typeof updateUserProfileResponse> | null>>;
 };
 export const UpdateProfileForm = ({ profile, updateProfile }: Props) => {
   const form = useForm<Schema>({

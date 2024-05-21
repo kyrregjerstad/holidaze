@@ -5,6 +5,7 @@ import type { z } from 'zod';
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
+import { ServiceReturnBase } from '@/lib/api/types';
 import { bookingReturnSchema, createApiError, createApiResponseSchema } from '@/lib/schema';
 
 type BookVenue = {
@@ -13,14 +14,13 @@ type BookVenue = {
   guests: number;
   venueId: string;
 };
+type Booking = z.infer<typeof bookingReturnSchema>;
 
-type CreateBookingReturn = {
-  booking: z.infer<typeof bookingReturnSchema> | null;
-  error: z.ZodError | null;
-  status: number;
-};
+interface CreateBookingReturn<T> extends ServiceReturnBase<T> {
+  booking: T;
+}
 
-export async function createBooking(data: BookVenue): Promise<CreateBookingReturn> {
+export async function createBooking(data: BookVenue): Promise<CreateBookingReturn<Booking | null>> {
   const accessToken = await getAccessTokenCookie();
 
   if (!accessToken) {
@@ -28,7 +28,7 @@ export async function createBooking(data: BookVenue): Promise<CreateBookingRetur
       booking: null,
       error: createApiError({
         message: 'Unauthorized',
-      }),
+      }).format(),
       status: 401,
     };
   }

@@ -3,8 +3,11 @@ import type { z } from 'zod';
 
 export type Endpoint = 'venues' | 'venues/search' | 'venues/[id]' | 'bookings';
 
-export interface ApiResponseBase<T> {
-  meta: ApiMetaPartial | null;
-  error: z.ZodError<T> | null;
+export interface ServiceReturnBase<T> {
+  error: z.ZodFormattedError<T> | null;
   status: number;
+}
+
+export interface ApiResponseBase<T> extends ServiceReturnBase<T> {
+  meta: ApiMetaPartial | null;
 }

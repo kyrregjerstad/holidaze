@@ -7,26 +7,27 @@ import { z } from 'zod';
 import { createAuthHeaders } from '@/lib/api/createAuthHeaders';
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { holidazeAPI } from '@/lib/api/holidazeAPI';
+import { ServiceReturnBase } from '@/lib/api/types';
 import { createApiError, createApiResponseSchema } from '@/lib/schema';
 
 type CancelBooking = {
   venueId: string;
 };
 
-type CancelBookingReturn = {
-  error: z.ZodError | null;
-  status: number;
-};
+interface CancelBookingReturn<T> extends ServiceReturnBase<T> {
+  res: T;
+}
 
-export async function cancelBooking(data: CancelBooking): Promise<CancelBookingReturn> {
+export async function cancelBooking(data: CancelBooking): Promise<CancelBookingReturn<string>> {
   const accessToken = await getAccessTokenCookie();
 
   if (!accessToken) {
     return {
       error: createApiError({
         message: 'Unauthorized',
-      }),
+      }).format(),
       status: 401,
+      res: 'Unauthorized',
     };
   }
 
@@ -41,7 +42,7 @@ export async function cancelBooking(data: CancelBooking): Promise<CancelBookingR
     revalidateTag(`venue-${data.venueId}`);
   }
 
-  return { error, status };
+  return { error, status, res: 'success' };
 }
 
 const statusSchema = z.never();

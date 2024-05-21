@@ -5,6 +5,7 @@ import type { z } from 'zod';
 import { API_BASE_URL } from '@/lib/constants';
 import { fetcher } from '@/lib/utils/fetcher';
 import { createUrl, getNoroffApiKey } from '../utils';
+import { ServiceReturnBase } from './types';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 type Endpoint =
@@ -25,11 +26,8 @@ type HolidazeAPIOptions<T> = {
   cacheTags?: string[];
   schema: z.Schema<T>;
 };
-
-interface HolidazeAPIReturn<T> {
+interface HolidazeAPIReturn<T> extends ServiceReturnBase<T> {
   res: T | null;
-  error: z.ZodError<T> | null;
-  status: number;
 }
 
 export async function holidazeAPI<T>({
@@ -58,11 +56,17 @@ export async function holidazeAPI<T>({
 
   const url = createUrl(`${API_BASE_URL}/holidaze${endpoint}`, query);
 
-  return fetcher({
+  const { res, error, status } = await fetcher({
     url,
     schema,
     options,
   });
+
+  return {
+    res,
+    error: error?.format() ?? null,
+    status,
+  };
 }
 
 function createDefaultHolidazeHeaders() {

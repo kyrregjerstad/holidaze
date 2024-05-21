@@ -52,9 +52,7 @@ export const LocationMap = ({ location }: Props) => {
       const fullAddress = `${location.address}, ${location.city}, ${location.zip}, ${location.country}`;
       const geocoder = new google.maps.Geocoder();
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       geocoder.geocode({ address: fullAddress }, (results, status) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
         if (status === 'OK' && results && results.length > 0) {
           setMapCenter(results[0].geometry.location.toJSON());
         } else {
