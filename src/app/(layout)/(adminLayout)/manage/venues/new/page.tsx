@@ -3,9 +3,11 @@ import type { z } from 'zod';
 
 import { redirect } from 'next/navigation';
 
+import { Metadata } from 'next';
+
+import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { venueService } from '@/lib/services';
 import { NewVenueForm } from './NewVenueForm';
-import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 
 const CreateNewVenuePage = async () => {
   const accessToken = await getAccessTokenCookie();
@@ -42,3 +44,7 @@ const CreateNewVenuePage = async () => {
 export default CreateNewVenuePage;
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Create New Venue',
+};

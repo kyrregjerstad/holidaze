@@ -2,6 +2,7 @@ import React from 'react';
 
 import { redirect } from 'next/navigation';
 
+import { Metadata } from 'next';
 import { z } from 'zod';
 
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
@@ -78,3 +79,7 @@ const SettingsPage = async () => {
 };
 
 export default SettingsPage;
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Settings',
+};

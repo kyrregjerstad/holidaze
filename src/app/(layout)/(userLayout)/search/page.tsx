@@ -2,6 +2,7 @@ import type { SearchOptions } from '@/lib/services/venueService/searchOptionsSch
 
 import { notFound } from 'next/navigation';
 
+import { Metadata } from 'next';
 import { NonUndefined } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -93,3 +94,7 @@ const isEmptyObject = (value: unknown): boolean =>
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === 'object' && !Array.isArray(value);
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Search',
+};

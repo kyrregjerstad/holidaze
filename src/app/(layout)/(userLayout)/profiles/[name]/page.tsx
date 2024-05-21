@@ -6,6 +6,8 @@ import React from 'react';
 import Image from 'next/image';
 import { notFound, redirect } from 'next/navigation';
 
+import { Metadata } from 'next';
+
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { VENUE_FALLBACK_IMAGE } from '@/lib/constants';
 import { profileService } from '@/lib/services';
@@ -135,3 +137,7 @@ const ManagerPage = ({ profile }: { profile: z.infer<typeof userProfileSchemaExt
 };
 
 export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Profile',
+};

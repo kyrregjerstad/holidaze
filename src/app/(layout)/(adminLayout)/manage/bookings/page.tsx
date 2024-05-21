@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
 import { differenceInDays } from 'date-fns';
+import { Metadata } from 'next';
 
 import { profileService, venueService } from '@/lib/services';
 import { VenueFull } from '@/lib/types';
@@ -72,3 +73,7 @@ function processVenues(venues: VenueFull[]) {
     )
     .sort((a, b) => a.dateFrom.getTime() - b.dateFrom.getTime());
 }
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Manage Bookings',
+};

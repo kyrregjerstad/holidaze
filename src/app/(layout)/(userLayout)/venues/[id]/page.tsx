@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 
 import { notFound } from 'next/navigation';
 
+import { Metadata } from 'next';
 import { z } from 'zod';
 
 import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
@@ -197,4 +198,8 @@ const InfoCards = async ({ venue }: { venue: VenueFull }) => {
       <ReportDialog />
     </div>
   );
+};
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Venue Details',
 };

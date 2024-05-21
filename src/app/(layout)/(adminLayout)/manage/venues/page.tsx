@@ -1,6 +1,8 @@
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
+import { Metadata } from 'next';
+
 import { profileService, venueService } from '@/lib/services';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { processVenue } from './processVenue';
@@ -45,3 +47,7 @@ const ManageVenuesPage = async () => {
 };
 
 export default ManageVenuesPage;
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Manage Venues',
+};

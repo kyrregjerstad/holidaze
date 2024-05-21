@@ -2,12 +2,13 @@ import type { UpdateVenueSchema } from '@/lib/services/venueService/updateVenue'
 
 import { notFound, redirect } from 'next/navigation';
 
+import { Metadata } from 'next';
 import { z } from 'zod';
 
+import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 import { venueService } from '@/lib/services';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { EditVenueForm } from '../../new/EditVenueForm';
-import { getAccessTokenCookie } from '@/lib/api/getAccessToken';
 
 type Props = {
   params: { id: string };
@@ -55,3 +56,7 @@ export default EditVenuePage;
 const schema = z.object({
   id: z.string().min(36).max(36),
 });
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Edit Venue',
+};

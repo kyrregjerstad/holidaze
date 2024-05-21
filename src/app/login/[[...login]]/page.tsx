@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation';
 
+import { Metadata } from 'next';
+
 import { BackgroundClipPath } from '@/components/BackgroundClipPath';
 import { BackgroundImage } from '@/components/BackgroundImage';
 import { Header } from './Header';
@@ -38,3 +40,7 @@ export default function Page({ searchParams }: Props) {
     </section>
   );
 }
+
+export const metadata: Metadata = {
+  title: 'Holidaze | Login',
+};
