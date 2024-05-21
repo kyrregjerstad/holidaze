@@ -46,6 +46,7 @@ const VenuePage = async ({ params }: Props) => {
   if (!result.success) return notFound();
 
   const { venue } = await venueService.getVenueById(result.data.id);
+
   if (!venue) return notFound();
 
   const amenities = amenitiesKeysSchema.parse(
@@ -191,7 +192,11 @@ const InfoCards = async ({ venue }: { venue: VenueFull }) => {
     return <VenueManagerCard venue={venue} deleteVenue={deleteVenue} />;
   }
 
-  const upcomingUserBooking = venue.bookings.find((booking) => booking.customer.name === user.name);
+  const currentDate = new Date();
+  const upcomingUserBooking = venue.bookings.find((booking) => {
+    const bookingDateTo = new Date(booking.dateTo);
+    return bookingDateTo > currentDate && booking.customer.name === user.name;
+  });
 
   return (
     <div className="flex flex-col justify-center gap-4">
@@ -205,3 +210,5 @@ const InfoCards = async ({ venue }: { venue: VenueFull }) => {
 export const metadata: Metadata = {
   title: 'Holidaze | Venue Details',
 };
+
+export const dynamic = 'force-dynamic';
