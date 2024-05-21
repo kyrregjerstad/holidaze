@@ -20,11 +20,10 @@ export const useGooglePlacesAutocomplete = ({ onPlaceSelect, defaultValue }: Par
 
   const [inputValue, setInputValue] = useState(defaultValue ?? '');
 
-  // Required for PlacesService to work, but we don't need it since we don't render the map
-  const emptyDiv = document.createElement('div');
-
   useEffect(() => {
     if (!places) return;
+    // Required for PlacesService to work, but we don't need it since we don't render the map
+    const emptyDiv = document.createElement('div');
 
     setAutocompleteService(new places.AutocompleteService());
     setPlacesService(new places.PlacesService(emptyDiv));

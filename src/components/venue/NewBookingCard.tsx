@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 
 import { extractBookedDates, formatUSD } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookingDrawer } from '../BookingDrawer';
+import { BookingDrawer } from '../../app/(layout)/(userLayout)/venues/[id]/BookingDrawer';
 import { DatePicker } from '../DatePicker';
 import { buttonVariants } from '../ui/button';
 import { DrawerTrigger } from '../ui/drawer';

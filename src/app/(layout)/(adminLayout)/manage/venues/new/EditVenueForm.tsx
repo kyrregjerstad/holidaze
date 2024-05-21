@@ -15,7 +15,6 @@ import { XIcon } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { createVenueSchemaFlattened } from '@/lib/schema/venueSchema';
-import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { ImageUploader } from '@/components/ImageUploader';
 import { Spinner } from '@/components/Spinner';
 import { Button } from '@/components/ui/button';
@@ -27,6 +26,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
+import { AddressAutocomplete } from './AddressAutocomplete';
 
 /* 
 TODO: 

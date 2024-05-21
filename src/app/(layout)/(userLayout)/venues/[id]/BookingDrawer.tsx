@@ -20,9 +20,9 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer';
-import { Badge } from './ui/badge';
-import { Button, buttonVariants } from './ui/button';
-import { useToast } from './ui/use-toast';
+import { Badge } from '../../../../../components/ui/badge';
+import { Button, buttonVariants } from '../../../../../components/ui/button';
+import { useToast } from '../../../../../components/ui/use-toast';
 
 type Props = {
   venue: VenueFull;

@@ -3,8 +3,8 @@ import type { RefObject } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 import { useGooglePlacesAutocomplete } from '@/lib/hooks/useGooglePlacesAutocomplete';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 type Props = {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
