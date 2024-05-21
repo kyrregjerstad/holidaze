@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form';
 import { createVenueSchemaFlattened } from '@/lib/schema/venueSchema';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { ImageUploader } from '@/components/ImageUploader';
+import { Spinner } from '@/components/Spinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -308,7 +309,7 @@ export const EditVenueForm = ({ venue, submitFn, onSuccess }: Props) => {
               Cancel
             </Button>
             <Button className="ml-auto" disabled={form.formState.isSubmitting}>
-              Update Venue
+              {form.formState.isSubmitting ? <Spinner /> : 'Update Venue'}
             </Button>
           </CardFooter>
         </form>

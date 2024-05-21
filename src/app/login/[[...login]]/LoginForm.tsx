@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 
 import { loginUserSchema } from '@/lib/schema/userSchema';
 import { authService } from '@/lib/services';
+import { Spinner } from '@/components/Spinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -84,8 +85,16 @@ export const LoginForm = ({ onSuccess }: Props) => {
               />
               <div className="py-2"></div>
               <Button type="submit" disabled={form.formState.isSubmitting} className="group w-full">
-                Log in
-                <span className="translate-x-1 transition-transform group-hover:scale-125">☀️</span>
+                {form.formState.isSubmitting ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    Log in
+                    <span className="translate-x-1 transition-transform group-hover:scale-125">
+                      ☀️
+                    </span>
+                  </>
+                )}
               </Button>
             </form>
           </Form>

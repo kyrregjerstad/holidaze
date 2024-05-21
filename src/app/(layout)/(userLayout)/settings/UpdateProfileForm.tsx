@@ -10,6 +10,7 @@ import { z } from 'zod';
 
 import { updateProfileSchema, updateUserProfileResponse } from '@/lib/schema';
 import { UpdateProfileReturn } from '@/lib/services/profileService/updateProfile';
+import { Spinner } from '@/components/Spinner';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -152,7 +153,7 @@ export const UpdateProfileForm = ({ profile, updateProfile }: Props) => {
               Cancel
             </Button>
             <Button type="submit" disabled={form.formState.isSubmitting || !form.formState.isDirty}>
-              Update Profile
+              {form.formState.isSubmitting ? <Spinner /> : 'Update Profile'}
             </Button>
           </div>
         </form>

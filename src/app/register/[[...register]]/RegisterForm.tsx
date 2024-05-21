@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 
 import { registerUserSchemaExtended } from '@/lib/schema/userSchema';
 import { authService } from '@/lib/services';
+import { Spinner } from '@/components/Spinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -132,8 +133,16 @@ export const RegisterForm = ({ onSuccess }: Props) => {
                 I&apos;m a venue manager
               </Label>
               <Button type="submit" disabled={form.formState.isSubmitting} className="group w-full">
-                Register
-                <span className="translate-x-1 transition-transform group-hover:scale-125">☀️</span>
+                {form.formState.isSubmitting ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    Register
+                    <span className="translate-x-1 transition-transform group-hover:scale-125">
+                      ☀️
+                    </span>
+                  </>
+                )}
               </Button>
             </form>
           </Form>
