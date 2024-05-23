@@ -1,7 +1,7 @@
 'use client';
 
 import type { SearchOptions } from '@/lib/services/venueService/searchOptionsSchema';
-import type { ChangeEvent, KeyboardEvent } from 'react';
+import type { KeyboardEvent } from 'react';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

@@ -3,7 +3,15 @@ import type { VenueBase, VenueFull } from '@/lib/types';
 import Link from 'next/link';
 
 import { formatUSD } from '@/lib/utils';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 import { VenueCardImage } from '../VenueCardImage';
@@ -58,27 +66,42 @@ export const VenueDetailsCardChat = ({ venue }: { venue: VenueFull }) => {
       </CardHeader>
       <CardContent className="truncate p-0 px-2">
         <Link href={`/venues/${venue.id}`} className="group cursor-pointer">
-          <CardTitle className="truncate p-0 text-lg group-hover:underline">{venue.name}</CardTitle>
+          <CardTitle className="truncate p-0  pt-2 text-2xl group-hover:underline">
+            {venue.name}
+          </CardTitle>
         </Link>
-        <div>
-          {venue.location.city && venue.location.country ? (
-            <span className="text-sm">
-              {venue.location.city}, {venue.location.country}
-            </span>
-          ) : (
-            <div className="py-1"></div>
-          )}
-        </div>
-        <div>
-          <span className="text-sm">{venue.maxGuests} guests</span>
-        </div>
+        <div className="flex flex-wrap items-center gap-2 text-sm">
+          <div className="flex gap-2">
+            {venue.location.city && venue.location.country ? (
+              <span className="text-sm">
+                {venue.location.city}, {venue.location.country}
+              </span>
+            ) : (
+              <div className="py-1"></div>
+            )}
+          </div>
+          <span>&middot;</span>
+          <div>
+            <span className="text-sm">{venue.maxGuests} guests</span>
+          </div>
+          <span>&middot;</span>
 
-        <span className="max-w-[150px] truncate">{formatUSD(venue.price)} per night</span>
+          <span className="max-w-[150px] truncate">{formatUSD(venue.price)} per night</span>
+        </div>
+        <div className="pt-2">
+          <span className="font-semibold">Amenities:</span>
+          <div className="flex gap-2">
+            {Object.keys(venue.meta).map((key) => (
+              <Badge key={key} className="px-4 py-2">
+                {key}
+              </Badge>
+            ))}
+          </div>
+        </div>
+        <div className="pt-3 font-semibold">Description:</div>
+        <CardDescription className="">{venue.description}</CardDescription>
       </CardContent>
-      <CardFooter className="flex flex-col p-2">
-        <Button className="w-full">Reserve</Button>
-        <span className="py-2 text-sm text-neutral-400">You won't be charged yet</span>
-      </CardFooter>
+      <CardFooter className="flex flex-col p-2"></CardFooter>
     </Card>
   );
 };

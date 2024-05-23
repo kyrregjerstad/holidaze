@@ -5,3 +5,5 @@ export { getVenueById } from './getVenueById';
 export { updateVenue } from './updateVenue';
 export { recursivelyGetAllVenues } from './recursivelyGetAllVenues';
 export { search } from './search';
+export { checkAvailability } from './checkAvailability';
+export { getNextAvailableDates } from './getNextAvailableDates';

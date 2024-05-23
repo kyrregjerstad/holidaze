@@ -4,12 +4,13 @@ import { ReactNode } from 'react';
 
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 
+import { CoreMessage, generateText } from 'ai';
 import { createStreamableUI, createStreamableValue, getMutableAIState, streamUI } from 'ai/rsc';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 
 import { VenueFull } from '@/lib/types';
-import { runAsyncFnWithoutBlocking } from '@/lib/utils';
+import { checkAvailability, runAsyncFnWithoutBlocking } from '@/lib/utils';
 import { getUserFromCookie } from '@/lib/utils/cookies';
 import { SystemMessage } from '@/components/chat/Messages';
 import { VenueDetailsCardChat } from '@/components/chat/VenueCardChat';
@@ -31,6 +32,8 @@ export async function submitUserMessage(
 ): Promise<{ id: string; role: 'assistant'; display: ReactNode }> {
   const aiState = getMutableAIState<AIChat>();
   const user = getUserFromCookie();
+
+  console.log(userMeta);
 
   aiState.update({
     ...aiState.get(),
@@ -69,7 +72,10 @@ export async function submitUserMessage(
 
     Keep it casual and friendly. 
     
-    The current user is ${user?.name} and the user is ${user?.isVenueManager ? 'a venue manager' : 'a customer'}.`,
+    The current user is ${user?.name} and the user is ${user?.isVenueManager ? 'a venue manager' : 'a customer'}.
+    
+    The current date and time is ${new Date().toISOString()}.
+    `,
     text: ({ content, done, delta }) => {
       if (!textStream) {
         textStream = createStreamableValue('');
@@ -114,7 +120,6 @@ export async function submitUserMessage(
         description: 'View details of a venue',
         parameters: z.object({ venueId: z.string() }),
         generate: async function* ({ venueId }) {
-          console.log('venueId', venueId);
           const toolCallId = nanoid();
 
           const { venue } = await venueService.getVenueById(venueId);
@@ -174,136 +179,6 @@ export async function submitUserMessage(
           );
         },
       },
-      // bookVenue: {
-      //   description: 'Book a venue',
-      //   parameters: z.object({
-      //     venueId: z.string(),
-      //     dateFrom: z.string().describe('Date in the format YYYY-MM-DD'),
-      //     dateTo: z.string().describe('Date in the format YYYY-MM-DD'),
-      //     guests: z.number(),
-      //   }),
-      //   generate: async function* (parameters) {
-      //     const toolCallId = nanoid();
-
-      //     const { venue } = await venueService.getVenueById(parameters.venueId);
-
-      //     if (!venue) {
-      //       aiState.done({
-      //         ...aiState.get(),
-      //         messages: [
-      //           ...aiState.get().messages,
-      //           {
-      //             id: nanoid(),
-      //             role: 'assistant',
-      //             content: `I couldn't find the venue with id ${parameters.venueId}`,
-      //           },
-      //         ],
-      //       });
-
-      //       return (
-      //         <SystemMessage
-      //           message={`I couldn't find the venue with id ${parameters.venueId}`}
-      //           needsSep={true}
-      //         />
-      //       );
-      //     }
-
-      //     console.log(parameters);
-
-      //     const { booking, error } = await bookingService.createBooking(parameters);
-
-      //     console.log('booking', booking);
-      //     console.log('error', error);
-
-      //     if (error || !booking) {
-      //       aiState.done({
-      //         ...aiState.get(),
-      //         messages: [
-      //           ...aiState.get().messages,
-      //           {
-      //             id: nanoid(),
-      //             role: 'assistant',
-      //             content: [
-      //               { type: 'tool-call', toolName: 'bookVenue', toolCallId, args: parameters },
-      //             ],
-      //           },
-      //           {
-      //             id: nanoid(),
-      //             role: 'tool',
-      //             content: [
-      //               {
-      //                 type: 'tool-result',
-      //                 toolName: 'bookVenue',
-      //                 toolCallId,
-      //                 result: [],
-      //               },
-      //             ],
-      //           },
-
-      //           {
-      //             id: nanoid(),
-      //             role: 'assistant',
-      //             content: `I couldn't book the venue with id ${parameters.venueId}`,
-      //           },
-      //         ],
-      //       });
-
-      //       return (
-      //         <SystemMessage
-      //           message={`I couldn't book the venue with id ${parameters.venueId}`}
-      //           needsSep={true}
-      //         />
-      //       );
-      //     }
-
-      //     aiState.done({
-      //       ...aiState.get(),
-      //       messages: [
-      //         ...aiState.get().messages,
-      //         {
-      //           id: nanoid(),
-      //           role: 'assistant',
-      //           content: [
-      //             { type: 'tool-call', toolName: 'bookVenue', toolCallId, args: parameters },
-      //           ],
-      //         },
-      //         {
-      //           id: nanoid(),
-      //           role: 'tool',
-      //           content: [
-      //             {
-      //               type: 'tool-result',
-      //               toolName: 'bookVenue',
-      //               toolCallId,
-      //               result: booking,
-      //             },
-      //           ],
-      //         },
-      //       ],
-      //     });
-
-      //     return (
-      //       <div>
-      //         <p>
-      //           Congratulations! You have successfully booked the venue. Here are the booking
-      //           details.
-      //         </p>
-      //         <p>
-      //           <strong>Booking ID:</strong> {booking.id}
-      //         </p>
-      //         <p>
-      //           <strong>Date from: </strong> {booking.dateFrom}
-      //         </p>
-      //         <p>
-      //           <strong>Date to: </strong> {booking.dateTo}
-      //         </p>
-      //         <p>
-      //           <strong>Guests: </strong> {booking.guests}
-      //         </p>
-      //       </div>
-      //     );
-      //   },
-      // },
       confirmBooking: {
         description:
           'Create a confirm booking card with prefilled values and present it to the user',
@@ -342,7 +217,6 @@ export async function submitUserMessage(
           const { venue } = await venueService.getVenueById(parameters.venueId);
           const toolCallId = nanoid();
 
-          console.log(parameters);
           if (!venue) {
             aiState.done({
               ...aiState.get(),
@@ -412,6 +286,236 @@ export async function submitUserMessage(
           return (
             <VenueConfirmBookingCardChat venue={venue} preSelectedValues={{ ...parameters }} />
           );
+        },
+      },
+      checkAvailability: {
+        description:
+          'Check the availability of a venue. After checking, write a friendly message to the user with the details of the response.',
+        parameters: z
+          .object({
+            venueId: z.string(),
+            startDate: z.coerce
+              .date()
+              .transform((dateString, ctx) => {
+                const date = new Date(dateString);
+
+                if (!z.date().safeParse(date).success) {
+                  ctx.addIssue({
+                    code: z.ZodIssueCode.invalid_date,
+                  });
+                }
+
+                return date;
+              })
+              .describe('The date in the format YYYY-MM-DD'),
+            endDate: z.coerce.date().transform((dateString, ctx) => {
+              const date = new Date(dateString);
+
+              if (!z.date().safeParse(date).success) {
+                ctx.addIssue({
+                  code: z.ZodIssueCode.invalid_date,
+                });
+              }
+
+              return date;
+            }),
+            guests: z.number(),
+          })
+          .describe('The date in the format YYYY-MM-DD'),
+        generate: async function* (parameters) {
+          yield (
+            <div>
+              <Skeleton className="mb-2 h-4 w-full" />
+              <p>Checking availability...</p>
+            </div>
+          );
+
+          const { available, venue, error } = await venueService.checkAvailability({
+            venueId: parameters.venueId,
+            startDate: parameters.startDate,
+            endDate: parameters.endDate,
+          });
+
+          if (error) {
+            aiState.done({
+              ...aiState.get(),
+              messages: [
+                ...aiState.get().messages,
+                {
+                  id: nanoid(),
+                  role: 'assistant',
+                  content: `An error occurred while checking the availability of the venue: ${error}`,
+                },
+              ],
+            });
+
+            return (
+              <SystemMessage
+                message={`An error occurred while checking the availability of the venue: ${error}`}
+                needsSep={true}
+              />
+            );
+          }
+
+          const prevMessages = aiState.get().messages;
+
+          /* Providing generateText with the whole chat history makes it not respond... Why? */
+          const { text } = await generateText({
+            model: aiProvider,
+            system: `You are a friendly assistant chatbot named Daizy to a page called Holidaze. 
+            Reply to the users enquiry if the selected dates for a venue are available or not. 
+            The venue is ${available ? 'available' : 'not available'}. 
+
+            previous user message: ${prevMessages.at(-1)?.content}`,
+            prompt: `Reply to the user if the selected dates for a venue are available or not. venue name: ${venue?.name}`,
+          });
+
+          const toolCallId = nanoid();
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: [
+                  {
+                    type: 'tool-call',
+                    toolName: 'checkAvailability',
+                    toolCallId,
+                    args: parameters,
+                  },
+                ],
+              },
+              {
+                id: nanoid(),
+                role: 'tool',
+                content: [
+                  {
+                    type: 'tool-result',
+                    toolName: 'checkAvailability',
+                    toolCallId,
+                    result: available,
+                  },
+                ],
+              },
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: text,
+              },
+            ],
+          });
+
+          return <SystemMessage message={text} needsSep={true} />;
+        },
+      },
+      getNextAvailableDates: {
+        description: 'Get the next available dates for a venue',
+        parameters: z.object({
+          venueId: z.string().describe('The id of the venue'),
+          startDate: z.coerce
+            .date()
+            .transform((dateString, ctx) => {
+              const date = new Date(dateString);
+
+              if (!z.date().safeParse(date).success) {
+                ctx.addIssue({
+                  code: z.ZodIssueCode.invalid_date,
+                });
+              }
+
+              return date;
+            })
+            .describe('The date in the format YYYY-MM-DD'),
+          days: z.number().describe('The number of days to check'),
+        }),
+        generate: async function* (parameters) {
+          yield (
+            <div>
+              <Skeleton className="mb-2 h-4 w-full" />
+              <p>Checking availability...</p>
+            </div>
+          );
+
+          const { availableDate, venue, error } =
+            await venueService.getNextAvailableDates(parameters);
+
+          if (error) {
+            aiState.done({
+              ...aiState.get(),
+              messages: [
+                ...aiState.get().messages,
+                {
+                  id: nanoid(),
+                  role: 'assistant',
+                  content: `An error occurred while checking the availability of the venue: ${error}`,
+                },
+              ],
+            });
+
+            return (
+              <SystemMessage
+                message={`An error occurred while checking the availability of the venue: ${error}`}
+                needsSep={true}
+              />
+            );
+          }
+
+          const prevMessages = aiState.get().messages;
+
+          const { text } = await generateText({
+            model: aiProvider,
+            system: `You are a friendly assistant chatbot named Daizy to a page called Holidaze. 
+            Reply to the users enquiry with the available dates for a venue. 
+            The available dates are from: ${availableDate?.from} to: ${availableDate?.to}.
+
+            venue name: ${venue?.name}
+            location: ${JSON.stringify(venue?.location)}
+
+            previous user message: ${prevMessages.at(-1)?.content}`,
+            prompt: `Reply to the user with the available dates for the venue.`,
+          });
+
+          const toolCallId = nanoid();
+
+          aiState.done({
+            ...aiState.get(),
+            messages: [
+              ...aiState.get().messages,
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: [
+                  {
+                    type: 'tool-call',
+                    toolName: 'getNextAvailableDates',
+                    toolCallId,
+                    args: parameters,
+                  },
+                ],
+              },
+              {
+                id: nanoid(),
+                role: 'tool',
+                content: [
+                  {
+                    type: 'tool-result',
+                    toolName: 'getNextAvailableDates',
+                    toolCallId,
+                    result: availableDate,
+                  },
+                ],
+              },
+              {
+                id: nanoid(),
+                role: 'assistant',
+                content: text,
+              },
+            ],
+          });
+
+          return <SystemMessage message={text} needsSep={true} />;
         },
       },
     },
