@@ -99,7 +99,7 @@ export const VenueDetailsCardChat = ({ venue }: { venue: VenueFull }) => {
           </div>
         </div>
         <div className="pt-3 font-semibold">Description:</div>
-        <CardDescription className="">{venue.description}</CardDescription>
+        <CardDescription className="w-full max-w-full">{venue.description}</CardDescription>
       </CardContent>
       <CardFooter className="flex flex-col p-2"></CardFooter>
     </Card>

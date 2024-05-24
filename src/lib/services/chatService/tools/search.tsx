@@ -5,9 +5,10 @@ import { SystemMessage } from '@/components/chat/Messages';
 import { VenueCardChat, VenueCardChatSkeleton } from '@/components/chat/VenueCardChat';
 import { venueService } from '../..';
 import { searchOptionsSchema } from '../../venueService/searchOptionsSchema';
-import { MutableAIState } from '../types';
+import { MutableAIState, RenderTool } from '../types';
+import { finalizeAIState, generateAssistantMessage, generateToolMessage } from '../utils';
 
-export const searchTool = (aiState: MutableAIState) => ({
+export const searchTool = (aiState: MutableAIState): RenderTool<typeof searchOptionsSchema> => ({
   description: 'Search for holiday homes',
   parameters: searchOptionsSchema,
   generate: async function* (parameters: z.infer<typeof searchOptionsSchema>) {
@@ -22,67 +23,26 @@ export const searchTool = (aiState: MutableAIState) => ({
 
     const { venues, error } = await venueService.search({ ...parameters, amount: 10 });
 
-    if (venues.length === 0) {
-      aiState.done({
-        ...aiState.get(),
-        messages: [
-          ...aiState.get().messages,
-          {
-            id: nanoid(),
-            role: 'assistant',
-            content: [
-              { type: 'tool-call', toolName: 'search', toolCallId, args: { ...parameters } },
-            ],
-          },
-          {
-            id: nanoid(),
-            role: 'tool',
-            content: [
-              {
-                type: 'tool-result',
-                toolName: 'search',
-                toolCallId,
-                result: [],
-              },
-            ],
-          },
-        ],
-      });
-
-      return (
-        <SystemMessage
-          message={`Sorry, I couldn't find any venues matching that criteria`}
-          needsSep={true}
-        />
-      );
-    }
-
     if (error) {
-      aiState.done({
-        ...aiState.get(),
-        messages: [
-          ...aiState.get().messages,
+      finalizeAIState(aiState, [
+        generateAssistantMessage([
           {
-            id: nanoid(),
-            role: 'assistant',
-            content: [
-              { type: 'tool-call', toolName: 'search', toolCallId, args: { ...parameters } },
-            ],
+            type: 'tool-call',
+            toolName: 'search',
+            toolCallId,
+            args: { ...parameters },
           },
+        ]),
+        generateToolMessage([
           {
-            id: nanoid(),
-            role: 'tool',
-            content: [
-              {
-                type: 'tool-result',
-                toolName: 'search',
-                toolCallId,
-                result: error,
-              },
-            ],
+            type: 'tool-result',
+            toolName: 'search',
+            toolCallId,
+            result: error,
+            isError: true,
           },
-        ],
-      });
+        ]),
+      ]);
 
       return (
         <SystemMessage
@@ -92,37 +52,58 @@ export const searchTool = (aiState: MutableAIState) => ({
       );
     }
 
-    const content = venues.map((venue) => ({
-      venueId: venue.id,
-      name: venue.name,
-      city: venue.location.city,
-      country: venue.location.country,
-      price: venue.price,
-    }));
+    if (venues.length === 0) {
+      finalizeAIState(aiState, [
+        generateAssistantMessage([
+          {
+            type: 'tool-call',
+            toolName: 'search',
+            toolCallId,
+            args: { ...parameters },
+          },
+        ]),
+        generateToolMessage([
+          {
+            type: 'tool-result',
+            toolName: 'search',
+            toolCallId,
+            result: [],
+          },
+        ]),
+      ]);
 
-    aiState.done({
-      ...aiState.get(),
-      messages: [
-        ...aiState.get().messages,
+      return (
+        <SystemMessage
+          message={`Sorry, I couldn't find any venues matching that criteria`}
+          needsSep={true}
+        />
+      );
+    }
+
+    finalizeAIState(aiState, [
+      generateAssistantMessage([
         {
-          id: nanoid(),
-          role: 'assistant',
-          content: [{ type: 'tool-call', toolName: 'search', toolCallId, args: { ...parameters } }],
+          type: 'tool-call',
+          toolName: 'search',
+          toolCallId,
+          args: { ...parameters },
         },
+      ]),
+      generateToolMessage([
         {
-          id: nanoid(),
-          role: 'tool',
-          content: [
-            {
-              type: 'tool-result',
-              toolName: 'search',
-              toolCallId,
-              result: content,
-            },
-          ],
+          type: 'tool-result',
+          toolName: 'search',
+          toolCallId,
+          result: venues.map((venue) => ({
+            venueId: venue.id,
+            name: venue.name,
+            city: venue.location.city,
+            country: venue.location.country,
+            price: venue.price,
+          })),
         },
-      ],
-    });
+      ]),
+    ]);
 
     return (
       <SystemMessage
