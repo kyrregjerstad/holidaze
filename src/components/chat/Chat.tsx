@@ -11,7 +11,6 @@ import { BotMessageSquareIcon, ChevronDownIcon } from 'lucide-react';
 import { nanoid } from 'nanoid';
 
 import { useScrollAnchor } from '@/lib/hooks/useScrollAnchor';
-import { chatService } from '@/lib/services';
 import { cn } from '@/lib/utils';
 import { CookieUser } from '@/lib/utils/cookies';
 import { Button } from '../ui/button';
@@ -20,7 +19,7 @@ import { Input } from '../ui/input';
 import { UserMessage } from './Messages';
 
 export function Chat({ user }: { user: CookieUser }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
