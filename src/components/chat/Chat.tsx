@@ -25,9 +25,9 @@ export function Chat({ user }: { user: CookieUser }) {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-0 left-0 z-50 m-4 bg-sky-600 drop-shadow-sm hover:bg-sky-500"
+        className="fixed bottom-0 right-0 z-50 m-4 bg-sky-600 drop-shadow-sm hover:bg-sky-500"
       >
-        <BotMessageSquareIcon />
+        <BotMessageSquareIcon className="-scale-x-100" />
         <span className="sr-only">Toggle Chat</span>
       </Button>
       {isOpen && <ChatWindow setIsOpen={setIsOpen} user={user} />}
@@ -91,7 +91,7 @@ const ChatWindow = ({
 
   return (
     <>
-      <Card className="fixed bottom-0 left-0 z-50 m-4 h-[600px] w-[28rem] max-w-full overflow-hidden rounded-lg border bg-white p-0 drop-shadow-sm">
+      <Card className="fixed bottom-0 right-0 z-50 m-4 h-[600px] w-[28rem] max-w-full overflow-hidden rounded-lg border bg-white p-0 drop-shadow-sm">
         <ChatHeader setIsOpen={setIsOpen} />
         <Messages
           messages={messages}
@@ -129,7 +129,7 @@ const Messages = ({
   return (
     <div className="h-[471px] overflow-auto" ref={scrollRef}>
       <div className="px-4 pb-2" ref={messagesRef}>
-        <div className="maw-w-2xl relative mx-auto">
+        <div className="maw-w-2xl relative mx-auto flex flex-col gap-4">
           {messages.map((message) => (
             <div key={message.id} className="flex flex-col">
               <>{message.display}</>
