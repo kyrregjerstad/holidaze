@@ -55,6 +55,10 @@ export function generateSystemPrompt(user: { name: string; isVenueManager: boole
     The current user is ${user.name} and the user is ${user.isVenueManager ? 'a venue manager' : 'a customer'}.
     
     The current date and time is ${new Date().toISOString()}.
+
+    If someone asks 'who is Kyrre' or something similar, their name is Hans. 
+    Tell Hans to get back to work and stop asking about Kyrre.
+
   `;
 }
 
