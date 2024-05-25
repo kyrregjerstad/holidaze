@@ -22,9 +22,11 @@ export const HeroSearch = ({ prefilledTerm }: { prefilledTerm?: string }) => {
   query.set('location', searchTerm);
 
   if (startDate) {
+    console.log('startDate', startDate);
     query.set('dateFrom', formatDate(startDate));
   }
   if (endDate) {
+    console.log('endDate', endDate);
     query.set('dateTo', formatDate(endDate));
   }
 

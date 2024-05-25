@@ -22,23 +22,23 @@ export const useBookingStore = create<FormState>((set, get) => ({
   amountOfDays: 1,
   areDatesAvailable: true,
 
-  setStartDate: (date, bookedDates) => {
-    set({ startDate: date });
+  setStartDate: (startDate, bookedDates) => {
+    set({ startDate });
     const { endDate } = get();
-    if (endDate && date && differenceInDays(endDate, date) < 1) {
-      set({ endDate: addDays(date, 1) });
+    if (endDate && startDate && differenceInDays(endDate, startDate) < 1) {
+      set({ endDate: addDays(startDate, 1) });
     }
-    const available = checkAvailability(date, endDate, bookedDates);
+    const available = checkAvailability(startDate, endDate, bookedDates);
     set({ areDatesAvailable: available });
   },
 
-  setEndDate: (date, bookedDates) => {
+  setEndDate: (endDate, bookedDates) => {
     const { startDate } = get();
-    if (startDate && date && differenceInDays(date, startDate) < 1) {
+    if (startDate && endDate && differenceInDays(endDate, startDate) < 1) {
       return;
     }
-    set({ endDate: date });
-    const available = checkAvailability(startDate, date, bookedDates);
+    set({ endDate });
+    const available = checkAvailability(startDate, endDate, bookedDates);
     set({ areDatesAvailable: available });
   },
 

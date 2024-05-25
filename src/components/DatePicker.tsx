@@ -26,10 +26,15 @@ export const DatePicker = ({
   buttonText,
   className,
 }: Props) => {
-  const dateRange = eachDayOfInterval({
-    start: selectedDate || new Date(),
-    end: overlayDate || new Date(),
-  });
+  const dateRange =
+    overlayDate && selectedDate
+      ? eachDayOfInterval({
+          start: selectedDate,
+          end: overlayDate,
+        })
+      : overlayDate && !selectedDate
+        ? [overlayDate]
+        : [];
 
   return (
     <Popover>
@@ -56,8 +61,8 @@ export const DatePicker = ({
           mode="single"
           modifiers={{ booked: dateRange }}
           modifiersClassNames={{
-            booked: 'bg-sky-300 rounded-none font-bold booked [&:first]:!bg-black',
-            selected: 'text-white',
+            booked: 'bg-sky-300 rounded-none font-bold booked ',
+            selected: 'text-white bg-sky-300 hover:bg-sky-400',
           }}
           required
           fromDate={new Date()}
