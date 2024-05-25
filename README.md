@@ -75,7 +75,7 @@ To run unit tests, use the following command:
 pnpm test:unit
 ```
 
-To run end-to-end tests, use the following command:
+To run end-to-end tests, you first need to build the project and run the preview server, then use the following command:
 
 ```zsh
 pnpm test:e2e
