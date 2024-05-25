@@ -26,8 +26,6 @@ export async function recursivelyGetAllVenues(
 ): Promise<BaseVenue[]> {
   const { venues: newVenues, error, meta } = await getAllVenues({ page });
 
-  console.log(`getAllVenues: ${page}`);
-
   if (error || !newVenues) return venues;
 
   const allVenues = [...venues, ...newVenues];

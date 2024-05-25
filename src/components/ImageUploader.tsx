@@ -24,11 +24,10 @@ export const ImageUploader = ({
 
   const { startUpload, permittedFileInfo, isUploading } = useUploadThing('imageUploader', {
     onClientUploadComplete: (res) => {
-      console.log('client upload complete');
       setUploadedImages([...uploadedImages, ...res.map((r) => r.serverData.url)]);
     },
     onUploadError: (e) => {
-      console.log('upload error', e);
+      console.error('upload error', e);
     },
     onUploadBegin: () => {},
     onUploadProgress(p) {
@@ -38,7 +37,7 @@ export const ImageUploader = ({
 
   useEffect(() => {
     setImagesLoading(isUploading);
-  }, [isUploading]);
+  }, [isUploading, setImagesLoading]);
 
   const maxFiles = permittedFileInfo?.config.image?.maxFileCount || 8;
   const fileTypes = permittedFileInfo?.config ? Object.keys(permittedFileInfo?.config) : [];

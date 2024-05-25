@@ -50,8 +50,6 @@ export const NewBookingCard = ({ venue }: Props) => {
 
   const bookedDates = extractBookedDates(venue.bookings);
 
-  console.log('bookedDates', bookedDates);
-
   const {
     startDate,
     endDate,

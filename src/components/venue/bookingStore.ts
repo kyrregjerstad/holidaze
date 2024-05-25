@@ -33,7 +33,6 @@ export const useBookingStore = create<FormState>((set, get) => ({
   },
 
   setEndDate: (endDate, bookedDates) => {
-    console.log('endDate', endDate?.toISOString().split('T')[0]);
     const { startDate } = get();
     if (startDate && endDate && differenceInDays(endDate, startDate) < 1) {
       return;
