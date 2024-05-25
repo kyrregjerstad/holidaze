@@ -39,7 +39,7 @@ test('Login page', async ({ page }) => {
 
   await page.getByPlaceholder('email').fill('test@test.com');
   await page.getByRole('button', { name: 'Log in ☀️' }).click();
-  await expect(page.getByText('Incorrect email or password')).toBeVisible();
+  await expect(page.getByText('Invalid username or password')).toBeVisible();
 });
 
 test('Registration page', async ({ page }) => {
@@ -67,5 +67,37 @@ test('Registration page', async ({ page }) => {
     await page.getByPlaceholder('name').fill('123');
     await page.getByPlaceholder('email').fill('test@test.com');
     await expect(page.getByText('Only @stud.noroff.no emails are allowed')).toBeVisible();
+  });
+});
+
+test('Venue Details Page', async ({ page }) => {
+  await page.goto('/venues/38683eef-e534-4cf2-84cc-abdc5447b12b'); // playwright test page
+
+  await test.step('assert that the venue details are visible', async () => {
+    await expect(page.getByRole('heading', { name: 'playwright test venue' })).toBeVisible();
+
+    await test.step('badges', async () => {
+      await expect(page.getByText('2 guests')).toBeVisible();
+      await expect(page.locator('div').filter({ hasText: /^wifi$/ })).toBeVisible();
+      await expect(page.locator('div').filter({ hasText: /^parking$/ })).toBeVisible();
+      await expect(page.locator('div').filter({ hasText: /^breakfast$/ })).toBeVisible();
+      await expect(page.locator('div').filter({ hasText: /^pets$/ })).toBeVisible();
+    });
+
+    await test.step('description', async () => {
+      await expect(page.getByText('this text is for testing')).toBeVisible();
+    });
+
+    await expect(page.getByRole('heading', { name: 'What this place offers' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'About the Owner' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'venue_manager' })).toBeVisible();
+
+    await test.step('booking card, not logged in', async () => {
+      await expect(page.getByRole('heading', { name: '$50/night' })).toBeVisible();
+
+      await expect(
+        page.locator('div').filter({ hasText: /^Please log in or register to book this venue$/ })
+      ).toBeVisible();
+    });
   });
 });

@@ -99,9 +99,6 @@ const VenuePage = async ({ params }: Props) => {
             </div>
           )}
           <div className="grid gap-4">
-            <h3>Calendar</h3>
-          </div>
-          <div className="grid gap-4">
             <h3 className="text-xl font-semibold">About the Owner</h3>
             <OwnerCard owner={venue.owner} />
           </div>

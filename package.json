@@ -13,6 +13,9 @@
     "test:e2e": "playwright test",
     "knip": "knip"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.11",
     "@hookform/resolvers": "^3.3.4",
