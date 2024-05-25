@@ -91,7 +91,7 @@ const ChatWindow = ({
 
   return (
     <>
-      <Card className="fixed bottom-0 right-0 z-50 m-4 h-[600px] w-[28rem] max-w-full overflow-hidden rounded-lg border bg-white p-0 drop-shadow-sm">
+      <Card className="fixed bottom-0 right-0 z-50 h-dvh w-full max-w-full overflow-hidden rounded-lg border bg-white p-0 drop-shadow-sm sm:m-4 sm:h-[600px] sm:w-[28rem]">
         <ChatHeader setIsOpen={setIsOpen} />
         <Messages
           messages={messages}
@@ -127,7 +127,7 @@ const Messages = ({
   visibilityRef: RefObject<HTMLDivElement>;
 }) => {
   return (
-    <div className="h-[471px] overflow-auto" ref={scrollRef}>
+    <div className=" h-[calc(100dvh_-_130px)] overflow-auto sm:h-[471px]" ref={scrollRef}>
       <div className="px-4 pb-2" ref={messagesRef}>
         <div className="maw-w-2xl relative mx-auto flex flex-col gap-4">
           {messages.map((message) => (
