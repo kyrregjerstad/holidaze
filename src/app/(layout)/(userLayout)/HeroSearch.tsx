@@ -7,6 +7,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+import { addDays } from 'date-fns';
+
 import { DatePicker } from '@/components/DatePicker';
 import { buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,12 +24,10 @@ export const HeroSearch = ({ prefilledTerm }: { prefilledTerm?: string }) => {
   query.set('location', searchTerm);
 
   if (startDate) {
-    console.log('startDate', startDate);
-    query.set('dateFrom', formatDate(startDate));
+    query.set('dateFrom', formatDate(addDays(startDate, 1)));
   }
   if (endDate) {
-    console.log('endDate', endDate);
-    query.set('dateTo', formatDate(endDate));
+    query.set('dateTo', formatDate(addDays(endDate, 1)));
   }
 
   function handleSearchInput(event: KeyboardEvent<HTMLInputElement>): void {
