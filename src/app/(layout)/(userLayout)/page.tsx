@@ -54,3 +54,4 @@ export const metadata: Metadata = {
   description:
     'Holidaze is your gateway to unforgettable getaways. Find your perfect holiday home today.',
 };
+
