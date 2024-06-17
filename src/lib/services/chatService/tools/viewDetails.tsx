@@ -24,7 +24,8 @@ export const viewDetailsTool = (aiState: MutableAIState): RenderTool<typeof sche
 
       finalizeAIState(aiState, [message]);
 
-      return <SystemMessage message={message} needsSep={true} />;
+      // TODO: fix type
+      return <SystemMessage message={message.content as string} needsSep={true} />;
     }
 
     const assistantMessage = generateAssistantMessage([
